@@ -7,9 +7,10 @@ import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import { CTASection } from "@/components/CTAButtons"
+import { useState, useEffect } from "react"
 
-// Mock blog content
-const blogContent: { [key: string]: any } = {
+// Hardcoded fallback blog content for demo posts
+const fallbackBlogContent: { [key: string]: any } = {
   "gst-compliance-guide": {
     title: "Complete Guide to GST Compliance in 2024",
     date: "Nov 15, 2024",
@@ -95,7 +96,47 @@ export default function BlogArticle({
 }: {
   params: { slug: string }
 }) {
-  const article = blogContent[params.slug]
+  const [article, setArticle] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchArticle = async () => {
+      try {
+        // Try to fetch from API first
+        const response = await fetch("/api/blog")
+        const data = await response.json()
+
+        if (data.success && data.posts) {
+          // Find post by slug from API
+          const foundPost = data.posts.find((post: any) => post.slug === params.slug)
+          if (foundPost) {
+            setArticle(foundPost)
+            setLoading(false)
+            return
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch from API:", error)
+      }
+
+      // Fallback to hardcoded content
+      const fallbackArticle = fallbackBlogContent[params.slug]
+      if (fallbackArticle) {
+        setArticle(fallbackArticle)
+      }
+      setLoading(false)
+    }
+
+    fetchArticle()
+  }, [params.slug])
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-muted-foreground">Loading...</p>
+      </div>
+    )
+  }
 
   if (!article) {
     return (
@@ -135,7 +176,7 @@ export default function BlogArticle({
             </div>
 
             <div className="flex flex-wrap gap-2">
-              {article.tags.map((tag: string) => (
+              {article.tags?.map((tag: string) => (
                 <Badge key={tag}>{tag}</Badge>
               ))}
             </div>
@@ -150,7 +191,7 @@ export default function BlogArticle({
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             className="prose prose-lg dark:prose-invert max-w-none"
-            dangerouslySetInnerHTML={{ __html: article.content }}
+            dangerouslySetInnerHTML={{ __html: article.content || article.description }}
           />
         </div>
       </section>
