@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "test-mongo": "node --experimental-specifier-resolution=node scripts/test-mongo.js",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
@@ -22,6 +23,7 @@
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "dotenv": "^16.6.1",
     "framer-motion": "^10.16.16",
     "gray-matter": "^4.0.3",
     "jsonwebtoken": "^9.0.2",

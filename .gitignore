@@ -45,6 +45,9 @@ Thumbs.db
 *.sqlite
 *.sqlite3
 
+# Local blog posts (generated fallback)
+src/data/blog-posts/
+
 # Caches
 .eslintcache
 .turbo/

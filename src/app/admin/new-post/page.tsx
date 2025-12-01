@@ -40,10 +40,12 @@ export default function NewBlogPost() {
         setFormData({ title: "", slug: "", description: "", content: "", tags: "" })
         router.push("/admin/posts")
       } else {
-        alert(result.error || "Failed to create blog post")
+        const errorMsg = result.details ? `${result.error}: ${result.details}` : (result.error || "Failed to create blog post")
+        alert(errorMsg)
       }
     } catch (error) {
-      alert("Failed to create blog post")
+      const errorMsg = error instanceof Error ? error.message : "Network error or server unavailable"
+      alert(`Failed to create blog post: ${errorMsg}`)
       console.error(error)
     } finally {
       setSaving(false)

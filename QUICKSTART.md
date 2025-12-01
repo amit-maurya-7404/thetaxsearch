@@ -69,6 +69,16 @@ Create MDX file in `src/content/posts/[slug].mdx`
 2. Click "New Post"
 3. Fill form and publish
 
+### Testing MongoDB Connectivity
+
+After you update `MONGODB_URI` in `.env.local` you can validate the connection with the helper script:
+
+```powershell
+npm run test-mongo
+```
+
+This script will attempt to connect to MongoDB using the value in `.env.local` and print either a successful ping or the full error (authentication/network), which helps debugging.
+
 ### Change Brand Colors
 
 Edit `tailwind.config.ts`:
