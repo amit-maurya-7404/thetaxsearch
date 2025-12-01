@@ -1,0 +1,44 @@
+[build]
+# Build command - Next.js will output to .next folder
+command = "npm run build"
+# Directory with build output
+publish = ".next"
+# Node version for build
+node_version = "18.17.0"
+
+[functions]
+# Functions directory for serverless functions
+directory = "netlify/functions"
+node_bundler = "esbuild"
+
+[dev]
+# Dev server command
+command = "npm run dev"
+# Port for dev server
+port = 3000
+
+[[redirects]]
+# Catch-all for Next.js pages - route to _next-server handler
+from = "/*"
+to = "/index.html"
+status = 200
+
+# Environment variables can be set in Netlify UI
+# Required variables:
+# - MONGODB_URI (MongoDB connection string)
+# - JWT_SECRET (Random secret for JWT tokens)
+# - ADMIN_EMAIL (Your email for contact form)
+# - WHATSAPP_NUMBER (Your WhatsApp number)
+# - RESEND_API_KEY (Email service API key)
+
+[context.production]
+command = "npm run build"
+publish = ".next"
+
+[context.deploy-preview]
+command = "npm run build"
+publish = ".next"
+
+[context.branch-deploy]
+command = "npm run build"
+publish = ".next"
