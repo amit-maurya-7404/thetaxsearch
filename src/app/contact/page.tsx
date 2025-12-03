@@ -1,0 +1,196 @@
+"use client"
+
+import { motion } from "framer-motion"
+import { ContactForm } from "@/components/ContactForm"
+import { Heart, Target, Users, Zap } from "lucide-react"
+
+const fadeInUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5 },
+  },
+}
+
+const staggerContainer = {
+  animate: {
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+}
+
+export default function ContactPage() {
+  return (
+    <div className="w-full">
+      {/* Hero Section */}
+      <section className="relative min-h-[400px] flex items-center justify-center overflow-hidden bg-gradient-to-b from-primary/10 to-background pt-20">
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-20 right-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl"></div>
+        </div>
+
+        <motion.div
+          className="container max-w-7xl mx-auto px-4 relative z-10 text-center"
+          initial="initial"
+          animate="animate"
+          variants={staggerContainer}
+        >
+          <motion.div variants={fadeInUp}>
+            <h1 className="text-5xl md:text-6xl font-bold mb-6">
+              Get in <span className="text-primary">Touch</span>
+            </h1>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Have questions about our tax services? We're here to help and answer any questions you might have.
+            </p>
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* Contact Form Section */}
+      <section className="py-16">
+        <motion.div
+          className="container max-w-7xl mx-auto px-4"
+          initial="initial"
+          whileInView="animate"
+          variants={staggerContainer}
+          viewport={{ once: true }}
+        >
+          <ContactForm />
+        </motion.div>
+      </section>
+
+      {/* About Us Section */}
+      <section className="py-20 border-y">
+        <motion.div
+          className="container max-w-7xl mx-auto px-4"
+          initial="initial"
+          whileInView="animate"
+          variants={staggerContainer}
+          viewport={{ once: true }}
+        >
+          <motion.div
+            className="text-center mb-16"
+            variants={fadeInUp}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              About <span className="text-primary">theTaxSearch</span>
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              We're a team of experienced tax professionals dedicated to simplifying tax compliance for businesses and individuals.
+            </p>
+          </motion.div>
+
+          {/* Mission & Values */}
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16"
+            variants={staggerContainer}
+          >
+            {[
+              {
+                icon: Target,
+                title: "Our Mission",
+                desc: "To make tax compliance simple, affordable, and accessible to everyone",
+              },
+              {
+                icon: Heart,
+                title: "Our Values",
+                desc: "Integrity, transparency, and commitment to excellence in every interaction",
+              },
+              {
+                icon: Zap,
+                title: "Innovation",
+                desc: "We use latest tools and technology to streamline tax processes",
+              },
+              {
+                icon: Users,
+                title: "Customer Focus",
+                desc: "Your success is our success. We're here to support your growth",
+              },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                variants={fadeInUp}
+                className="bg-background border rounded-lg p-6 text-center hover:border-primary transition-colors"
+              >
+                <item.icon className="w-10 h-10 text-primary mx-auto mb-3" />
+                <h3 className="font-semibold text-lg mb-2">{item.title}</h3>
+                <p className="text-sm text-muted-foreground">{item.desc}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* About Content */}
+          <motion.div
+            className="max-w-4xl mx-auto"
+            variants={fadeInUp}
+          >
+            <div className="bg-background border rounded-lg p-8 md:p-12">
+              <h3 className="text-2xl font-semibold mb-4">Who We Are</h3>
+              <p className="text-muted-foreground mb-4 leading-relaxed">
+                theTaxSearch is a leading tax compliance and advisory firm with a team of certified tax professionals, chartered accountants, and financial experts. With over a decade of combined experience, we've helped thousands of businesses and individuals navigate the complexities of Indian tax laws.
+              </p>
+
+              <h3 className="text-2xl font-semibold mb-4 mt-8">What We Do</h3>
+              <p className="text-muted-foreground mb-4 leading-relaxed">
+                We provide comprehensive tax services including:
+              </p>
+              <ul className="space-y-2 text-muted-foreground mb-6">
+                <li className="flex items-start gap-3">
+                  <span className="text-primary font-bold mt-1">•</span>
+                  <span>Income Tax planning and filing for individuals and businesses</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-primary font-bold mt-1">•</span>
+                  <span>GST registration, return filing, and compliance assistance</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-primary font-bold mt-1">•</span>
+                  <span>TDS management and return preparation</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-primary font-bold mt-1">•</span>
+                  <span>Financial bookkeeping and accounting services</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-primary font-bold mt-1">•</span>
+                  <span>Tax advisory and strategic planning</span>
+                </li>
+              </ul>
+
+              <h3 className="text-2xl font-semibold mb-4 mt-8">Why Choose Us</h3>
+              <p className="text-muted-foreground mb-4 leading-relaxed">
+                Our commitment to excellence, attention to detail, and client-centric approach sets us apart. We combine traditional expertise with modern technology to deliver efficient, cost-effective solutions. Whether you're a startup, small business, or established enterprise, we have the expertise to support your tax needs.
+              </p>
+            </div>
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16">
+        <motion.div
+          className="container max-w-7xl mx-auto px-4"
+          initial="initial"
+          whileInView="animate"
+          variants={staggerContainer}
+          viewport={{ once: true }}
+        >
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+            {[
+              { number: "5000+", label: "Happy Clients" },
+              { number: "10+", label: "Years of Experience" },
+              { number: "₹500Cr+", label: "Tax Filed" },
+              { number: "24/7", label: "Customer Support" },
+            ].map((stat, i) => (
+              <motion.div key={i} variants={fadeInUp}>
+                <p className="text-4xl md:text-5xl font-bold text-primary mb-2">{stat.number}</p>
+                <p className="text-muted-foreground">{stat.label}</p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </section>
+    </div>
+  )
+}

@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Menu, X, Phone } from "lucide-react"
 import { Button } from "./ui/button"
 import { ThemeToggle } from "./ThemeToggle"
@@ -12,30 +13,37 @@ export function Navbar() {
   const toggleMenu = () => setIsOpen(!isOpen)
 
   return (
-    <nav className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <nav className="sticky top-0 z-40 w-full border-b bg-white/90 backdrop-blur ">
       <div className="container flex h-16 max-w-7xl items-center justify-between mx-auto px-4">
-        <Link href="/" className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-gradient-to-r from-primary to-primary-light rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-lg">T</span>
+        <Link href="/" className="flex items-center space-x-3">
+          {/* Logo image - place your final logo at `public/logo.png` (or update the src below) */}
+          <div className="flex items-center">
+            <Image
+              src="/logo.png"
+              alt="theTaxSearch logo"
+              width={200}
+              height={36}
+              priority
+              className="object-contain"
+            />
           </div>
-          <span className="font-bold text-lg hidden sm:inline">theTaxSearch</span>
         </Link>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center space-x-8">
-          <Link href="/services" className="text-sm font-medium hover:text-primary transition-colors">
+          <Link href="/services" className="text-sm font-medium text-black hover:text-primary transition-colors">
             Services
           </Link>
-          <Link href="/calculators/income-tax" className="text-sm font-medium hover:text-primary transition-colors">
+          <Link href="/calculators/income-tax" className="text-sm font-medium text-black hover:text-primary transition-colors">
             Calculators
           </Link>
-          <Link href="/blog" className="text-sm font-medium hover:text-primary transition-colors">
+          <Link href="/blog" className="text-sm font-medium text-black hover:text-primary transition-colors">
             Blog
           </Link>
           {/* <Link href="/#faq" className="text-sm font-medium hover:text-primary transition-colors">
             FAQ
           </Link> */}
-          <Link href="/#contact" className="text-sm font-medium hover:text-primary transition-colors">
+          <Link href="/contact" className="text-sm font-medium text-black hover:text-primary transition-colors">
             Contact
           </Link>
         </div>
@@ -61,23 +69,23 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+        {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden border-t bg-background">
+        <div className="md:hidden border-t bg-white">
           <div className="container space-y-4 py-4">
-            <Link href="/services" className="block text-sm font-medium hover:text-primary">
+            <Link href="/services" className="block text-sm font-medium text-black hover:text-primary">
               Services
             </Link>
-            <Link href="/calculators/income-tax" className="block text-sm font-medium hover:text-primary">
+            <Link href="/calculators/income-tax" className="block text-sm font-medium text-black hover:text-primary">
               Calculators
             </Link>
-            <Link href="/blog" className="block text-sm font-medium hover:text-primary">
+            <Link href="/blog" className="block text-sm font-medium text-black hover:text-primary">
               Blog
             </Link>
             {/* <Link href="/#faq" className="block text-sm font-medium hover:text-primary">
               FAQ
             </Link> */}
-            <Link href="/#contact" className="block text-sm font-medium hover:text-primary">
+            <Link href="/contact" className="block text-sm font-medium text-black hover:text-primary">
               Contact
             </Link>
             <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer">

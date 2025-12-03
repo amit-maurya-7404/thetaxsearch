@@ -1,0 +1,16 @@
+<svg viewBox="0 0 140 36" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <!-- Background circle -->
+  <circle cx="18" cy="18" r="16" fill="currentColor" opacity="0.1"/>
+  
+  <!-- Main icon - stylized tax/document shape -->
+  <g transform="translate(8, 8)">
+    <!-- Document outline -->
+    <rect x="0" y="0" width="20" height="20" rx="2" fill="currentColor" opacity="0.2" stroke="currentColor" stroke-width="1.5"/>
+    
+    <!-- Dollar sign -->
+    <text x="10" y="14" font-size="12" font-weight="bold" text-anchor="middle" fill="currentColor">$</text>
+  </g>
+  
+  <!-- Text logo -->
+  <text x="36" y="24" font-size="16" font-weight="700" font-family="system-ui, -apple-system, sans-serif" fill="currentColor">theTaxSearch</text>
+</svg>

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { CTASection } from "@/components/CTAButtons"
+import { CalculatorSidebar } from "@/components/CalculatorSidebar"
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -67,80 +68,90 @@ export default function GSTSearch() {
       </section>
 
       <section className="py-12">
-        <div className="container max-w-3xl mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <Card className="card-shadow">
-              <CardHeader>
-                <CardTitle>Search GST Details</CardTitle>
-                <CardDescription>Enter 15-digit GSTIN to view registration details</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label htmlFor="gstin">GSTIN</Label>
-                  <Input
-                    id="gstin"
-                    placeholder="E.g., 27AABCT1234H1Z0"
-                    value={gstin}
-                    onChange={(e) => setGstin(e.target.value.toUpperCase())}
-                    className="mt-2 font-mono"
-                    maxLength={15}
-                  />
-                </div>
-                {error && (
-                  <div className="bg-red-50 text-red-700 p-3 rounded-lg text-sm">
-                    {error}
-                  </div>
-                )}
-                <Button
-                  onClick={handleSearch}
-                  disabled={loading}
-                  className="w-full"
-                >
-                  {loading ? "Searching..." : "Search"}
-                </Button>
-              </CardContent>
-            </Card>
+        <div className="container max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Sidebar */}
+            <div className="lg:col-span-1">
+              <CalculatorSidebar currentCalculator="gst-search" />
+            </div>
 
-            {result && (
+            {/* Main Content */}
+            <div className="lg:col-span-2">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="mt-8"
               >
-                <Card className="card-shadow border-primary/20 bg-primary/5">
+                <Card className="card-shadow">
                   <CardHeader>
-                    <CardTitle>{result.name}</CardTitle>
-                    <CardDescription>GST Registration Details</CardDescription>
+                    <CardTitle>Search GST Details</CardTitle>
+                    <CardDescription>Enter 15-digit GSTIN to view registration details</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-sm text-muted-foreground">GSTIN</p>
-                        <p className="font-mono font-bold">{result.gstin}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground">Status</p>
-                        <p className="font-bold text-green-600">{result.status}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground">Registration Date</p>
-                        <p className="font-bold">{result.registration_date}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground">Business Type</p>
-                        <p className="font-bold">{result.business_type}</p>
-                      </div>
+                    <div>
+                      <Label htmlFor="gstin">GSTIN</Label>
+                      <Input
+                        id="gstin"
+                        placeholder="E.g., 27AABCT1234H1Z0"
+                        value={gstin}
+                        onChange={(e) => setGstin(e.target.value.toUpperCase())}
+                        className="mt-2 font-mono"
+                        maxLength={15}
+                      />
                     </div>
+                    {error && (
+                      <div className="bg-red-50 text-red-700 p-3 rounded-lg text-sm">
+                        {error}
+                      </div>
+                    )}
+                    <Button
+                      onClick={handleSearch}
+                      disabled={loading}
+                      className="w-full"
+                    >
+                      {loading ? "Searching..." : "Search"}
+                    </Button>
                   </CardContent>
                 </Card>
+
+                {result && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="mt-8"
+                  >
+                    <Card className="card-shadow border-primary/20 bg-primary/5">
+                      <CardHeader>
+                        <CardTitle>{result.name}</CardTitle>
+                        <CardDescription>GST Registration Details</CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <p className="text-sm text-muted-foreground">GSTIN</p>
+                            <p className="font-mono font-bold">{result.gstin}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm text-muted-foreground">Status</p>
+                            <p className="font-bold text-green-600">{result.status}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm text-muted-foreground">Registration Date</p>
+                            <p className="font-bold">{result.registration_date}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm text-muted-foreground">Business Type</p>
+                            <p className="font-bold">{result.business_type}</p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                )}
               </motion.div>
-            )}
-          </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 

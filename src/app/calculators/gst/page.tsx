@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { CTASection } from "@/components/CTAButtons"
+import { CalculatorSidebar } from "@/components/CalculatorSidebar"
 import { formatCurrency } from "@/lib/utils"
 
 const fadeInUp = {
@@ -56,7 +57,14 @@ export default function GSTCalculator() {
 
       <section className="py-12">
         <div className="container max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Sidebar */}
+            <div className="lg:col-span-1">
+              <CalculatorSidebar currentCalculator="gst" />
+            </div>
+
+            {/* Main Content */}
+            <div className="lg:col-span-2">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -130,6 +138,7 @@ export default function GSTCalculator() {
                 </Card>
               </motion.div>
             )}
+            </div>
           </div>
         </div>
       </section>

@@ -24,7 +24,7 @@ export function FAQ({ items }: FAQProps) {
         >
           <button
             onClick={() => setOpenIndex(openIndex === index ? null : index)}
-            className="w-full px-6 py-4 flex items-center justify-between hover:bg-muted/50 transition-colors"
+            className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
           >
             <span className="font-semibold text-left">{item.question}</span>
             <ChevronDown
@@ -34,7 +34,7 @@ export function FAQ({ items }: FAQProps) {
             />
           </button>
           {openIndex === index && (
-            <div className="px-6 py-4 bg-muted/30 border-t text-muted-foreground">
+            <div className="px-6 py-4 bg-white border-t text-gray-700">
               {item.answer}
             </div>
           )}

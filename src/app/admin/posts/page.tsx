@@ -79,7 +79,7 @@ export default function AdminPosts() {
                   </thead>
                   <tbody>
                     {blogPosts.map((post) => (
-                      <tr key={post.id} className="border-b hover:bg-muted/50 transition-colors">
+                      <tr key={post.id} className="border-b hover:bg-gray-50 transition-colors">
                         <td className="py-3 px-4">
                           <Link href={`/blog/${post.slug}`} className="text-primary hover:underline">
                             {post.title}

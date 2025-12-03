@@ -135,7 +135,7 @@ export default function Home() {
 	return (
 		<div className="w-full">
 			{/* Hero Section */}
-			<section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-primary/5 to-background pt-10 md:pt-0">
+			<section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-primary/40 to-background pt-10 md:pt-0">
 				<div className="absolute inset-0 overflow-hidden">
 					<div className="absolute top-20 right-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl"></div>
 					<div className="absolute bottom-20 left-20 w-72 h-72 bg-primary/5 rounded-full blur-3xl"></div>
@@ -148,17 +148,17 @@ export default function Home() {
 					variants={staggerContainer}
 				>
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-						<motion.div variants={fadeInUp}>
-							<h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-								Your Trusted Partner in{" "}
-								<span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-light">
-									Tax Compliance
-								</span>
-							</h1>
-							<p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-								Simplify your tax journey with our comprehensive calculators, expert guidance, and
-								professional services. From GST to Income Tax, we've got you covered.
-							</p>
+					<motion.div variants={fadeInUp}>
+						<h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight text-black">
+							Your Trusted Partner in{" "}
+							<span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-light">
+								Tax Compliance
+							</span>
+						</h1>
+						<p className="text-lg text-gray-700 mb-8 leading-relaxed">
+							Simplify your tax journey with our comprehensive calculators, expert guidance, and
+							professional services. From GST to Income Tax, we've got you covered.
+						</p>
 							<div className="flex flex-col sm:flex-row gap-4">
 								<Link href="/#consultation">
 									<Button size="lg" className="w-full sm:w-auto">
@@ -175,20 +175,20 @@ export default function Home() {
 									</Button>
 								</Link>
 							</div>
-							<div className="flex gap-6 mt-10 text-sm">
-								<div className="flex items-center gap-2">
-									<CheckCircle className="w-5 h-5 text-primary" />
-									<span>100% Secure</span>
-								</div>
-								<div className="flex items-center gap-2">
-									<CheckCircle className="w-5 h-5 text-primary" />
-									<span>Expert Support</span>
-								</div>
-								<div className="flex items-center gap-2">
-									<CheckCircle className="w-5 h-5 text-primary" />
-									<span>Free Tools</span>
-								</div>
+						<div className="flex gap-6 mt-10 text-sm text-black">
+							<div className="flex items-center gap-2">
+								<CheckCircle className="w-5 h-5 text-primary" />
+								<span>100% Secure</span>
 							</div>
+							<div className="flex items-center gap-2">
+								<CheckCircle className="w-5 h-5 text-primary" />
+								<span>Expert Support</span>
+							</div>
+							<div className="flex items-center gap-2">
+								<CheckCircle className="w-5 h-5 text-primary" />
+								<span>Free Tools</span>
+							</div>
+						</div>
 						</motion.div>
 
 						<motion.div
@@ -223,7 +223,7 @@ export default function Home() {
 			</section>
 
 			{/* Why Choose Us */}
-			<section className="py-16 border-b bg-muted/30">
+			<section className="py-16 border-b">
 				<motion.div
 					className="container max-w-7xl mx-auto px-4"
 					initial="initial"
@@ -231,18 +231,16 @@ export default function Home() {
 					variants={staggerContainer}
 					viewport={{ once: true }}
 				>
-					<motion.div
-						className="text-center mb-12"
-						variants={fadeInUp}
-					>
-						<h2 className="text-4xl font-bold mb-4">Why Choose Us?</h2>
-						<p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-							We combine cutting-edge technology with expert knowledge to provide the best tax
-							solutions
-						</p>
-					</motion.div>
-
-					<motion.div
+				<motion.div
+					className="text-center mb-12"
+					variants={fadeInUp}
+				>
+					<h2 className="text-4xl font-bold mb-4 text-black">Why Choose Us?</h2>
+					<p className="text-lg text-gray-700 max-w-2xl mx-auto">
+						We combine cutting-edge technology with expert knowledge to provide the best tax
+						solutions
+					</p>
+				</motion.div>					<motion.div
 						className="grid grid-cols-1 md:grid-cols-3 gap-8"
 						variants={staggerContainer}
 					>
@@ -280,17 +278,15 @@ export default function Home() {
 					variants={staggerContainer}
 					viewport={{ once: true }}
 				>
-					<motion.div
-						className="text-center mb-12"
-						variants={fadeInUp}
-					>
-						<h2 className="text-4xl font-bold mb-4">Our Tools & Calculators</h2>
-						<p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-							Free, easy-to-use tools to handle all your tax calculations
-						</p>
-					</motion.div>
-
-					<motion.div
+				<motion.div
+					className="text-center mb-12"
+					variants={fadeInUp}
+				>
+					<h2 className="text-4xl font-bold mb-4 text-black">Our Tools & Calculators</h2>
+					<p className="text-lg text-gray-700 max-w-2xl mx-auto">
+						Free, easy-to-use tools to handle all your tax calculations
+					</p>
+				</motion.div>					<motion.div
 						className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6"
 						variants={staggerContainer}
 					>
@@ -335,7 +331,7 @@ export default function Home() {
 			</section>
 
 			{/* Services Section */}
-			<section className="py-16 bg-muted/30 border-b">
+			<section className="py-16 border-b">
 				<motion.div
 					className="container max-w-7xl mx-auto px-4"
 					initial="initial"
@@ -394,17 +390,15 @@ export default function Home() {
 					variants={staggerContainer}
 					viewport={{ once: true }}
 				>
-					<motion.div
-						className="text-center mb-12"
-						variants={fadeInUp}
-					>
-						<h2 className="text-4xl font-bold mb-4">Latest from Our Blog</h2>
-						<p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-							Stay updated with the latest tax news, tips, and guidelines
-						</p>
-					</motion.div>
-
-					<motion.div
+				<motion.div
+					className="text-center mb-12"
+					variants={fadeInUp}
+				>
+					<h2 className="text-4xl font-bold mb-4 text-black">Latest from Our Blog</h2>
+					<p className="text-lg text-gray-700 max-w-2xl mx-auto">
+						Stay updated with the latest tax news, tips, and guidelines
+					</p>
+				</motion.div>					<motion.div
 						className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
 						variants={staggerContainer}
 					>
@@ -426,7 +420,7 @@ export default function Home() {
 			</section>
 
 			{/* FAQ Section */}
-			<section className="py-16 bg-muted/30 border-b">
+			<section className="py-16 border-b">
 				<motion.div
 					className="container max-w-7xl mx-auto px-4"
 					initial="initial"
@@ -434,16 +428,14 @@ export default function Home() {
 					variants={staggerContainer}
 					viewport={{ once: true }}
 				>
-					<motion.div
-						className="text-center mb-12"
-						variants={fadeInUp}
-					>
-						<h2 className="text-4xl font-bold mb-4" id="faq">
-							Frequently Asked Questions
-						</h2>
-					</motion.div>
-
-					<motion.div
+				<motion.div
+					className="text-center mb-12"
+					variants={fadeInUp}
+				>
+					<h2 className="text-4xl font-bold mb-4 text-black" id="faq">
+						Frequently Asked Questions
+					</h2>
+				</motion.div>					<motion.div
 						className="max-w-3xl mx-auto"
 						variants={fadeInUp}
 					>
@@ -453,7 +445,7 @@ export default function Home() {
 			</section>
 
 			{/* Contact Section */}
-			<section className="py-16">
+			{/* <section className="py-16">
 				<motion.div
 					className="container max-w-7xl mx-auto px-4"
 					initial="initial"
@@ -490,8 +482,8 @@ export default function Home() {
 										href: "https://wa.me/919876543210",
 									},
 								].map((contact, i) => (
-									<div key={i}>
-										<p className="text-sm text-muted-foreground mb-1">{contact.label}</p>
+									<div>
+										<p className="text-sm text-gray-700 mb-1">{contact.label}</p>
 										<a
 											href={contact.href}
 											target={contact.label === "WhatsApp" ? "_blank" : undefined}
@@ -507,7 +499,7 @@ export default function Home() {
 
 						<motion.div
 							variants={fadeInUp}
-							className="bg-muted/30 p-8 rounded-lg border"
+							className="bg-white border rounded-lg p-8"
 						>
 							<form onSubmit={handleSubmit} className="space-y-4">
 								<div>
@@ -561,7 +553,7 @@ export default function Home() {
 						</motion.div>
 					</motion.div>
 				</motion.div>
-			</section>
+			</section> */}
 
 			{/* CTA Section */}
 			<CTASection />

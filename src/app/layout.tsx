@@ -34,18 +34,18 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {/* Force dark theme on page load - run before React hydration */}
+        {/* Force light theme on page load - run before React hydration */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
-                document.documentElement.classList.add('dark');
-                document.documentElement.style.colorScheme = 'dark';
-                localStorage.setItem('theme', 'dark');
+                document.documentElement.classList.remove('dark');
+                document.documentElement.style.colorScheme = 'light';
+                localStorage.setItem('theme', 'light');
               })();
             `,
           }}

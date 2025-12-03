@@ -153,7 +153,7 @@ export default function BlogArticle({
 
   return (
     <div className="w-full">
-      <section className="py-12 border-b bg-muted/30">
+      <section className="py-12 border-b">
         <div className="container max-w-3xl mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -196,7 +196,7 @@ export default function BlogArticle({
         </div>
       </section>
 
-      <section className="py-12 bg-muted/30 border-y">
+      <section className="py-12 border-y">
         <div className="container max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold mb-4">Need Expert Help?</h2>
           <p className="text-muted-foreground mb-6">
