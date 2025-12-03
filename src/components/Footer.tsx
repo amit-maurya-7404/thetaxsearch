@@ -12,14 +12,7 @@ export function Footer() {
           {/* Brand */}
           <div>
             <Link href="/" className="flex items-center space-x-3 mb-4 w-fit">
-              <Image
-                src="/logo.png"
-                alt="theTaxSearch logo"
-                width={200}
-                height={36}
-                priority
-                className="object-contain"
-              />
+              <img src="/logo.png" alt="theTaxSearch logo" width={140} height={36} className="object-contain" />
             </Link>
             <p className="text-sm text-gray-700">
               Your trusted partner in tax compliance and financial solutions.

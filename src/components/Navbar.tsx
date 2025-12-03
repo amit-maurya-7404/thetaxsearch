@@ -18,14 +18,7 @@ export function Navbar() {
         <Link href="/" className="flex items-center space-x-3">
           {/* Logo image - place your final logo at `public/logo.png` (or update the src below) */}
           <div className="flex items-center">
-            <Image
-              src="/logo.png"
-              alt="theTaxSearch logo"
-              width={200}
-              height={36}
-              priority
-              className="object-contain"
-            />
+            <img src="/logo.png" alt="theTaxSearch logo" width={200} height={36} className="object-contain" />
           </div>
         </Link>
 
