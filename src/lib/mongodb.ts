@@ -1,3 +1,36 @@
+import mongoose from 'mongoose'
+
+const MONGODB_URI = process.env.MONGODB_URI || process.env.NEXT_PUBLIC_MONGODB_URI || 'mongodb://127.0.0.1:27017/thetaxsearch'
+
+if (!MONGODB_URI) {
+  throw new Error('Please define the MONGODB_URI environment variable inside .env.local')
+}
+
+/**
+ * Global is used here to maintain a cached connection across hot reloads in development.
+ * This prevents connections growing exponentially during API Route usage.
+ */
+let cached: { conn: typeof mongoose | null; promise: Promise<typeof mongoose> | null } = (global as any).mongoose || { conn: null, promise: null }
+
+export async function connect() {
+  if (cached.conn) {
+    return cached.conn
+  }
+
+  if (!cached.promise) {
+    const opts = {
+      // useNewUrlParser and useUnifiedTopology are defaults in Mongoose 6+
+    }
+    cached.promise = mongoose.connect(MONGODB_URI, opts as any).then((mongoose) => mongoose)
+  }
+
+  cached.conn = await cached.promise
+
+  ;(global as any).mongoose = cached
+  return cached.conn
+}
+
+export default connect
 import { MongoClient, Db } from "mongodb"
 
 let cachedClient: MongoClient | null = null

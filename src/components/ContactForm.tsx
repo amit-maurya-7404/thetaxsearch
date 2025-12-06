@@ -80,8 +80,8 @@ export function ContactForm() {
               <Phone className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
               <div>
                 <p className="font-medium text-sm">Phone</p>
-                <a href="tel:+919876543210" className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                  +91 98765 43210
+                <a href="tel:+919211918886" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                  +91 92119 18886
                 </a>
               </div>
             </div>
@@ -155,7 +155,7 @@ export function ContactForm() {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                placeholder="+91 98765 43210"
+                placeholder="+91 92119 18886"
                 className="w-full px-4 py-2 border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
               />
             </div>

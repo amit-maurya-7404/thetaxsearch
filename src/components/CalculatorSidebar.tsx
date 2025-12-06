@@ -11,9 +11,10 @@ import { cn } from "@/lib/utils"
 
 interface CalculatorSidebarProps {
 	currentCalculator?: "income-tax" | "gst" | "hra" | "tds" | "gst-search"
+	horizontal?: boolean
 }
 
-export function CalculatorSidebar({ currentCalculator }: CalculatorSidebarProps) {
+export function CalculatorSidebar({ currentCalculator, horizontal = false }: CalculatorSidebarProps) {
 	const calculators = [
 		{
 			title: "Income Tax",
@@ -52,6 +53,32 @@ export function CalculatorSidebar({ currentCalculator }: CalculatorSidebarProps)
 		},
 	]
 
+	if (horizontal) {
+		return (
+			<nav aria-label="Other calculators" className="w-full">
+				<div className="flex gap-3 overflow-x-auto py-2">
+					{calculators.map((calc) => {
+						const isCurrent = currentCalculator === calc.id
+						return (
+							<Link
+								key={calc.id}
+								href={calc.href}
+								className={cn(
+									"flex-shrink-0 px-4 py-2 rounded-full border transition-all whitespace-nowrap",
+									isCurrent
+										? "bg-primary text-white shadow-lg font-semibold"
+										: "bg-white text-slate-700 border-slate-200 hover:shadow"
+								)}
+							>
+								{calc.title}
+							</Link>
+						)
+					})}
+				</div>
+			</nav>
+		)
+	}
+
 	return (
 		<aside className="space-y-4">
 			<Card className="sticky top-20">
@@ -69,7 +96,7 @@ export function CalculatorSidebar({ currentCalculator }: CalculatorSidebarProps)
 									"flex items-start gap-3 p-3 rounded-lg transition-colors",
 									isCurrent
 										? "bg-primary/20 border border-primary text-primary font-semibold"
-										  : "hover:bg-gray-100 border border-transparent hover:border-gray-300"
+										: "hover:bg-gray-100 border border-transparent hover:border-gray-300"
 								)}
 							>
 								<div className={cn(

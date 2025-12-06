@@ -52,7 +52,7 @@ git push -u origin main
 MONGODB_URI = mongodb+srv://username:password@cluster.mongodb.net/?retryWrites=true&w=majority
 JWT_SECRET = your-super-secret-key-12345
 ADMIN_EMAIL = your-email@example.com
-WHATSAPP_NUMBER = 919876543210
+WHATSAPP_NUMBER = 919211918886
 RESEND_API_KEY = re_xxxxxxxxxxxxx (from Resend)
 ```
 

@@ -36,14 +36,14 @@ const staggerContainer = {
 const services = [
   {
     icon: FileText,
-    title: "GST Registration",
-    description: "Complete GST registration assistance for businesses of all sizes",
+    title: "GST Registration & Return Filing",
+    description: "Complete GST support including registration and seamless filing of R1, 3B, and Annual Return.",
   },
-  {
-    icon: ReceiptText,
-    title: "GST Return Filing",
-    description: "Hassle-free GST GSTR-1, GSTR-3B, and GSTR-9 return filing",
-  },
+  // {
+  //   icon: ReceiptText,
+  //   title: "GST Return Filing",
+  //   description: "Hassle-free GST GSTR-1, GSTR-3B, and GSTR-9 return filing",
+  // },
   {
     icon: BarChart3,
     title: "GST Appeal / Notice Reply",
@@ -52,7 +52,7 @@ const services = [
   {
     icon: DollarSign,
     title: "GST Refund (ITC)",
-    description: "Maximize your Input Tax Credit and claim refunds",
+    description: "Maximize eligible ITC and claim timely GST refunds",
   },
   {
     icon: FileText,
@@ -72,7 +72,7 @@ const services = [
   {
     icon: Users,
     title: "EPFO Return & Withdrawal",
-    description: "EPFO compliance and withdrawal assistance",
+    description: "Accurate and compliant Balance Sheet & Profit–Loss preparation",
   },
   {
     icon: Building2,
@@ -82,12 +82,12 @@ const services = [
   {
     icon: FileText,
     title: "ROC Filings",
-    description: "AOC-4, MGT-7A, and other ROC compliance filings",
+    description: "AOC-4, MGT-7A and complete ROC compliance filings",
   },
   {
     icon: Briefcase,
     title: "Bookkeeping Services",
-    description: "Professional accounting and bookkeeping services",
+    description: "Reliable monthly accounting and bookkeeping services",
   },
   {
     icon: Building2,
@@ -100,9 +100,10 @@ export default function ServicesPage() {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="relative min-h-[400px] flex items-center justify-center overflow-hidden bg-gradient-to-b from-primary/10 to-background pt-20">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-primary/40 to-background pt-10 md:pt-0">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-20 right-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 left-20 w-72 h-72 bg-primary/5 rounded-full blur-3xl"></div>
         </div>
 
         <motion.div

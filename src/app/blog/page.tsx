@@ -92,15 +92,20 @@ export default function BlogPage() {
 
   return (
     <div className="w-full">
-      <section className="relative min-h-[300px] flex items-center justify-center bg-gradient-to-b from-primary/10 to-background pt-20">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-primary/40 to-background pt-10 md:pt-0">
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-20 right-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 left-20 w-72 h-72 bg-primary/5 rounded-full blur-3xl"></div>
+        </div>
+
         <motion.div
-          className="container max-w-7xl mx-auto px-4 text-center"
+          className="container max-w-7xl mx-auto px-4 text-center relative z-10"
           initial="initial"
           animate="animate"
           variants={fadeInUp}
         >
-          <h1 className="text-5xl md:text-6xl font-bold mb-4">Tax & Finance Blog</h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <h1 className="text-5xl md:text-6xl font-bold mb-4 text-black">Tax & Finance Blog</h1>
+          <p className="text-lg text-gray-700 max-w-2xl mx-auto">
             Latest insights, tips, and guides on tax compliance, financial planning, and regulatory updates
           </p>
         </motion.div>

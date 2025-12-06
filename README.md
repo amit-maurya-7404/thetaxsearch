@@ -113,7 +113,7 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 RESEND_API_KEY=your_resend_api_key
 ADMIN_EMAIL=admin@thetaxsearch.com
 JWT_SECRET=your_jwt_secret
-WHATSAPP_NUMBER=919876543210
+WHATSAPP_NUMBER=919211918886
 ```
 
 5. **Run development server**
@@ -276,7 +276,7 @@ Contact form submission
 {
   "name": "John Doe",
   "email": "john@example.com",
-  "phone": "+919876543210",
+  "phone": "+919211918886",
   "message": "Need consultation..."
 }
 ```
@@ -360,8 +360,8 @@ Contact form submission
 ## Support & Contact
 
 - **Email**: info@thetaxsearch.com
-- **Phone**: +91 98765 43210
-- **WhatsApp**: [Chat Link](https://wa.me/919876543210)
+- **Phone**: +91 92119 18886
+- **WhatsApp**: [Chat Link](https://wa.me/919211918886)
 
 ## License
 

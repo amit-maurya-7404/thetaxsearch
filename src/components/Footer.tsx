@@ -12,7 +12,7 @@ export function Footer() {
           {/* Brand */}
           <div>
             <Link href="/" className="flex items-center space-x-3 mb-4 w-fit">
-              <img src="/logo.png" alt="theTaxSearch logo" width={140} height={36} className="object-contain" />
+              <img src="/logo.png" alt="theTaxSearch logo" width={300} height={36} className="object-contain" />
             </Link>
             <p className="text-sm text-gray-700">
               Your trusted partner in tax compliance and financial solutions.
@@ -74,8 +74,8 @@ export function Footer() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-center space-x-2">
                 <Phone className="w-4 h-4 text-primary" />
-                <a href="tel:+919876543210" className="text-gray-700 hover:text-primary transition-colors">
-                  +91 98765 43210
+                <a href="tel:+919211918886" className="text-gray-700 hover:text-primary transition-colors">
+                  +91 92119 18886
                 </a>
               </li>
               <li className="flex items-center space-x-2">

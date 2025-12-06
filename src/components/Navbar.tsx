@@ -44,8 +44,8 @@ export function Navbar() {
         {/* Right Side */}
         <div className="flex items-center space-x-4">
           <ThemeToggle />
-          <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer">
-            <Button variant="default" size="sm" className="hidden sm:inline-flex">
+          <a href="https://wa.me/919211918886" target="_blank" rel="noopener noreferrer">
+            <Button variant="default" size="sm" className="hidden text-white sm:inline-flex">
               <Phone className="w-4 h-4 mr-2" />
               WhatsApp
             </Button>
@@ -81,7 +81,7 @@ export function Navbar() {
             <Link href="/contact" className="block text-sm font-medium text-black hover:text-primary">
               Contact
             </Link>
-            <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer">
+            <a href="https://wa.me/919211918886" target="_blank" rel="noopener noreferrer">
               <Button variant="default" className="w-full">
                 <Phone className="w-4 h-4 mr-2" />
                 WhatsApp

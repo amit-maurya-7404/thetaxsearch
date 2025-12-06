@@ -25,9 +25,10 @@ export default function ContactPage() {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="relative min-h-[400px] flex items-center justify-center overflow-hidden bg-gradient-to-b from-primary/10 to-background pt-20">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-primary/40 to-background pt-10 md:pt-0">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-20 right-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 left-20 w-72 h-72 bg-primary/5 rounded-full blur-3xl"></div>
         </div>
 
         <motion.div
@@ -38,27 +39,21 @@ export default function ContactPage() {
         >
           <motion.div variants={fadeInUp}>
             <h1 className="text-5xl md:text-6xl font-bold mb-6">
+              About <span className="text-primary">theTaxSearch</span>
+            </h1>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              We're a team of experienced tax professionals dedicated to simplifying tax compliance for businesses and individuals.
+            </p>
+            {/* <h1 className="text-5xl md:text-6xl font-bold mb-6">
               Get in <span className="text-primary">Touch</span>
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Have questions about our tax services? We're here to help and answer any questions you might have.
-            </p>
+            </p> */}
           </motion.div>
         </motion.div>
       </section>
 
-      {/* Contact Form Section */}
-      <section className="py-16">
-        <motion.div
-          className="container max-w-7xl mx-auto px-4"
-          initial="initial"
-          whileInView="animate"
-          variants={staggerContainer}
-          viewport={{ once: true }}
-        >
-          <ContactForm />
-        </motion.div>
-      </section>
 
       {/* About Us Section */}
       <section className="py-20 border-y">
@@ -70,15 +65,15 @@ export default function ContactPage() {
           viewport={{ once: true }}
         >
           <motion.div
-            className="text-center mb-16"
+            className="text-center mb-0"
             variants={fadeInUp}
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            {/* <h2 className="text-4xl md:text-5xl font-bold mb-0">
               About <span className="text-primary">theTaxSearch</span>
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               We're a team of experienced tax professionals dedicated to simplifying tax compliance for businesses and individuals.
-            </p>
+            </p> */}
           </motion.div>
 
           {/* Mission & Values */}
@@ -156,6 +151,11 @@ export default function ContactPage() {
                   <span className="text-primary font-bold mt-1">•</span>
                   <span>Tax advisory and strategic planning</span>
                 </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-primary font-bold mt-1">•</span>
+                  <span>Hassle-free Company and LLP formation with complete legal compliance</span>
+                </li>
+                
               </ul>
 
               <h3 className="text-2xl font-semibold mb-4 mt-8">Why Choose Us</h3>
@@ -164,6 +164,19 @@ export default function ContactPage() {
               </p>
             </div>
           </motion.div>
+        </motion.div>
+      </section>
+
+      {/* Contact Form Section */}
+      <section className="py-16">
+        <motion.div
+          className="container max-w-7xl mx-auto px-4"
+          initial="initial"
+          whileInView="animate"
+          variants={staggerContainer}
+          viewport={{ once: true }}
+        >
+          <ContactForm />
         </motion.div>
       </section>
 
@@ -178,9 +191,9 @@ export default function ContactPage() {
         >
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
             {[
-              { number: "5000+", label: "Happy Clients" },
-              { number: "10+", label: "Years of Experience" },
-              { number: "₹500Cr+", label: "Tax Filed" },
+              { number: "1500+", label: "Happy Clients" },
+              { number: "5+", label: "Years of Experience" },
+              { number: "13.5Cr+", label: "Tax Filed" },
               { number: "24/7", label: "Customer Support" },
             ].map((stat, i) => (
               <motion.div key={i} variants={fadeInUp}>

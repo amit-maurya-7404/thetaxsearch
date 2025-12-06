@@ -20,7 +20,7 @@ const fadeInUp = {
 }
 
 export default function TDSCalculator() {
-  const [amount, setAmount] = useState(0)
+  const [amount, setAmount] = useState<number | null>(null)
   const [section, setSection] = useState("194C")
   const [result, setResult] = useState<{
     amount: number
@@ -42,17 +42,39 @@ export default function TDSCalculator() {
   }
 
   const calculateTDS = () => {
+    if (amount === null) return
     const tdsRate = sections[section].rate
-    const tdsAmount = (amount * tdsRate) / 100
-    const netAmount = amount - tdsAmount
+    const baseAmount = Number(amount)
+    const tdsAmount = Number(((baseAmount * tdsRate) / 100).toFixed(2))
+    const netAmount = Number((baseAmount - tdsAmount).toFixed(2))
 
     setResult({
-      amount,
+      amount: Number(baseAmount.toFixed(2)),
       tdsRate,
       tdsAmount,
       netAmount,
       sectionName: sections[section].name,
     })
+  }
+
+  const [copied, setCopied] = useState(false)
+
+  const copyResult = async () => {
+    if (!result) return
+    const lines = [
+      `Section: ${result.sectionName}`,
+      `Amount: ${formatCurrency(result.amount)}`,
+      `TDS Rate: ${result.tdsRate}%`,
+      `TDS Amount: ${formatCurrency(result.tdsAmount)}`,
+      `Net Amount: ${formatCurrency(result.netAmount)}`,
+    ]
+    try {
+      await navigator.clipboard.writeText(lines.join('\n'))
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch (e) {
+      console.error('Copy failed', e)
+    }
   }
 
   return (
@@ -97,8 +119,8 @@ export default function TDSCalculator() {
                       id="amount"
                       type="number"
                       placeholder="Enter amount"
-                      value={amount}
-                      onChange={(e) => setAmount(Number(e.target.value) || 0)}
+                      value={amount ?? ''}
+                      onChange={(e) => setAmount(e.target.value === '' ? null : Number(e.target.value))}
                       className="mt-2"
                     />
                   </div>
@@ -119,7 +141,7 @@ export default function TDSCalculator() {
                     </select>
                   </div>
 
-                  <Button onClick={calculateTDS} className="w-full">
+                  <Button onClick={calculateTDS} className="w-full" disabled={amount === null}>
                     Calculate TDS
                   </Button>
                 </CardContent>
@@ -153,16 +175,14 @@ export default function TDSCalculator() {
                       <p className="text-sm text-muted-foreground mb-1">Net Amount (After TDS)</p>
                       <p className="text-3xl font-bold text-green-600">{formatCurrency(result.netAmount)}</p>
                     </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            )}
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              )}
             </div>
           </div>
         </div>
       </section>
-
-      <CTASection />
     </div>
   )
 }

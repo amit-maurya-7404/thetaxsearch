@@ -132,6 +132,14 @@ export default function Home() {
 		},
 	]
 
+	const team = [
+		{ name: "Amit Maurya", role: "Founder & Tax Expert", bio: "15+ years experience in tax planning and corporate advisory." },
+		{ name: "Priya Sharma", role: "GST Specialist", bio: "Expert in GST compliance, registrations and returns." },
+		{ name: "Rohit Verma", role: "Senior CA", bio: "Income tax filings, audits and tax planning for businesses." },
+		{ name: "Sneha Gupta", role: "TDS & Payroll Expert", bio: "Payroll, TDS compliance and employer advisory." },
+		{ name: "Rahul Singh", role: "HRA & Advisory", bio: "HRA exemptions, housing tax planning and employee benefits." },
+	]
+
 	return (
 		<div className="w-full">
 			{/* Hero Section */}
@@ -160,8 +168,8 @@ export default function Home() {
 							professional services. From GST to Income Tax, we've got you covered.
 						</p>
 							<div className="flex flex-col sm:flex-row gap-4">
-								<Link href="/#consultation">
-									<Button size="lg" className="w-full sm:w-auto">
+								<Link href="/contact">
+									<Button size="lg" className="w-full text-white sm:w-auto">
 										Book Free Consultation
 									</Button>
 								</Link>
@@ -198,10 +206,10 @@ export default function Home() {
 							<div className="relative bg-gradient-to-br from-primary/20 to-primary/5 rounded-2xl p-8 border border-primary/10">
 								<div className="grid grid-cols-2 gap-4">
 									{[
-										{ label: "Income Tax", value: "100K+" },
-										{ label: "GST Returns", value: "50K+" },
-										{ label: "Users", value: "250K+" },
-										{ label: "Tax Saved", value: "₹50Cr+" },
+										{ label: "Happy Clients", value: "1500+" },
+										{ label: "Years of Experience", value: "5+" },
+										{ label: "Tax Filed", value: "13.5Cr+" },
+										{ label: "Customer Support", value: "24/7" },
 									].map((stat) => (
 										<div
 											key={stat.label}
@@ -369,8 +377,8 @@ export default function Home() {
 							},
 							{
 								icon: Clock,
-								title: "TDS Payments",
-								description: "Timely TDS payment and returns",
+								title: "Company Creation",
+								description: "Quick & hassle-free company setup",
 							},
 						].map((service, i) => (
 							<motion.div key={i} variants={fadeInUp}>
@@ -382,6 +390,28 @@ export default function Home() {
 			</section>
 
 			{/* Latest Blog Posts */}
+			{/* Team Section */}
+			<section className="py-16 bg-white">
+				<div className="container max-w-7xl mx-auto px-4">
+					<div className="text-center mb-8">
+						<h2 className="text-3xl md:text-4xl font-bold mb-2 text-black">Meet Our Team</h2>
+						<p className="text-lg text-gray-700 max-w-2xl mx-auto">Seasoned tax professionals and chartered accountants ready to help.</p>
+					</div>
+
+					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+						{team.map((member) => (
+							<div key={member.name} className="bg-background border rounded-lg p-6 text-center">
+								<div className="mx-auto w-20 h-20 rounded-full bg-slate-200 flex items-center justify-center text-xl font-semibold text-slate-700 mb-4">
+									{member.name.split(" ").map(n => n[0]).slice(0,2).join("")}
+								</div>
+								<h3 className="font-semibold text-lg mb-1">{member.name}</h3>
+								<p className="text-sm text-muted-foreground mb-3">{member.role}</p>
+								<p className="text-sm text-gray-700 leading-relaxed">{member.bio}</p>
+							</div>
+						))}
+					</div>
+				</div>
+			</section>
 			<section className="py-16">
 				<motion.div
 					className="container max-w-7xl mx-auto px-4"
@@ -473,13 +503,13 @@ export default function Home() {
 									},
 									{
 										label: "Phone",
-										value: "+91 98765 43210",
-										href: "tel:+919876543210",
+										value: "+91 92119 18886",
+										href: "tel:+919211918886",
 									},
 									{
 										label: "WhatsApp",
 										value: "Chat with us",
-										href: "https://wa.me/919876543210",
+										href: "https://wa.me/919211918886",
 									},
 								].map((contact, i) => (
 									<div>

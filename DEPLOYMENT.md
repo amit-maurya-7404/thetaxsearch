@@ -35,7 +35,7 @@ RESEND_API_KEY=your_resend_key
 ADMIN_EMAIL=admin@thetaxsearch.com
 JWT_SECRET=your_secure_secret
 ADMIN_PASSWORD_HASH=bcrypt_hash
-WHATSAPP_NUMBER=919876543210
+WHATSAPP_NUMBER=919211918886
 ```
 
 ### Step 4: Deploy

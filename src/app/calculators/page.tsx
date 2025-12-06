@@ -66,24 +66,28 @@ export default function CalculatorsPage() {
 
 	return (
 		<div className="w-full">
-			{/* Header Section */}
-			<section className="py-12 bg-gradient-to-r from-primary to-primary-light text-white">
-				<motion.div
-					className="container max-w-7xl mx-auto px-4"
-					initial="initial"
-					animate="animate"
-					variants={fadeInUp}
-				>
-					<Link href="/" className="inline-flex items-center text-white/80 hover:text-white mb-6 transition-colors">
-						<ArrowLeft className="w-4 h-4 mr-2" />
-						Back to Home
-					</Link>
-					<h1 className="text-4xl md:text-5xl font-bold mb-4">All Calculators</h1>
-					<p className="text-lg text-white/90 max-w-2xl">
-						Comprehensive suite of tax and financial calculators to help you make informed decisions. All calculators are free to use and updated with latest tax rates.
-					</p>
-				</motion.div>
-			</section>
+		{/* Header Section */}
+		<section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-primary/40 to-background pt-10 md:pt-0">
+			<div className="absolute inset-0 overflow-hidden">
+				<div className="absolute top-20 right-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl"></div>
+				<div className="absolute bottom-20 left-20 w-72 h-72 bg-primary/5 rounded-full blur-3xl"></div>
+			</div>
+			<motion.div
+				className="container max-w-7xl mx-auto px-4 relative z-10"
+				initial="initial"
+				animate="animate"
+				variants={fadeInUp}
+			>
+				<Link href="/" className="inline-flex items-center text-black hover:text-primary mb-6 transition-colors">
+					<ArrowLeft className="w-4 h-4 mr-2" />
+					Back to Home
+				</Link>
+				<h1 className="text-4xl md:text-5xl font-bold mb-4 text-black">All Calculators</h1>
+				<p className="text-lg text-gray-700 max-w-2xl">
+					Comprehensive suite of tax and financial calculators to help you make informed decisions. All calculators are free to use and updated with latest tax rates.
+				</p>
+			</motion.div>
+		</section>
 
 			{/* Calculators Grid */}
 			<section className="py-16 md:py-20">
