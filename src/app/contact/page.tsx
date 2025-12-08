@@ -167,6 +167,51 @@ export default function ContactPage() {
         </motion.div>
       </section>
 
+      {/* Team Section */}
+      <section className="py-16 bg-white">
+        <motion.div
+          className="container max-w-7xl mx-auto px-4"
+          initial="initial"
+          whileInView="animate"
+          variants={staggerContainer}
+          viewport={{ once: true }}
+        >
+          <motion.div
+            className="text-center mb-12"
+            variants={fadeInUp}
+          >
+            <h2 className="text-4xl font-bold mb-4 text-black">Meet Our Team</h2>
+            <p className="text-lg text-gray-700 max-w-2xl mx-auto">Seasoned tax professionals and chartered accountants ready to help.</p>
+          </motion.div>
+
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6"
+            variants={staggerContainer}
+          >
+            {[
+              { name: "Amit Maurya", role: "Founder & Tax Expert", bio: "15+ years experience in tax planning and corporate advisory." },
+              { name: "Priya Sharma", role: "GST Specialist", bio: "Expert in GST compliance, registrations and returns." },
+              { name: "Rohit Verma", role: "Senior CA", bio: "Income tax filings, audits and tax planning for businesses." },
+              { name: "Sneha Gupta", role: "TDS & Payroll Expert", bio: "Payroll, TDS compliance and employer advisory." },
+              { name: "Rahul Singh", role: "HRA & Advisory", bio: "HRA exemptions, housing tax planning and employee benefits." },
+            ].map((member) => (
+              <motion.div
+                key={member.name}
+                variants={fadeInUp}
+                className="bg-background border rounded-lg p-6 text-center"
+              >
+                <div className="mx-auto w-20 h-20 rounded-full bg-slate-200 flex items-center justify-center text-xl font-semibold text-slate-700 mb-4">
+                  {member.name.split(" ").map(n => n[0]).slice(0, 2).join("")}
+                </div>
+                <h3 className="font-semibold text-lg mb-1">{member.name}</h3>
+                <p className="text-sm text-muted-foreground mb-3">{member.role}</p>
+                <p className="text-sm text-gray-700 leading-relaxed">{member.bio}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
+      </section>
+
       {/* Contact Form Section */}
       <section className="py-16">
         <motion.div

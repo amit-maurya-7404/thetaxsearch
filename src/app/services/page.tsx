@@ -36,63 +36,63 @@ const staggerContainer = {
 const services = [
   {
     icon: FileText,
-    title: "GST Registration & Return Filing",
-    description: "Complete GST support including registration and seamless filing of R1, 3B, and Annual Return.",
-  },
-  // {
-  //   icon: ReceiptText,
-  //   title: "GST Return Filing",
-  //   description: "Hassle-free GST GSTR-1, GSTR-3B, and GSTR-9 return filing",
-  // },
-  {
-    icon: BarChart3,
-    title: "GST Appeal / Notice Reply",
-    description: "Expert assistance in handling GST notices and appeals",
+    title: "Income Tax Return (ITR)",
+    details: [
+      "Salaried Individuals (ITR-1)",
+      "Business & Profession (ITR-3, 4)",
+      "Capital Gains Analysis",
+      "Notice Handling",
+    ],
   },
   {
-    icon: DollarSign,
-    title: "GST Refund (ITC)",
-    description: "Maximize eligible ITC and claim timely GST refunds",
+    icon: ReceiptText,
+    title: "GST Compliance",
+    details: [
+      "New Registration",
+      "Monthly Return Filing (GSTR-1, 3B)",
+      "Annual Return (GSTR-9)",
+      "LUT Filing",
+    ],
   },
   {
-    icon: FileText,
-    title: "Income Tax Return Filing",
-    description: "Professional ITR filing for individuals and businesses",
-  },
-  {
-    icon: Clock,
-    title: "TDS Payments & Returns",
-    description: "Timely TDS calculations, payments, and annual returns",
-  },
-  {
-    icon: BarChart3,
-    title: "Balance Sheet & P&L Preparation",
-    description: "Professional financial statement preparation",
+    icon: Building2,
+    title: "ROC & Company Law",
+    details: [
+      "Private Limited Incorporation",
+      "LLP Registration",
+      "Annual Filing (AOC-4, MGT-7)",
+      "Director KYC",
+    ],
   },
   {
     icon: Users,
-    title: "EPFO Return & Withdrawal",
-    description: "Accurate and compliant Balance Sheet & Profit–Loss preparation",
+    title: "Payroll & Labour Law",
+    details: [
+      "PF & ESIC Registration",
+      "Monthly Challan Generation",
+      "Employee Tax Planning",
+      "Payroll Processing",
+    ],
   },
   {
-    icon: Building2,
-    title: "ESIC Registration & Returns",
-    description: "Complete ESIC compliance and filing services",
+    icon: TrendingUp,
+    title: "MSME & Startup",
+    details: [
+      "Udyam Registration",
+      "Startup India Recognition",
+      "Trademark Filing",
+      "Project Reports",
+    ],
   },
   {
-    icon: FileText,
-    title: "ROC Filings",
-    description: "AOC-4, MGT-7A and complete ROC compliance filings",
-  },
-  {
-    icon: Briefcase,
-    title: "Bookkeeping Services",
-    description: "Reliable monthly accounting and bookkeeping services",
-  },
-  {
-    icon: Building2,
-    title: "MSME Registration",
-    description: "Udyam registration and MSME benefits guidance",
+    icon: BarChart3,
+    title: "Accounting Services",
+    details: [
+      "Bookkeeping",
+      "Balance Sheet Finalization",
+      "Profit & Loss Account",
+      "Cash Flow Statements",
+    ],
   },
 ]
 
@@ -167,19 +167,52 @@ export default function ServicesPage() {
             variants={staggerContainer}
           >
             {[
-              { icon: CheckCircle, title: "Expert Team", desc: "Qualified professionals" },
-              { icon: TrendingUp, title: "Competitive Rates", desc: "Best prices in market" },
-              { icon: Clock, title: "Quick Turnaround", desc: "Fast processing" },
-              { icon: Users, title: "24/7 Support", desc: "Always available" },
+              { 
+                icon: CheckCircle, 
+                title: "Expert Team", 
+                details: [
+                  "Qualified professionals",
+                  "15+ years experience",
+                  "CA & Certified experts",
+                  "Industry specialists",
+                ]
+              },
+              { 
+                icon: TrendingUp, 
+                title: "Competitive Rates", 
+                details: [
+                  "Best prices in market",
+                  "Transparent pricing",
+                  "No hidden charges",
+                  "Flexible packages",
+                ]
+              },
+              { 
+                icon: Clock, 
+                title: "Quick Turnaround", 
+                details: [
+                  "Fast processing",
+                  "Quick compliance",
+                  "Timely filings",
+                  "Instant support",
+                ]
+              },
+              { 
+                icon: Users, 
+                title: "24/7 Support", 
+                details: [
+                  "Always available",
+                  "Quick response time",
+                  "Multiple channels",
+                  "Dedicated support",
+                ]
+              },
             ].map((item, i) => (
               <motion.div
                 key={i}
                 variants={fadeInUp}
-                className="bg-background border rounded-lg p-6 text-center"
               >
-                <item.icon className="w-8 h-8 text-primary mx-auto mb-3" />
-                <h3 className="font-semibold mb-1">{item.title}</h3>
-                <p className="text-sm text-muted-foreground">{item.desc}</p>
+                <ServiceCard icon={item.icon} title={item.title} details={item.details} />
               </motion.div>
             ))}
           </motion.div>

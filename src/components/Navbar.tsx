@@ -13,7 +13,7 @@ export function Navbar() {
   const toggleMenu = () => setIsOpen(!isOpen)
 
   return (
-    <nav className="sticky top-0 z-40 w-full border-b bg-white/90 backdrop-blur ">
+    <nav className="sticky top-0 z-40 w-full border-b bg-white/30 backdrop-blur-md border-white/20">
       <div className="container flex h-16 max-w-7xl items-center justify-between mx-auto px-4">
         <Link href="/" className="flex items-center space-x-3">
           {/* Logo image - place your final logo at `public/logo.png` (or update the src below) */}
@@ -37,7 +37,7 @@ export function Navbar() {
             FAQ
           </Link> */}
           <Link href="/contact" className="text-sm font-medium text-black hover:text-primary transition-colors">
-            Contact
+            About Us
           </Link>
         </div>
 
@@ -64,29 +64,30 @@ export function Navbar() {
 
         {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden border-t bg-white">
-          <div className="container space-y-4 py-4">
-            <Link href="/services" className="block text-sm font-medium text-black hover:text-primary">
-              Services
-            </Link>
-            <Link href="/calculators/income-tax" className="block text-sm font-medium text-black hover:text-primary">
-              Calculators
-            </Link>
-            <Link href="/blog" className="block text-sm font-medium text-black hover:text-primary">
-              Blog
-            </Link>
-            {/* <Link href="/#faq" className="block text-sm font-medium hover:text-primary">
-              FAQ
-            </Link> */}
-            <Link href="/contact" className="block text-sm font-medium text-black hover:text-primary">
-              Contact
-            </Link>
-            <a href="https://wa.me/919211918886" target="_blank" rel="noopener noreferrer">
-              <Button variant="default" className="w-full">
-                <Phone className="w-4 h-4 mr-2" />
-                WhatsApp
-              </Button>
-            </a>
+        <div className="md:hidden border-t bg-white/40 backdrop-blur-md border-white/20 shadow-lg">
+          <div className="container max-w-7xl mx-auto px-4 py-3">
+            <div className="space-y-1">
+              <Link href="/services" onClick={() => setIsOpen(false)} className="block px-4 py-3 text-sm font-medium text-black hover:bg-primary/10 hover:text-primary rounded-lg transition-all duration-200">
+                Services
+              </Link>
+              <Link href="/calculators/income-tax" onClick={() => setIsOpen(false)} className="block px-4 py-3 text-sm font-medium text-black hover:bg-primary/10 hover:text-primary rounded-lg transition-all duration-200">
+                Calculators
+              </Link>
+              <Link href="/blog" onClick={() => setIsOpen(false)} className="block px-4 py-3 text-sm font-medium text-black hover:bg-primary/10 hover:text-primary rounded-lg transition-all duration-200">
+                Blog
+              </Link>
+              <Link href="/contact" onClick={() => setIsOpen(false)} className="block px-4 py-3 text-sm font-medium text-black hover:bg-primary/10 hover:text-primary rounded-lg transition-all duration-200">
+                About Us
+              </Link>
+              <div className="pt-2 border-t border-white/20">
+                <a href="https://wa.me/919211918886" target="_blank" rel="noopener noreferrer" onClick={() => setIsOpen(false)}>
+                  <Button variant="default" className="w-full mt-2">
+                    <Phone className="w-4 h-4 mr-2" />
+                    WhatsApp
+                  </Button>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       )}

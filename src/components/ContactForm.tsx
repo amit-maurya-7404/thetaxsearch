@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "./ui/button"
 import { Mail, Phone, MapPin } from "lucide-react"
 
@@ -13,6 +13,16 @@ export function ContactForm() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
+
+  // Auto-scroll to form on mount
+  useEffect(() => {
+    const contactSection = document.getElementById("contact-form-section")
+    if (contactSection) {
+      setTimeout(() => {
+        contactSection.scrollIntoView({ behavior: "smooth" })
+      }, 100)
+    }
+  }, [])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -59,7 +69,7 @@ export function ContactForm() {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div id="contact-form-section" className="grid grid-cols-1 lg:grid-cols-3 gap-8">
       {/* Contact Information */}
       <div className="lg:col-span-1">
         <div className="bg-white border rounded-lg p-8 sticky top-24">

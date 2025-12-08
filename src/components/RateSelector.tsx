@@ -17,10 +17,10 @@ export function RateSelector({ rates = [0, 5, 12, 18, 28, "Custom"], value = nul
             key={key}
             type="button"
             onClick={() => onChange && onChange(r)}
-            className={`rounded-xl p-6 text-center border transition-all duration-200 select-none ${selected ? "bg-gradient-to-r from-primary to-indigo-400 text-white shadow-2xl transform scale-105" : "bg-white border-slate-200 text-slate-900 hover:scale-105 hover:shadow-md"}`}
+            className={`rounded-lg p-3 text-center border transition-all duration-200 select-none ${selected ? "bg-gradient-to-r from-primary to-indigo-400 text-white shadow-lg transform scale-105" : "bg-white border-slate-200 text-slate-900 hover:scale-105 hover:shadow-md"}`}
           >
-            <div className="text-xl font-semibold">{key}%</div>
-            <div className="text-xs text-slate-400 mt-1">{typeof r === "number" ? (r === 0 ? "Exempt" : "Rate") : String(r)}</div>
+            <div className="text-lg font-semibold">{key}%</div>
+            <div className="text-xs text-slate-400 mt-0.5">{typeof r === "number" ? (r === 0 ? "Exempt" : "Rate") : String(r)}</div>
           </button>
         )
       })}

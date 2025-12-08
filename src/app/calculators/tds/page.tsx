@@ -95,89 +95,95 @@ export default function TDSCalculator() {
 
       <section className="py-12">
         <div className="container max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Sidebar */}
-            <div className="lg:col-span-1">
-              <CalculatorSidebar currentCalculator="tds" />
-            </div>
+          <CalculatorSidebar horizontal currentCalculator="tds" />
 
-            {/* Main Content */}
-            <div className="lg:col-span-2">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Card className="card-shadow">
-                <CardHeader>
-                  <CardTitle>Calculate TDS</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div>
-                    <Label htmlFor="amount">Amount (₹)</Label>
-                    <Input
-                      id="amount"
-                      type="number"
-                      placeholder="Enter amount"
-                      value={amount ?? ''}
-                      onChange={(e) => setAmount(e.target.value === '' ? null : Number(e.target.value))}
-                      className="mt-2"
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="section">TDS Section</Label>
-                    <select
-                      id="section"
-                      value={section}
-                      onChange={(e) => setSection(e.target.value)}
-                      className="w-full mt-2 h-10 px-3 rounded-md border border-input"
-                    >
-                      {Object.entries(sections).map(([key, value]) => (
-                        <option key={key} value={key}>
-                          {value.name} - {value.description} ({value.rate}%)
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <Button onClick={calculateTDS} className="w-full" disabled={amount === null}>
-                    Calculate TDS
-                  </Button>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {result && (
+          <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div>
               <motion.div
-                initial={{ opacity: 0, x: 20 }}
+                initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <Card className="card-shadow border-primary/20 bg-primary/5">
+                <Card className="card-shadow">
                   <CardHeader>
-                    <CardTitle>TDS Calculation</CardTitle>
+                    <CardTitle>Calculate TDS</CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="bg-background rounded-lg p-4">
-                      <p className="text-sm text-muted-foreground mb-1">Amount</p>
-                      <p className="text-2xl font-bold">{formatCurrency(result.amount)}</p>
+                  <CardContent className="space-y-6">
+                    <div>
+                      <Label htmlFor="amount">Amount (₹)</Label>
+                      <Input
+                        id="amount"
+                        type="number"
+                        placeholder="Enter amount"
+                        value={amount ?? ''}
+                        onChange={(e) => setAmount(e.target.value === '' ? null : Number(e.target.value))}
+                        className="mt-2"
+                      />
                     </div>
-                    <div className="bg-background rounded-lg p-4">
-                      <p className="text-sm text-muted-foreground mb-1">TDS Rate</p>
-                      <p className="text-2xl font-bold text-primary">{result.tdsRate}%</p>
+
+                    <div>
+                      <Label htmlFor="section">TDS Section</Label>
+                      <select
+                        id="section"
+                        value={section}
+                        onChange={(e) => setSection(e.target.value)}
+                        className="w-full mt-2 h-10 px-3 rounded-md border border-input"
+                      >
+                        {Object.entries(sections).map(([key, value]) => (
+                          <option key={key} value={key}>
+                            {value.name} - {value.description} ({value.rate}%)
+                          </option>
+                        ))}
+                      </select>
                     </div>
-                    <div className="bg-background rounded-lg p-4 border-2 border-red-500/20">
-                      <p className="text-sm text-muted-foreground mb-1">TDS Amount</p>
-                      <p className="text-3xl font-bold text-red-600">{formatCurrency(result.tdsAmount)}</p>
-                    </div>
-                    <div className="bg-background rounded-lg p-4 border-2 border-green-500/20">
-                      <p className="text-sm text-muted-foreground mb-1">Net Amount (After TDS)</p>
-                      <p className="text-3xl font-bold text-green-600">{formatCurrency(result.netAmount)}</p>
-                    </div>
+
+                    <Button onClick={calculateTDS} className="w-full" disabled={amount === null}>
+                      Calculate TDS
+                    </Button>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </div>
+
+            <div>
+              {result ? (
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Card className="card-shadow border-primary/20 bg-primary/5">
+                    <CardHeader>
+                      <CardTitle>TDS Calculation</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="bg-background rounded-lg p-4">
+                        <p className="text-sm text-muted-foreground mb-1">Amount</p>
+                        <p className="text-2xl font-bold">{formatCurrency(result.amount)}</p>
+                      </div>
+                      <div className="bg-background rounded-lg p-4">
+                        <p className="text-sm text-muted-foreground mb-1">TDS Rate</p>
+                        <p className="text-2xl font-bold text-primary">{result.tdsRate}%</p>
+                      </div>
+                      <div className="bg-background rounded-lg p-4 border-2 border-red-500/20">
+                        <p className="text-sm text-muted-foreground mb-1">TDS Amount</p>
+                        <p className="text-3xl font-bold text-red-600">{formatCurrency(result.tdsAmount)}</p>
+                      </div>
+                      <div className="bg-background rounded-lg p-4 border-2 border-green-500/20">
+                        <p className="text-sm text-muted-foreground mb-1">Net Amount (After TDS)</p>
+                        <p className="text-3xl font-bold text-green-600">{formatCurrency(result.netAmount)}</p>
+                      </div>
+                      <div className="flex gap-3">
+                        <Button variant="outline" className="flex-1" onClick={copyResult}>
+                          {copied ? 'Copied' : 'Copy Result'}
+                        </Button>
+                        <Button className="flex-1">Save</Button>
+                      </div>
                     </CardContent>
                   </Card>
                 </motion.div>
+              ) : (
+                <div className="text-sm text-muted-foreground">Enter values and click Calculate to see results.</div>
               )}
             </div>
           </div>

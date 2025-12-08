@@ -39,12 +39,14 @@ export function CTASection() {
           Book a free consultation with our tax experts or explore our tools today
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button
-            variant="secondary"
-            className="text-black hover:text-white font-semibold bg-white hover:bg-black shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 ease-out"
-          >
-            Book Free Consultation
-          </Button>
+          <Link href="/contact">
+            <Button
+              variant="secondary"
+              className="text-black hover:text-white font-semibold bg-white hover:bg-black shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 ease-out"
+            >
+              Book Free Consultation
+            </Button>
+          </Link>
           <a
             href="https://wa.me/919211918886"
             target="_blank"

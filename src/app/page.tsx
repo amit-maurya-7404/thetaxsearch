@@ -30,8 +30,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 const fadeInUp = {
 	initial: { opacity: 0, y: 20 },
-	animate: { 
-		opacity: 1, 
+	animate: {
+		opacity: 1,
 		y: 0,
 		transition: { duration: 0.5 },
 	},
@@ -78,7 +78,7 @@ export default function Home() {
 		{
 			question: "How accurate are your calculators?",
 			answer:
-				"Our calculators are based on current Indian tax laws and regulations (FY 2024-25). However, for precise calculations and personalized advice, we recommend consulting with our tax experts.",
+				"Our calculators are based on current Indian tax laws and regulations. However, for precise calculations and personalized advice, we recommend consulting with our tax experts.",
 		},
 		{
 			question: "Is my data safe with you?",
@@ -93,7 +93,7 @@ export default function Home() {
 		{
 			question: "What services do you provide?",
 			answer:
-				"We provide comprehensive tax compliance services including GST registration & returns, Income Tax filing, TDS payments, HRA calculations, and much more. Visit our Services page to learn more.",
+				"We provide comprehensive tax compliance services including GST registration & returns, Income Tax filing, TDS payments, ROC Compliance, Book Keeping, Company & LLP Formation and much more. Visit our Services page to learn more.",
 		},
 		{
 			question: "How often are your calculators updated?",
@@ -156,17 +156,17 @@ export default function Home() {
 					variants={staggerContainer}
 				>
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-					<motion.div variants={fadeInUp}>
-						<h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight text-black">
-							Your Trusted Partner in{" "}
-							<span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-light">
-								Tax Compliance
-							</span>
-						</h1>
-						<p className="text-lg text-gray-700 mb-8 leading-relaxed">
-							Simplify your tax journey with our comprehensive calculators, expert guidance, and
-							professional services. From GST to Income Tax, we've got you covered.
-						</p>
+						<motion.div variants={fadeInUp}>
+							<h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight text-black">
+								Your Trusted Partner in{" "}
+								<span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-light">
+									Tax Compliance
+								</span>
+							</h1>
+							<p className="text-lg text-gray-700 mb-8 leading-relaxed">
+								Simplify your tax journey with our comprehensive calculators, expert guidance, and
+								professional services. From GST to Income Tax, we've got you covered.
+							</p>
 							<div className="flex flex-col sm:flex-row gap-4">
 								<Link href="/contact">
 									<Button size="lg" className="w-full text-white sm:w-auto">
@@ -183,20 +183,20 @@ export default function Home() {
 									</Button>
 								</Link>
 							</div>
-						<div className="flex gap-6 mt-10 text-sm text-black">
-							<div className="flex items-center gap-2">
-								<CheckCircle className="w-5 h-5 text-primary" />
-								<span>100% Secure</span>
+							<div className="flex gap-6 mt-10 text-sm text-black">
+								<div className="flex items-center gap-2">
+									<CheckCircle className="w-5 h-5 text-primary" />
+									<span>100% Secure</span>
+								</div>
+								<div className="flex items-center gap-2">
+									<CheckCircle className="w-5 h-5 text-primary" />
+									<span>Expert Support</span>
+								</div>
+								<div className="flex items-center gap-2">
+									<CheckCircle className="w-5 h-5 text-primary" />
+									<span>Free Tools</span>
+								</div>
 							</div>
-							<div className="flex items-center gap-2">
-								<CheckCircle className="w-5 h-5 text-primary" />
-								<span>Expert Support</span>
-							</div>
-							<div className="flex items-center gap-2">
-								<CheckCircle className="w-5 h-5 text-primary" />
-								<span>Free Tools</span>
-							</div>
-						</div>
 						</motion.div>
 
 						<motion.div
@@ -239,16 +239,16 @@ export default function Home() {
 					variants={staggerContainer}
 					viewport={{ once: true }}
 				>
-				<motion.div
-					className="text-center mb-12"
-					variants={fadeInUp}
-				>
-					<h2 className="text-4xl font-bold mb-4 text-black">Why Choose Us?</h2>
-					<p className="text-lg text-gray-700 max-w-2xl mx-auto">
-						We combine cutting-edge technology with expert knowledge to provide the best tax
-						solutions
-					</p>
-				</motion.div>					<motion.div
+					<motion.div
+						className="text-center mb-12"
+						variants={fadeInUp}
+					>
+						<h2 className="text-4xl font-bold mb-4 text-black">Why Choose Us?</h2>
+						<p className="text-lg text-gray-700 max-w-2xl mx-auto">
+							We combine cutting-edge technology with expert knowledge to provide the best tax
+							solutions
+						</p>
+					</motion.div>					<motion.div
 						className="grid grid-cols-1 md:grid-cols-3 gap-8"
 						variants={staggerContainer}
 					>
@@ -256,21 +256,36 @@ export default function Home() {
 							{
 								icon: Calculator,
 								title: "Smart Calculators",
-								description: "Advanced calculators that save you hours of manual calculations",
+								details: [
+									"GST, Income Tax & TDS",
+									"HRA & House Property",
+									"Real-time calculations",
+									"Instant tax estimates",
+								],
 							},
 							{
 								icon: Users,
 								title: "Expert Team",
-								description: "Qualified tax professionals ready to assist you",
+								details: [
+									"15+ years experience",
+									"Qualified professionals",
+									"24/7 customer support",
+									"Personalized guidance",
+								],
 							},
 							{
 								icon: TrendingUp,
 								title: "Tax Optimization",
-								description: "Strategies to minimize tax liability legally",
+								details: [
+									"Legal tax savings",
+									"Strategic planning",
+									"Compliance assured",
+									"Maximum benefits",
+								],
 							},
 						].map((item, i) => (
 							<motion.div key={i} variants={fadeInUp}>
-								<ServiceCard icon={item.icon} title={item.title} description={item.description} />
+								<ServiceCard icon={item.icon} title={item.title} details={item.details} />
 							</motion.div>
 						))}
 					</motion.div>
@@ -286,15 +301,15 @@ export default function Home() {
 					variants={staggerContainer}
 					viewport={{ once: true }}
 				>
-				<motion.div
-					className="text-center mb-12"
-					variants={fadeInUp}
-				>
-					<h2 className="text-4xl font-bold mb-4 text-black">Our Tools & Calculators</h2>
-					<p className="text-lg text-gray-700 max-w-2xl mx-auto">
-						Free, easy-to-use tools to handle all your tax calculations
-					</p>
-				</motion.div>					<motion.div
+					<motion.div
+						className="text-center mb-12"
+						variants={fadeInUp}
+					>
+						<h2 className="text-4xl font-bold mb-4 text-black">Our Tools & Calculators</h2>
+						<p className="text-lg text-gray-700 max-w-2xl mx-auto">
+							Free, easy-to-use tools to handle all your tax calculations
+						</p>
+					</motion.div>					<motion.div
 						className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6"
 						variants={staggerContainer}
 					>
@@ -341,7 +356,7 @@ export default function Home() {
 			{/* Services Section */}
 			<section className="py-16 border-b">
 				<motion.div
-					className="container max-w-7xl mx-auto px-4"
+					className="container max-w-7xl mx-auto px-4 text-center "
 					initial="initial"
 					whileInView="animate"
 					variants={staggerContainer}
@@ -355,9 +370,7 @@ export default function Home() {
 						<p className="text-lg text-muted-foreground max-w-2xl mx-auto">
 							Comprehensive tax and compliance services for individuals and businesses
 						</p>
-						<Link href="/services" className="mt-6 inline-block">
-							<Button variant="outline">View All Services</Button>
-						</Link>
+
 					</motion.div>
 
 					<motion.div
@@ -368,50 +381,47 @@ export default function Home() {
 							{
 								icon: FileText,
 								title: "GST Registration",
-								description: "Easy GST registration for your business",
+								details: [
+									"Easy GST registration",
+									"New & existing business",
+									"Instant approval support",
+									"Compliance guidance",
+								],
 							},
 							{
 								icon: ReceiptText,
 								title: "Income Tax Return",
-								description: "Professional ITR filing services",
+								details: [
+									"Professional ITR filing",
+									"All ITR types covered",
+									"Deduction optimization",
+									"Expert consultation",
+								],
 							},
 							{
 								icon: Clock,
 								title: "Company Creation",
-								description: "Quick & hassle-free company setup",
+								details: [
+									"Quick & hassle-free setup",
+									"Pvt Ltd & LLP formation",
+									"All documentation included",
+									"Fast processing",
+								],
 							},
 						].map((service, i) => (
 							<motion.div key={i} variants={fadeInUp}>
-								<ServiceCard icon={service.icon} title={service.title} description={service.description} />
+								<ServiceCard icon={service.icon} title={service.title} details={service.details} />
 							</motion.div>
 						))}
+
 					</motion.div>
+					<Link href="/services" className="mt-10 inline-block">
+						<Button variant="outline">View All Services</Button>
+					</Link>
 				</motion.div>
 			</section>
 
 			{/* Latest Blog Posts */}
-			{/* Team Section */}
-			<section className="py-16 bg-white">
-				<div className="container max-w-7xl mx-auto px-4">
-					<div className="text-center mb-8">
-						<h2 className="text-3xl md:text-4xl font-bold mb-2 text-black">Meet Our Team</h2>
-						<p className="text-lg text-gray-700 max-w-2xl mx-auto">Seasoned tax professionals and chartered accountants ready to help.</p>
-					</div>
-
-					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-						{team.map((member) => (
-							<div key={member.name} className="bg-background border rounded-lg p-6 text-center">
-								<div className="mx-auto w-20 h-20 rounded-full bg-slate-200 flex items-center justify-center text-xl font-semibold text-slate-700 mb-4">
-									{member.name.split(" ").map(n => n[0]).slice(0,2).join("")}
-								</div>
-								<h3 className="font-semibold text-lg mb-1">{member.name}</h3>
-								<p className="text-sm text-muted-foreground mb-3">{member.role}</p>
-								<p className="text-sm text-gray-700 leading-relaxed">{member.bio}</p>
-							</div>
-						))}
-					</div>
-				</div>
-			</section>
 			<section className="py-16">
 				<motion.div
 					className="container max-w-7xl mx-auto px-4"
@@ -420,15 +430,15 @@ export default function Home() {
 					variants={staggerContainer}
 					viewport={{ once: true }}
 				>
-				<motion.div
-					className="text-center mb-12"
-					variants={fadeInUp}
-				>
-					<h2 className="text-4xl font-bold mb-4 text-black">Latest from Our Blog</h2>
-					<p className="text-lg text-gray-700 max-w-2xl mx-auto">
-						Stay updated with the latest tax news, tips, and guidelines
-					</p>
-				</motion.div>					<motion.div
+					<motion.div
+						className="text-center mb-12"
+						variants={fadeInUp}
+					>
+						<h2 className="text-4xl font-bold mb-4 text-black">Latest from Our Blog</h2>
+						<p className="text-lg text-gray-700 max-w-2xl mx-auto">
+							Stay updated with the latest tax news, tips, and guidelines
+						</p>
+					</motion.div>					<motion.div
 						className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
 						variants={staggerContainer}
 					>
@@ -458,14 +468,14 @@ export default function Home() {
 					variants={staggerContainer}
 					viewport={{ once: true }}
 				>
-				<motion.div
-					className="text-center mb-12"
-					variants={fadeInUp}
-				>
-					<h2 className="text-4xl font-bold mb-4 text-black" id="faq">
-						Frequently Asked Questions
-					</h2>
-				</motion.div>					<motion.div
+					<motion.div
+						className="text-center mb-12"
+						variants={fadeInUp}
+					>
+						<h2 className="text-4xl font-bold mb-4 text-black" id="faq">
+							Frequently Asked Questions
+						</h2>
+					</motion.div>					<motion.div
 						className="max-w-3xl mx-auto"
 						variants={fadeInUp}
 					>
@@ -473,117 +483,6 @@ export default function Home() {
 					</motion.div>
 				</motion.div>
 			</section>
-
-			{/* Contact Section */}
-			{/* <section className="py-16">
-				<motion.div
-					className="container max-w-7xl mx-auto px-4"
-					initial="initial"
-					whileInView="animate"
-					variants={staggerContainer}
-					viewport={{ once: true }}
-				>
-					<motion.div
-						className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start"
-						variants={staggerContainer}
-					>
-						<motion.div variants={fadeInUp} id="consultation">
-							<h2 className="text-4xl font-bold mb-4">Get in Touch</h2>
-							<p className="text-lg text-muted-foreground mb-8">
-								Have questions? Our team is here to help. Reach out to us today for a free
-								consultation.
-							</p>
-
-							<div className="space-y-6">
-								{[
-									{
-										label: "Email",
-										value: "info@thetaxsearch.com",
-										href: "mailto:info@thetaxsearch.com",
-									},
-									{
-										label: "Phone",
-										value: "+91 92119 18886",
-										href: "tel:+919211918886",
-									},
-									{
-										label: "WhatsApp",
-										value: "Chat with us",
-										href: "https://wa.me/919211918886",
-									},
-								].map((contact, i) => (
-									<div>
-										<p className="text-sm text-gray-700 mb-1">{contact.label}</p>
-										<a
-											href={contact.href}
-											target={contact.label === "WhatsApp" ? "_blank" : undefined}
-											rel={contact.label === "WhatsApp" ? "noopener noreferrer" : undefined}
-											className="text-primary hover:text-primary-dark font-semibold transition-colors"
-										>
-											{contact.value}
-										</a>
-									</div>
-								))}
-							</div>
-						</motion.div>
-
-						<motion.div
-							variants={fadeInUp}
-							className="bg-white border rounded-lg p-8"
-						>
-							<form onSubmit={handleSubmit} className="space-y-4">
-								<div>
-									<label className="text-sm font-medium mb-2 block">Name *</label>
-									<Input
-										required
-										placeholder="Your name"
-										value={formData.name}
-										onChange={(e) =>
-											setFormData({ ...formData, name: e.target.value })
-										}
-									/>
-								</div>
-								<div>
-									<label className="text-sm font-medium mb-2 block">Email *</label>
-									<Input
-										required
-										type="email"
-										placeholder="your@email.com"
-										value={formData.email}
-										onChange={(e) =>
-											setFormData({ ...formData, email: e.target.value })
-										}
-									/>
-								</div>
-								<div>
-									<label className="text-sm font-medium mb-2 block">Phone</label>
-									<Input
-										placeholder="+91 00000 00000"
-										value={formData.phone}
-										onChange={(e) =>
-											setFormData({ ...formData, phone: e.target.value })
-										}
-									/>
-								</div>
-								<div>
-									<label className="text-sm font-medium mb-2 block">Message *</label>
-									<Textarea
-										required
-										placeholder="Tell us how we can help..."
-										value={formData.message}
-										onChange={(e) =>
-											setFormData({ ...formData, message: e.target.value })
-										}
-									/>
-								</div>
-								<Button type="submit" disabled={isSubmitting} className="w-full">
-									{isSubmitting ? "Sending..." : "Send Message"}
-								</Button>
-							</form>
-						</motion.div>
-					</motion.div>
-				</motion.div>
-			</section> */}
 
 			{/* CTA Section */}
 			<CTASection />
