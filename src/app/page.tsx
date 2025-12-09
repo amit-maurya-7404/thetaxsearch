@@ -173,7 +173,7 @@ export default function Home() {
 										Book Free Consultation
 									</Button>
 								</Link>
-								<Link href="/calculators/income-tax">
+								<Link href="/calculators">
 									<Button
 										size="lg"
 										variant="outline"
@@ -255,6 +255,7 @@ export default function Home() {
 						{[
 							{
 								icon: Calculator,
+								iconColor: 'bg-blue-100 text-blue-600',
 								title: "Smart Calculators",
 								details: [
 									"GST, Income Tax & TDS",
@@ -265,6 +266,7 @@ export default function Home() {
 							},
 							{
 								icon: Users,
+								iconColor: 'bg-green-100 text-green-600',
 								title: "Expert Team",
 								details: [
 									"15+ years experience",
@@ -275,6 +277,7 @@ export default function Home() {
 							},
 							{
 								icon: TrendingUp,
+								iconColor: 'bg-orange-100 text-orange-600',
 								title: "Tax Optimization",
 								details: [
 									"Legal tax savings",
@@ -318,31 +321,31 @@ export default function Home() {
 								title: "Income Tax",
 								description: "Calculate your income tax liability",
 								href: "/calculators/income-tax",
-								icon: <DollarSign className="w-6 h-6 text-primary" />,
+								icon: <DollarSign className="w-6 h-6 text-blue-600" />,
 							},
 							{
 								title: "GST",
 								description: "GST calculator for businesses",
 								href: "/calculators/gst",
-								icon: <ReceiptText className="w-6 h-6 text-primary" />,
+								icon: <ReceiptText className="w-6 h-6 text-orange-600" />,
 							},
 							{
 								title: "HRA",
 								description: "Calculate HRA exemption",
 								href: "/calculators/hra",
-								icon: <HomeIcon className="w-6 h-6 text-primary" />,
+								icon: <HomeIcon className="w-6 h-6 text-pink-600" />,
 							},
 							{
 								title: "TDS",
 								description: "TDS calculation tool",
 								href: "/calculators/tds",
-								icon: <BarChart3 className="w-6 h-6 text-primary" />,
+								icon: <BarChart3 className="w-6 h-6 text-green-600" />,
 							},
 							{
 								title: "GST Search",
 								description: "Search GST details",
 								href: "/calculators/gst-search",
-								icon: <Search className="w-6 h-6 text-primary" />,
+								icon: <Search className="w-6 h-6 text-purple-600" />,
 							},
 						].map((calc, i) => (
 							<motion.div key={i} variants={fadeInUp}>
@@ -380,6 +383,7 @@ export default function Home() {
 						{[
 							{
 								icon: FileText,
+								iconColor: 'bg-indigo-100 text-indigo-600',
 								title: "GST Registration",
 								details: [
 									"Easy GST registration",
@@ -390,6 +394,7 @@ export default function Home() {
 							},
 							{
 								icon: ReceiptText,
+								iconColor: 'bg-teal-100 text-teal-600',
 								title: "Income Tax Return",
 								details: [
 									"Professional ITR filing",
@@ -400,6 +405,7 @@ export default function Home() {
 							},
 							{
 								icon: Clock,
+								iconColor: 'bg-rose-100 text-rose-600',
 								title: "Company Creation",
 								details: [
 									"Quick & hassle-free setup",

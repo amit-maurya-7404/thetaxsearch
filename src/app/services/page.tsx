@@ -36,6 +36,7 @@ const staggerContainer = {
 const services = [
   {
     icon: FileText,
+    iconColor: 'bg-blue-100 text-blue-600',
     title: "Income Tax Return (ITR)",
     details: [
       "Salaried Individuals (ITR-1)",
@@ -46,6 +47,7 @@ const services = [
   },
   {
     icon: ReceiptText,
+    iconColor: 'bg-orange-100 text-orange-600',
     title: "GST Compliance",
     details: [
       "New Registration",
@@ -56,6 +58,7 @@ const services = [
   },
   {
     icon: Building2,
+    iconColor: 'bg-green-100 text-green-600',
     title: "ROC & Company Law",
     details: [
       "Private Limited Incorporation",
@@ -66,6 +69,7 @@ const services = [
   },
   {
     icon: Users,
+    iconColor: 'bg-pink-100 text-pink-600',
     title: "Payroll & Labour Law",
     details: [
       "PF & ESIC Registration",
@@ -76,6 +80,7 @@ const services = [
   },
   {
     icon: TrendingUp,
+    iconColor: 'bg-purple-100 text-purple-600',
     title: "MSME & Startup",
     details: [
       "Udyam Registration",
@@ -86,6 +91,7 @@ const services = [
   },
   {
     icon: BarChart3,
+    iconColor: 'bg-indigo-100 text-indigo-600',
     title: "Accounting Services",
     details: [
       "Bookkeeping",
@@ -169,6 +175,7 @@ export default function ServicesPage() {
             {[
               { 
                 icon: CheckCircle, 
+                iconColor: 'bg-cyan-100 text-cyan-600',
                 title: "Expert Team", 
                 details: [
                   "Qualified professionals",
@@ -179,6 +186,7 @@ export default function ServicesPage() {
               },
               { 
                 icon: TrendingUp, 
+                iconColor: 'bg-yellow-100 text-yellow-600',
                 title: "Competitive Rates", 
                 details: [
                   "Best prices in market",
@@ -189,6 +197,7 @@ export default function ServicesPage() {
               },
               { 
                 icon: Clock, 
+                iconColor: 'bg-red-100 text-red-600',
                 title: "Quick Turnaround", 
                 details: [
                   "Fast processing",
@@ -199,6 +208,7 @@ export default function ServicesPage() {
               },
               { 
                 icon: Users, 
+                iconColor: 'bg-teal-100 text-teal-600',
                 title: "24/7 Support", 
                 details: [
                   "Always available",

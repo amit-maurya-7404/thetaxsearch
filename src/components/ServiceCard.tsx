@@ -7,14 +7,15 @@ interface ServiceCardProps {
   icon: LucideIcon
   title: string
   details?: string[]
+  iconColor?: string
 }
 
-export function ServiceCard({ icon: Icon, title, details }: ServiceCardProps) {
+export function ServiceCard({ icon: Icon, title, details, iconColor = 'bg-primary/10 text-primary' }: ServiceCardProps) {
   return (
     <Card className="card-shadow hover:shadow-lg transition-all duration-300 h-full hover:border-primary flex flex-col bg-white">
       <CardHeader className="pb-3">
-        <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-          <Icon className="w-6 h-6 text-primary" />
+        <div className={`w-12 h-12 rounded-lg flex items-center justify-center mb-4 ${iconColor}`}>
+          <Icon className="w-6 h-6" />
         </div>
         <CardTitle className="text-lg font-semibold text-left">{title}</CardTitle>
       </CardHeader>

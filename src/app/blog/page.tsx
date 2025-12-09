@@ -62,9 +62,18 @@ export default function BlogPage() {
       try {
         const response = await fetch("/api/blog")
         const data = await response.json()
-        if (data.success && data.posts.length > 0) {
-          // Merge API posts with defaults
-          setBlogPosts([...data.posts, ...defaultBlogPosts])
+        if (data.success && data.posts && data.posts.length > 0) {
+          // Normalize posts to ensure tags is always an array
+          const normalizedPosts = data.posts.map((post: any) => ({
+            ...post,
+            tags: Array.isArray(post.tags) ? post.tags : (post.tags ? [post.tags] : []),
+            readingTime: post.readingTime || Math.ceil(JSON.stringify(post.content || post.description).split(" ").length / 200),
+          }))
+          
+          // Use API posts and add defaults only if they're not duplicates
+          const slugs = new Set(normalizedPosts.map(p => p.slug))
+          const uniqueDefaults = defaultBlogPosts.filter(p => !slugs.has(p.slug))
+          setBlogPosts([...normalizedPosts, ...uniqueDefaults])
         }
       } catch (error) {
         console.error("Failed to fetch blog posts:", error)

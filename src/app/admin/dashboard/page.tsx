@@ -23,16 +23,15 @@ const fadeInUp = {
   },
 }
 
-const stats = [
-  { label: "Total Blog Posts", value: "24", icon: FileText },
-  { label: "Published Articles", value: "18", icon: FileText },
-  { label: "Total Leads", value: "156", icon: Mail },
-  { label: "This Month", value: "₹2.5L+", icon: BarChart3 },
-]
-
 export default function AdminDashboard() {
   const router = useRouter()
   const [isAuthed, setIsAuthed] = useState(false)
+  const [stats, setStats] = useState([
+    { label: "Total Blog Posts", value: "0", icon: FileText, iconColor: 'bg-blue-100 text-blue-600' },
+    { label: "Published Articles", value: "0", icon: FileText, iconColor: 'bg-purple-100 text-purple-600' },
+    { label: "Total Leads", value: "0", icon: Mail, iconColor: 'bg-pink-100 text-pink-600' },
+    { label: "This Month", value: "0", icon: BarChart3, iconColor: 'bg-green-100 text-green-600' },
+  ])
 
   useEffect(() => {
     const token = localStorage.getItem("adminToken")
@@ -40,8 +39,34 @@ export default function AdminDashboard() {
       router.push("/admin/login")
     } else {
       setIsAuthed(true)
+      fetchStats()
     }
   }, [router])
+
+  const fetchStats = async () => {
+    try {
+      const response = await fetch("/api/blog")
+      const data = await response.json()
+      const posts = data.posts || []
+      
+      const totalPosts = posts.length
+      const publishedPosts = posts.filter((p: any) => p.status === "published" || !p.status).length
+      const thisMonthPosts = posts.filter((p: any) => {
+        const postDate = new Date(p.date || p.createdAt)
+        const now = new Date()
+        return postDate.getMonth() === now.getMonth() && postDate.getFullYear() === now.getFullYear()
+      }).length
+
+      setStats([
+        { label: "Total Blog Posts", value: totalPosts.toString(), icon: FileText, iconColor: 'bg-blue-100 text-blue-600' },
+        { label: "Published Articles", value: publishedPosts.toString(), icon: FileText, iconColor: 'bg-purple-100 text-purple-600' },
+        { label: "Total Leads", value: "156", icon: Mail, iconColor: 'bg-pink-100 text-pink-600' },
+        { label: "This Month", value: thisMonthPosts.toString(), icon: BarChart3, iconColor: 'bg-green-100 text-green-600' },
+      ])
+    } catch (error) {
+      console.error("Failed to fetch stats:", error)
+    }
+  }
 
   if (!isAuthed) return null
 
@@ -95,8 +120,8 @@ export default function AdminDashboard() {
                             {stat.value}
                           </p>
                         </div>
-                        <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                          <Icon className="w-6 h-6 text-primary" />
+                        <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${stat.iconColor}`}>
+                          <Icon className="w-6 h-6" />
                         </div>
                       </div>
                     </CardContent>

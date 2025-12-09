@@ -59,11 +59,24 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { title, slug, description, content, tags, date } = body
+    let { title, slug, description, content, tags, status, date } = body
 
-    if (!title || !slug || !description || !content) {
+    if (!title || !slug || !description) {
       return NextResponse.json(
-        { error: "Missing required fields", success: false },
+        { error: "Missing required fields (title, slug, description)", success: false },
+        { status: 400 }
+      )
+    }
+
+    // Handle both array and string content for backward compatibility
+    let processedContent = content
+
+    if (typeof content === 'string' && content.trim()) {
+      // Convert string content to a text block
+      processedContent = [{ type: 'text', paragraph: content }]
+    } else if (!processedContent || !Array.isArray(processedContent) || processedContent.length === 0) {
+      return NextResponse.json(
+        { error: "Content must be provided - either as text or as an array of content blocks", success: false },
         { status: 400 }
       )
     }
@@ -73,11 +86,13 @@ export async function POST(request: NextRequest) {
       title,
       slug,
       description,
-      content,
+      content: processedContent,
       tags: tags ? tags.split(",").map((t: string) => t.trim()) : [],
+      status: status || 'published',
       date: date || new Date().toISOString().split("T")[0],
-      readingTime: Math.ceil(content.split(" ").length / 200),
+      readingTime: Math.ceil(JSON.stringify(processedContent).split(" ").length / 200),
       createdAt: new Date(),
+      updatedAt: new Date(),
     }
 
     // Try to save to MongoDB first

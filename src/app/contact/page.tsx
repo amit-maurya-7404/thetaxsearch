@@ -108,7 +108,7 @@ export default function ContactPage() {
                 variants={fadeInUp}
                 className="bg-background border rounded-lg p-6 text-center hover:border-primary transition-colors"
               >
-                <item.icon className="w-10 h-10 text-primary mx-auto mb-3" />
+                <item.icon className={`w-10 h-10 mx-auto mb-3 ${item.iconColor === 'cyan' ? 'text-cyan-600' : item.iconColor === 'yellow' ? 'text-yellow-600' : item.iconColor === 'red' ? 'text-red-600' : 'text-emerald-600'}`} />
                 <h3 className="font-semibold text-lg mb-2">{item.title}</h3>
                 <p className="text-sm text-muted-foreground">{item.desc}</p>
               </motion.div>

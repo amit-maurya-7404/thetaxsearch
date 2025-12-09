@@ -1,210 +1,206 @@
 "use client"
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { CTASection } from "@/components/CTAButtons"
-import { CalculatorSidebar } from "@/components/CalculatorSidebar"
-import { formatCurrency } from "@/lib/utils"
+import React, { useState } from 'react';
+import { Home, HelpCircle } from 'lucide-react';
 
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { 
-    opacity: 1, 
-    y: 0,
-    transition: { duration: 0.5 },
-  },
-}
+const Tooltip = ({ content }: { content: string }) => (
+  <div className="group relative inline-flex items-center ml-2">
+    <HelpCircle className="w-4 h-4 text-slate-400 hover:text-purple-600 cursor-help transition-colors" />
+    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 p-2.5 bg-slate-800 text-white text-xs rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 text-center pointer-events-none leading-relaxed font-normal">
+      {content}
+      <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-800"></div>
+    </div>
+  </div>
+);
 
-export default function HRACalculator() {
-  const [salary, setSalary] = useState<number | null>(null)
-  const [rent, setRent] = useState<number | null>(null)
-  const [city, setCity] = useState("metro")
-  const [result, setResult] = useState<{
-    basicSalary: number
-    hra: number
-    hraExemption: number
-    maxDeduction: number
-  } | null>(null)
+const HRA: React.FC = () => {
+  const [basicSalary, setBasicSalary] = useState<number | null>(null);
+  const [hraReceived, setHraReceived] = useState<number | null>(null);
+  const [rentPaid, setRentPaid] = useState<number | null>(null);
+  const [isMetro, setIsMetro] = useState(true);
 
-  const [copied, setCopied] = useState(false)
+  const formatCurrency = (val: number) => 
+    new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
 
   const calculateHRA = () => {
-    if (salary === null || rent === null) return
-    const basic = Number(salary)
-
-    // HRA percentage based on city
-    const hraPercent = city === "metro" ? 0.5 : city === "tier1" ? 0.4 : 0.25
-    const hraAllowance = basic * hraPercent
-
-    // Least of:
-    // 1. Actual HRA received (here we assume hraAllowance as received)
-    // 2. 50% of basic (metro) / 40% of basic (tier-1) / 25% of basic (others)
-    // 3. Actual rent paid - 10% of basic
-
-    const limit1 = hraAllowance
-    const limit2 = Math.max(0, Number(rent) - (basic * 0.1))
-    const exemption = Math.min(limit1, limit2)
-
-    // round values
-    const rounded = {
-      basicSalary: Number(basic.toFixed(2)),
-      hra: Number(hraAllowance.toFixed(2)),
-      hraExemption: Number(exemption.toFixed(2)),
-      maxDeduction: Number(exemption.toFixed(2)),
+    if (basicSalary === null || hraReceived === null || rentPaid === null) {
+      return null;
     }
 
-    setResult(rounded)
-  }
+    const basic = basicSalary;
+    const hra = hraReceived;
+    const rent = rentPaid;
 
-  const copyResult = async () => {
-    if (!result) return
-    const lines = [
-      `Basic Salary (Monthly): ${formatCurrency(result.basicSalary)}`,
-      `HRA Allowance (Monthly): ${formatCurrency(result.hra)}`,
-      `HRA Exemption (Monthly): ${formatCurrency(result.hraExemption)}`,
-      `Annual HRA Exemption: ${formatCurrency(result.maxDeduction * 12)}`,
-    ]
-    try {
-      await navigator.clipboard.writeText(lines.join('\n'))
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    } catch (e) {
-      console.error('Copy failed', e)
-    }
-  }
+    // A = Actual HRA Received
+    const A = hra;
+
+    // B = 50% of Basic Salary (if Metro) or 40% of Basic Salary (if Non-Metro)
+    const B = isMetro ? basic * 0.50 : basic * 0.40;
+
+    // C = Rent Paid - 10% of Basic Salary
+    // If rentPaid < 10% of basic => C = 0
+    const C = Math.max(0, rent - (basic * 0.10));
+
+    // EXEMPTION RULE: hraExempt = min(A, B, C)
+    const hraExempt = Math.min(A, B, C);
+
+    // TAXABLE HRA: hraTaxable = hraReceived - hraExempt
+    const hraTaxable = hra - hraExempt;
+
+    return {
+      hraExempt: hraExempt,
+      hraTaxable: hraTaxable,
+      annualExempt: hraExempt * 12,
+      annualTaxable: hraTaxable * 12,
+    };
+  };
+
+  const results = calculateHRA();
 
   return (
-    <div className="w-full min-h-screen bg-background">
-      <section className="relative min-h-[300px] flex items-center justify-center bg-gradient-to-b from-primary/10 to-background pt-20">
-        <motion.div
-          className="container max-w-7xl mx-auto px-4 text-center"
-          initial="initial"
-          animate="animate"
-          variants={fadeInUp}
-        >
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">HRA Calculator</h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Calculate the maximum HRA exemption you can claim under Section 10(13A)
-          </p>
-        </motion.div>
-      </section>
+    <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+      <div className="p-6 md:p-8 border-b border-slate-100 flex items-center gap-4 bg-slate-50/50">
+        <div className="bg-pink-100 p-3 rounded-xl text-pink-600">
+          <Home className="w-6 h-6" />
+        </div>
+        <div>
+           <h3 className="text-xl font-bold text-slate-800">HRA Calculator</h3>
+           <p className="text-xs text-slate-500">Section 10(13A) Exemption</p>
+        </div>
+      </div>
 
-      <section className="py-12">
-        <div className="container max-w-7xl mx-auto px-4">
-          <CalculatorSidebar horizontal currentCalculator="hra" />
-
-          <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div>
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                <Card className="card-shadow">
-                  <CardHeader>
-                    <CardTitle>Calculate HRA Exemption</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div>
-                      <Label htmlFor="salary">Monthly Basic Salary (₹)</Label>
-                      <Input
-                        id="salary"
-                        type="number"
-                        placeholder="Enter basic salary"
-                        value={salary ?? ''}
-                        onChange={(e) => setSalary(e.target.value === '' ? null : Number(e.target.value))}
-                        className="mt-2"
-                      />
-                    </div>
-
-                    <div>
-                      <Label htmlFor="rent">Monthly Rent Paid (₹)</Label>
-                      <Input
-                        id="rent"
-                        type="number"
-                        placeholder="Enter rent paid"
-                        value={rent ?? ''}
-                        onChange={(e) => setRent(e.target.value === '' ? null : Number(e.target.value))}
-                        className="mt-2"
-                      />
-                    </div>
-
-                    <div>
-                      <Label htmlFor="city">City Category</Label>
-                      <select
-                        id="city"
-                        value={city}
-                        onChange={(e) => setCity(e.target.value)}
-                        className="w-full mt-2 h-10 px-3 rounded-md border border-input"
-                      >
-                        <option value="metro">Metro Cities (50%)</option>
-                        <option value="tier1">Non-Metro Cities (40%)</option>
-                        {/* <option value="others">Other Cities (25%)</option> */}
-                      </select>
-                    </div>
-
-                    <Button onClick={calculateHRA} className="w-full" disabled={salary === null || rent === null}>
-                      Calculate HRA
-                    </Button>
-                  </CardContent>
-                </Card>
-              </motion.div>
+      <div className="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-12">
+        {/* Inputs */}
+        <div className="space-y-8">
+          <div>
+            <label className="flex items-center text-sm font-semibold text-slate-700 mb-2">
+              Monthly Basic Salary
+              <Tooltip content="Your monthly basic salary (excluding allowances)." />
+            </label>
+            <div className="relative">
+                <span className="absolute left-4 top-2.5 text-slate-400 font-medium">₹</span>
+                <input
+                type="number"
+                value={basicSalary ?? ''}
+                onChange={(e) => setBasicSalary(e.target.value === '' ? null : Number(e.target.value))}
+                placeholder="Enter basic salary"
+                className="w-full pl-8 pr-4 py-3 bg-white text-slate-900 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 outline-none text-lg font-medium transition-all"
+                />
             </div>
+          </div>
 
-            <div>
-              {result ? (
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <Card className="card-shadow border-primary/20 bg-primary/5">
-                    <CardHeader>
-                      <CardTitle>HRA Calculation Results</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div className="bg-background rounded-lg p-4">
-                        <p className="text-sm text-muted-foreground mb-1">Basic Salary (Monthly)</p>
-                        <p className="text-2xl font-bold">{formatCurrency(result.basicSalary)}</p>
-                      </div>
-                      <div className="bg-background rounded-lg p-4">
-                        <p className="text-sm text-muted-foreground mb-1">HRA Allowance</p>
-                        <p className="text-2xl font-bold text-primary">{formatCurrency(result.hra)}</p>
-                      </div>
-                      <div className="bg-background rounded-lg p-4 border-2 border-green-500/20">
-                        <p className="text-sm text-muted-foreground mb-1">Maximum HRA Exemption (Monthly)</p>
-                        <p className="text-3xl font-bold text-green-600">
-                          {formatCurrency(result.maxDeduction)}
-                        </p>
-                      </div>
-                      <div className="bg-background rounded-lg p-4">
-                        <p className="text-sm text-muted-foreground mb-1">Annual HRA Exemption</p>
-                        <p className="text-2xl font-bold text-blue-600">
-                          {formatCurrency(result.maxDeduction * 12)}
-                        </p>
-                      </div>
-                      <div className="flex gap-3">
-                        <Button variant="outline" className="flex-1" onClick={copyResult}>
-                          {copied ? 'Copied' : 'Copy Result'}
-                        </Button>
-                        <Button className="flex-1">Save Results</Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ) : (
-                <div className="text-sm text-muted-foreground">Enter values and click Calculate to see results.</div>
-              )}
+          <div>
+            <label className="flex items-center text-sm font-semibold text-slate-700 mb-2">
+              Monthly HRA Received
+              <Tooltip content="The actual HRA you receive every month." />
+            </label>
+            <div className="relative">
+                <span className="absolute left-4 top-2.5 text-slate-400 font-medium">₹</span>
+                <input
+                type="number"
+                value={hraReceived ?? ''}
+                onChange={(e) => setHraReceived(e.target.value === '' ? null : Number(e.target.value))}
+                placeholder="Enter HRA received"
+                className="w-full pl-8 pr-4 py-3 bg-white text-slate-900 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 outline-none text-lg font-medium transition-all"
+                />
+            </div>
+          </div>
+
+          <div>
+            <label className="flex items-center text-sm font-semibold text-slate-700 mb-2">
+              Monthly Rent Paid
+              <Tooltip content="Actual rent paid by you every month (excluding utilities)." />
+            </label>
+            <div className="relative">
+                <span className="absolute left-4 top-2.5 text-slate-400 font-medium">₹</span>
+                <input
+                type="number"
+                value={rentPaid ?? ''}
+                onChange={(e) => setRentPaid(e.target.value === '' ? null : Number(e.target.value))}
+                placeholder="Enter rent paid"
+                className="w-full pl-8 pr-4 py-3 bg-white text-slate-900 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 outline-none text-lg font-medium transition-all"
+                />
+            </div>
+          </div>
+
+          <div>
+            <label className="flex items-center text-sm font-semibold text-slate-700 mb-3">
+              City Category
+              <Tooltip content="Select your city category for HRA percentage calculation." />
+            </label>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setIsMetro(true)}
+                className={`flex-1 py-2.5 rounded-lg text-sm font-bold transition-all border ${
+                  isMetro 
+                    ? 'bg-purple-600 text-white border-purple-600 shadow-md' 
+                    : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                }`}
+              >
+                Metro (50%)
+              </button>
+              <button
+                onClick={() => setIsMetro(false)}
+                className={`flex-1 py-2.5 rounded-lg text-sm font-bold transition-all border ${
+                  !isMetro 
+                    ? 'bg-purple-600 text-white border-purple-600 shadow-md' 
+                    : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                }`}
+              >
+                Non-Metro (40%)
+              </button>
             </div>
           </div>
         </div>
-      </section>
 
-      <CTASection />
+        {/* Results */}
+        <div className="flex flex-col justify-center h-full">
+            {results ? (
+            <div className="bg-slate-900 rounded-3xl p-8 text-white shadow-xl relative overflow-hidden">
+                <div className="absolute bottom-0 right-0 w-40 h-40 bg-purple-600 rounded-full blur-3xl opacity-20 translate-y-1/2 translate-x-1/2"></div>
+                
+                <h4 className="text-slate-400 text-sm font-medium uppercase tracking-wider mb-8">HRA Calculation</h4>
+
+                <div className="space-y-6 relative z-10">
+                    <div className="flex justify-between items-end border-b border-slate-700 pb-4">
+                        <span className="text-slate-300">Monthly HRA Exempt</span>
+                        <span className="text-2xl font-semibold">{formatCurrency(results.hraExempt)}</span>
+                    </div>
+                    
+                    <div className="flex justify-between items-end border-b border-slate-700 pb-4">
+                        <span className="text-slate-300">Monthly HRA Taxable</span>
+                        <span className="text-2xl font-semibold text-red-400">{formatCurrency(results.hraTaxable)}</span>
+                    </div>
+
+                    <div className="flex justify-between items-center pt-2">
+                        <span className="text-sm text-slate-400">Annual HRA Exempt</span>
+                        <span className="text-lg font-bold text-green-400">{formatCurrency(results.annualExempt)}</span>
+                    </div>
+
+                    <div className="flex justify-between items-center">
+                        <span className="text-sm text-slate-400">Annual HRA Taxable</span>
+                        <span className="text-lg font-bold text-red-400">{formatCurrency(results.annualTaxable)}</span>
+                    </div>
+                </div>
+            </div>
+            ) : (
+              <div className="text-center py-12">
+                <p className="text-slate-500 text-sm">Enter all values to calculate HRA</p>
+              </div>
+            )}
+            
+            <div className="mt-6 flex items-start gap-3 px-2">
+                <div className="bg-blue-50 p-1.5 rounded-full mt-0.5">
+                     <HelpCircle className="w-3 h-3 text-blue-600" />
+                </div>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                    <strong>Formula:</strong> Exempt HRA = min(Actual HRA, 50% Basic [Metro] / 40% Basic [Non-Metro], Rent - 10% Basic)
+                </p>
+            </div>
+        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
+
+export default HRA;

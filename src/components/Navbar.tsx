@@ -27,7 +27,7 @@ export function Navbar() {
           <Link href="/services" className="text-sm font-medium text-black hover:text-primary transition-colors">
             Services
           </Link>
-          <Link href="/calculators/income-tax" className="text-sm font-medium text-black hover:text-primary transition-colors">
+          <Link href="/calculators" className="text-sm font-medium text-black hover:text-primary transition-colors">
             Calculators
           </Link>
           <Link href="/blog" className="text-sm font-medium text-black hover:text-primary transition-colors">

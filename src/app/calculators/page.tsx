@@ -4,199 +4,72 @@ import { motion } from "framer-motion"
 import { CalculatorCard } from "@/components/CalculatorCard"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import {
-	DollarSign,
-	Home as HomeIcon,
-	BarChart3,
-	ReceiptText,
-	Search,
-	ArrowLeft,
-} from "lucide-react"
+import React, { useState } from 'react'
+import IncomeTax from './income-tax/page'
+import GST from './gst/page'
+import TDS from './tds/page'
+import HRA from './hra/page'
+import { PieChart, DollarSign, Percent, Home } from 'lucide-react'
+import { CTASection } from "@/components/CTAButtons"
 
-const fadeInUp = {
-	initial: { opacity: 0, y: 20 },
-	animate: {
-		opacity: 1,
-		y: 0,
-		transition: { duration: 0.5 },
-	},
-}
-
-const staggerContainer = {
-	animate: {
-		transition: {
-			staggerChildren: 0.1,
-		},
-	},
-}
-
-export default function CalculatorsPage() {
-	const calculators = [
-		{
-			title: "Income Tax",
-			description: "Calculate your income tax liability with new and old regime options",
-			href: "/calculators/income-tax",
-			icon: <DollarSign className="w-8 h-8 text-primary" />,
-		},
-		{
-			title: "GST",
-			description: "GST calculator for businesses and tax calculations",
-			href: "/calculators/gst",
-			icon: <ReceiptText className="w-8 h-8 text-primary" />,
-		},
-		{
-			title: "HRA",
-			description: "Calculate HRA exemption and tax savings",
-			href: "/calculators/hra",
-			icon: <HomeIcon className="w-8 h-8 text-primary" />,
-		},
-		{
-			title: "TDS",
-			description: "TDS calculation tool for various income sources",
-			href: "/calculators/tds",
-			icon: <BarChart3 className="w-8 h-8 text-primary" />,
-		},
-		{
-			title: "GST Search",
-			description: "Search and verify GST details by GSTIN",
-			href: "/calculators/gst-search",
-			icon: <Search className="w-8 h-8 text-primary" />,
-		},
-	]
+const Calculators: React.FC = () => {
+	const [activeTab, setActiveTab] = useState<'income' | 'gst' | 'tds' | 'hra'>('income')
 
 	return (
-		<div className="w-full">
-		{/* Header Section */}
-		<section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-primary/40 to-background pt-10 md:pt-0">
-			<div className="absolute inset-0 overflow-hidden">
-				<div className="absolute top-20 right-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl"></div>
-				<div className="absolute bottom-20 left-20 w-72 h-72 bg-primary/5 rounded-full blur-3xl"></div>
-			</div>
-			<motion.div
-				className="container max-w-7xl mx-auto px-4 relative z-10"
-				initial="initial"
-				animate="animate"
-				variants={fadeInUp}
-			>
-				<Link href="/" className="inline-flex items-center text-black hover:text-primary mb-6 transition-colors">
-					<ArrowLeft className="w-4 h-4 mr-2" />
-					Back to Home
-				</Link>
-				<h1 className="text-4xl md:text-5xl font-bold mb-4 text-black">All Calculators</h1>
-				<p className="text-lg text-gray-700 max-w-2xl">
-					Comprehensive suite of tax and financial calculators to help you make informed decisions. All calculators are free to use and updated with latest tax rates.
-				</p>
-			</motion.div>
-		</section>
-
-			{/* Calculators Grid */}
-			<section className="py-16 md:py-20">
-				<motion.div
-					className="container max-w-7xl mx-auto px-4"
-					initial="initial"
-					whileInView="animate"
-					variants={staggerContainer}
-					viewport={{ once: true }}
-				>
-					<motion.div
-						className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-						variants={staggerContainer}
-					>
-						{calculators.map((calc, i) => (
-							<motion.div key={i} variants={fadeInUp}>
-								<div className="h-full">
-									<CalculatorCard {...calc} />
-								</div>
-							</motion.div>
-						))}
-					</motion.div>
-				</motion.div>
-			</section>
-
-			{/* Features Section */}
-			<section className="py-16">
-				<motion.div
-					className="container max-w-7xl mx-auto px-4"
-					initial="initial"
-					whileInView="animate"
-					variants={staggerContainer}
-					viewport={{ once: true }}
-				>
-					<motion.div className="text-center mb-12" variants={fadeInUp}>
-						<h2 className="text-3xl font-bold mb-4">Why Use Our Calculators?</h2>
-						<p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-							Get accurate tax calculations with just a few clicks
-						</p>
-					</motion.div>
-
-					<motion.div
-						className="grid grid-cols-1 md:grid-cols-3 gap-8"
-						variants={staggerContainer}
-					>
-						{[
-							{
-								title: "Accurate & Updated",
-								description: "Based on latest FY 2024-25 tax laws and regulations",
-							},
-							{
-								title: "100% Free",
-								description: "No hidden charges or premium features required",
-							},
-							{
-								title: "Privacy First",
-								description: "All calculations done locally, your data stays private",
-							},
-							{
-								title: "Easy to Use",
-								description: "Simple interface designed for everyone",
-							},
-							{
-								title: "Instant Results",
-								description: "Get calculations in real-time",
-							},
-							{
-								title: "Expert Support",
-								description: "Get help from tax experts if needed",
-							},
-						].map((feature, i) => (
-							<motion.div
-								key={i}
-								variants={fadeInUp}
-								className="p-6 rounded-lg border bg-card"
-							>
-								<h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-								<p className="text-muted-foreground">{feature.description}</p>
-							</motion.div>
-						))}
-					</motion.div>
-				</motion.div>
-			</section>
-
-			{/* CTA Section */}
-			<section className="py-16 bg-primary/5 border-y">
-				<motion.div
-					className="container max-w-7xl mx-auto px-4 text-center"
-					initial="initial"
-					whileInView="animate"
-					variants={fadeInUp}
-					viewport={{ once: true }}
-				>
-					<h2 className="text-3xl font-bold mb-4">Need Professional Help?</h2>
-					<p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-						Our team of tax experts is ready to help you with personalized guidance and consultation.
+		<div className="min-h-screen bg-white pb-0">
+			<div className="bg-gradient-to-br from-purple-600 via-lavender-600 to-purple-700 py-20 shadow-lg relative overflow-hidden">
+				<div className="absolute inset-0 bg-black/5"></div>
+				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+					<h1 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">Financial Tools & Calculators</h1>
+					<p className="text-purple-50 max-w-2xl mx-auto text-lg leading-relaxed">
+						Precise calculations based on the latest FY 2025-26 tax laws. Simplify your financial planning today.
 					</p>
-					<Link href="/services">
-						<Button size="lg" className="mr-4">
-							View Services
-						</Button>
-					</Link>
-					<Link href="/#contact">
-						<Button size="lg" variant="outline">
-							Contact Us
-						</Button>
-					</Link>
-				</motion.div>
-			</section>
+				</div>
+			</div>
+			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 mb-10">
+			{/* Navigation Tabs */}
+			<div className="bg-white rounded-xl shadow-lg p-2 flex flex-wrap gap-2 mb-8 z-10 relative">
+				<button
+					onClick={() => setActiveTab('income')}
+					className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-all flex-1 justify-center ${activeTab === 'income' ? 'bg-purple-100 text-purple-700' : 'text-slate-500 hover:bg-slate-50'
+						}`}
+				>
+					<PieChart className="w-4 h-4" /> Income Tax
+				</button>
+				<button
+					onClick={() => setActiveTab('gst')}
+					className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-all flex-1 justify-center ${activeTab === 'gst' ? 'bg-purple-100 text-purple-700' : 'text-slate-500 hover:bg-slate-50'
+						}`}
+				>
+					<DollarSign className="w-4 h-4" /> GST
+				</button>
+				<button
+					onClick={() => setActiveTab('tds')}
+					className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-all flex-1 justify-center ${activeTab === 'tds' ? 'bg-purple-100 text-purple-700' : 'text-slate-500 hover:bg-slate-50'
+						}`}
+				>
+					<Percent className="w-4 h-4" /> TDS
+				</button>
+				<button
+					onClick={() => setActiveTab('hra')}
+					className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-all flex-1 justify-center ${activeTab === 'hra' ? 'bg-purple-100 text-purple-700' : 'text-slate-500 hover:bg-slate-50'
+						}`}
+				>
+					<Home className="w-4 h-4" /> HRA
+				</button>
+			</div>				{/* Content Area */}
+				<div className="animate-fadeIn">
+					{activeTab === 'income' && <IncomeTax />}
+					{activeTab === 'gst' && <GST />}
+					{activeTab === 'tds' && <TDS />}
+				{activeTab === 'hra' && <HRA />}
+				</div>
+			</div>
+			{/* CTA Section */}
+			<CTASection />
 		</div>
+
 	)
 }
+
+export default Calculators

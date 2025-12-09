@@ -5,35 +5,45 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { ArrowLeft, Edit2, Trash2, Plus } from "lucide-react"
-
-const blogPosts = [
-  {
-    id: 1,
-    title: "Complete Guide to GST Compliance in 2024",
-    slug: "gst-compliance-guide",
-    status: "Published",
-    date: "Nov 15, 2024",
-    views: 1243,
-  },
-  {
-    id: 2,
-    title: "New vs Old Income Tax Regime",
-    slug: "income-tax-new-regime",
-    status: "Published",
-    date: "Nov 10, 2024",
-    views: 892,
-  },
-  {
-    id: 3,
-    title: "HRA Exemption Rules",
-    slug: "hra-exemption-rules",
-    status: "Draft",
-    date: "Nov 5, 2024",
-    views: 0,
-  },
-]
+import { useEffect, useState } from "react"
 
 export default function AdminPosts() {
+  const [blogPosts, setBlogPosts] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetchPosts()
+  }, [])
+
+  const fetchPosts = async () => {
+    try {
+      const response = await fetch("/api/blog")
+      const data = await response.json()
+      if (data.success && data.posts) {
+        const posts = data.posts.map((post: any, idx: number) => ({
+          id: post._id || post.id || idx,
+          title: post.title,
+          slug: post.slug,
+          status: post.status === 'published' ? 'Published' : 'Draft',
+          date: post.date ? new Date(post.date).toLocaleDateString() : 'Unknown',
+          views: post.views || 0,
+        }))
+        setBlogPosts(posts)
+      }
+    } catch (error) {
+      console.error("Failed to fetch posts:", error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleDelete = async (slug: string) => {
+    if (confirm("Are you sure you want to delete this post?")) {
+      // TODO: Implement delete functionality
+      alert("Delete functionality coming soon!")
+    }
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <div className="bg-gradient-to-r from-primary to-primary-light text-white">
@@ -65,53 +75,71 @@ export default function AdminPosts() {
             <Card className="card-shadow">
               <CardHeader>
                 <CardTitle>Blog Posts ({blogPosts.length})</CardTitle>
+                <CardDescription>
+                  {loading ? "Loading posts..." : "Manage all your published and draft blog posts"}
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b">
-                      <th className="text-left py-3 px-4 font-semibold">Title</th>
-                      <th className="text-left py-3 px-4 font-semibold">Status</th>
-                      <th className="text-left py-3 px-4 font-semibold">Date</th>
-                      <th className="text-left py-3 px-4 font-semibold">Views</th>
-                      <th className="text-left py-3 px-4 font-semibold">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {blogPosts.map((post) => (
-                      <tr key={post.id} className="border-b hover:bg-gray-50 transition-colors">
-                        <td className="py-3 px-4">
-                          <Link href={`/blog/${post.slug}`} className="text-primary hover:underline">
-                            {post.title}
-                          </Link>
-                        </td>
-                        <td className="py-3 px-4">
-                          <span
-                            className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                              post.status === "Published"
-                                ? "bg-green-100 text-green-800"
-                                : "bg-yellow-100 text-yellow-800"
-                            }`}
-                          >
-                            {post.status}
-                          </span>
-                        </td>
-                        <td className="py-3 px-4 text-sm text-muted-foreground">{post.date}</td>
-                        <td className="py-3 px-4 font-semibold">{post.views}</td>
-                        <td className="py-3 px-4">
-                          <div className="flex gap-2">
-                            <Button variant="ghost" size="sm">
-                              <Edit2 className="w-4 h-4" />
-                            </Button>
-                            <Button variant="ghost" size="sm" className="text-red-600">
-                              <Trash2 className="w-4 h-4" />
-                            </Button>
-                          </div>
-                        </td>
+                {loading ? (
+                  <p className="text-center py-8 text-muted-foreground">Loading posts...</p>
+                ) : blogPosts.length === 0 ? (
+                  <p className="text-center py-8 text-muted-foreground">No blog posts yet. <Link href="/admin/new-post" className="text-primary hover:underline">Create one</Link>.</p>
+                ) : (
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b">
+                        <th className="text-left py-3 px-4 font-semibold">Title</th>
+                        <th className="text-left py-3 px-4 font-semibold">Status</th>
+                        <th className="text-left py-3 px-4 font-semibold">Date</th>
+                        <th className="text-left py-3 px-4 font-semibold">Views</th>
+                        <th className="text-left py-3 px-4 font-semibold">Actions</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {blogPosts.map((post) => (
+                        <tr key={post.id} className="border-b hover:bg-gray-50 transition-colors">
+                          <td className="py-3 px-4">
+                            <Link href={`/blog/${post.slug}`} className="text-primary hover:underline font-medium">
+                              {post.title}
+                            </Link>
+                          </td>
+                          <td className="py-3 px-4">
+                            <span
+                              className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                                post.status === "Published"
+                                  ? "bg-green-100 text-green-800"
+                                  : "bg-yellow-100 text-yellow-800"
+                              }`}
+                            >
+                              {post.status}
+                            </span>
+                          </td>
+                          <td className="py-3 px-4 text-sm text-muted-foreground">{post.date}</td>
+                          <td className="py-3 px-4 font-semibold">{post.views}</td>
+                          <td className="py-3 px-4">
+                            <div className="flex gap-2">
+                              <Button 
+                                variant="ghost" 
+                                size="sm"
+                                title="Edit coming soon"
+                              >
+                                <Edit2 className="w-4 h-4" />
+                              </Button>
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                className="text-red-600 hover:text-red-700"
+                                onClick={() => handleDelete(post.slug)}
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
               </CardContent>
             </Card>
           </motion.div>
