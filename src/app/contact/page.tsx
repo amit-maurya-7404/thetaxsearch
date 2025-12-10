@@ -102,7 +102,7 @@ export default function ContactPage() {
                 title: "Customer Focus",
                 desc: "Your success is our success. We're here to support your growth",
               },
-            ].map((item, i) => (
+            ].map((item: any, i) => (
               <motion.div
                 key={i}
                 variants={fadeInUp}

@@ -158,7 +158,7 @@ export default function BlogPage() {
                           {post.description}
                         </p>
                         <div className="flex flex-wrap gap-2 mb-4">
-                          {post.tags.map((tag) => (
+                          {post.tags.map((tag: string) => (
                             <Badge key={tag} variant="secondary" className="text-xs">
                               {tag}
                             </Badge>
