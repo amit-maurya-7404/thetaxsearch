@@ -43,8 +43,8 @@ export default function BlogPage() {
           }))
           
           // Use API posts and add defaults only if they're not duplicates
-          const slugs = new Set(normalizedPosts.map(p => p.slug))
-          const uniqueDefaults = defaultBlogPosts.filter(p => !slugs.has(p.slug))
+          const slugs = new Set(normalizedPosts.map((p: any) => p.slug))
+          const uniqueDefaults = defaultBlogPosts.filter((p: any) => !slugs.has(p.slug))
           setBlogPosts([...normalizedPosts, ...uniqueDefaults])
         }
       } catch (error) {
