@@ -20,38 +20,10 @@ const fadeInUp = {
 }
 
 // Default mock posts (fallback if API fails)
-const defaultBlogPosts = [
-  {
-    slug: "gst-compliance-guide",
-    title: "Complete Guide to GST Compliance in 2024",
-    description:
-      "Everything you need to know about GST registration, filing returns, and maintaining compliance with latest rules.",
-    date: "Nov 15, 2024",
-    tags: ["GST", "Compliance", "2024"],
-    readingTime: 8,
-  },
-  {
-    slug: "income-tax-new-regime",
-    title: "New vs Old Income Tax Regime: Which One is Better?",
-    description:
-      "A detailed comparison between the new and old tax regimes with real examples to help you decide which is best for you.",
-    date: "Nov 10, 2024",
-    tags: ["Income Tax", "Tax Planning"],
-    readingTime: 10,
-  },
-  {
-    slug: "hra-exemption-rules",
-    title: "Complete Guide to HRA Exemption Rules",
-    description:
-      "Understand HRA exemption limits, conditions, and how to maximize tax savings on house rent according to latest rules.",
-    date: "Nov 5, 2024",
-    tags: ["HRA", "Tax Savings", "Deductions"],
-    readingTime: 6,
-  },
-]
+const defaultBlogPosts: any[] = []
 
 export default function BlogPage() {
-  const [blogPosts, setBlogPosts] = useState(defaultBlogPosts)
+  const [blogPosts, setBlogPosts] = useState<any[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedTag, setSelectedTag] = useState("")
   const [loading, setLoading] = useState(true)
