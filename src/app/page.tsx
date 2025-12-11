@@ -286,9 +286,9 @@ export default function Home() {
 									"Maximum benefits",
 								],
 							},
-						].map((item, i) => (
+						].map((item: any, i) => (
 							<motion.div key={i} variants={fadeInUp}>
-								<ServiceCard icon={item.icon} title={item.title} details={item.details} />
+								<ServiceCard icon={item.icon} title={item.title} details={item.details} iconColor={item.iconColor} />
 							</motion.div>
 						))}
 					</motion.div>

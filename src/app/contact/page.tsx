@@ -84,21 +84,25 @@ export default function ContactPage() {
             {[
               {
                 icon: Target,
+                iconColor: 'text-blue-600',
                 title: "Our Mission",
                 desc: "To make tax compliance simple, affordable, and accessible to everyone",
               },
               {
                 icon: Heart,
+                iconColor: 'text-red-600',
                 title: "Our Values",
                 desc: "Integrity, transparency, and commitment to excellence in every interaction",
               },
               {
                 icon: Zap,
+                iconColor: 'text-yellow-600',
                 title: "Innovation",
                 desc: "We use latest tools and technology to streamline tax processes",
               },
               {
                 icon: Users,
+                iconColor: 'text-green-600',
                 title: "Customer Focus",
                 desc: "Your success is our success. We're here to support your growth",
               },
@@ -108,7 +112,7 @@ export default function ContactPage() {
                 variants={fadeInUp}
                 className="bg-background border rounded-lg p-6 text-center hover:border-primary transition-colors"
               >
-                <item.icon className={`w-10 h-10 mx-auto mb-3 ${item.iconColor === 'cyan' ? 'text-cyan-600' : item.iconColor === 'yellow' ? 'text-yellow-600' : item.iconColor === 'red' ? 'text-red-600' : 'text-emerald-600'}`} />
+                <item.icon className={`w-10 h-10 mx-auto mb-3 ${item.iconColor}`} />
                 <h3 className="font-semibold text-lg mb-2">{item.title}</h3>
                 <p className="text-sm text-muted-foreground">{item.desc}</p>
               </motion.div>
