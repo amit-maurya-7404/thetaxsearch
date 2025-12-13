@@ -5,7 +5,7 @@ import { Calculator, HelpCircle, ArrowRight } from 'lucide-react';
 
 const Tooltip = ({ content }: { content: string }) => (
   <div className="group relative inline-flex items-center ml-2">
-    <HelpCircle className="w-4 h-4 text-slate-400 hover:text-purple-600 cursor-help transition-colors" />
+    <HelpCircle className="w-4 h-4 text-slate-400 hover:text-lavender-600 cursor-help transition-colors" />
     <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 p-2.5 bg-slate-800 text-white text-xs rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 text-center pointer-events-none leading-relaxed font-normal">
       {content}
       <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-800"></div>
@@ -14,14 +14,12 @@ const Tooltip = ({ content }: { content: string }) => (
 );
 
 const GST: React.FC = () => {
-  const [amount, setAmount] = useState<number | null>(null);
+  const [amount, setAmount] = useState<number>(10000);
   const [rate, setRate] = useState<number>(18);
   const [type, setType] = useState<'exclusive' | 'inclusive'>('exclusive');
-  const [location, setLocation] = useState<'intra' | 'inter'>('intra');
+  const [location, setLocation] = useState<'intra' | 'inter'>('intra'); // intra = Same State, inter = Different State
 
   const calculate = () => {
-    if (amount === null) return null;
-    
     let taxAmount = 0;
     let netAmount = 0;
     let totalAmount = 0;
@@ -43,7 +41,7 @@ const GST: React.FC = () => {
     };
   };
 
-  const { tax, net, total } = calculate() || { tax: 0, net: 0, total: 0 };
+  const { tax, net, total } = calculate();
 
   const formatCurrency = (val: number) => 
     new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(val);
@@ -51,7 +49,7 @@ const GST: React.FC = () => {
   return (
     <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
       <div className="p-6 md:p-8 border-b border-slate-100 flex items-center gap-4 bg-slate-50/50">
-        <div className="bg-orange-100 p-3 rounded-xl text-orange-600">
+        <div className="bg-lavender-100 p-3 rounded-xl text-lavender-600">
           <Calculator className="w-6 h-6" />
         </div>
         <div>
@@ -71,10 +69,9 @@ const GST: React.FC = () => {
                 <span className="absolute left-4 top-2.5 text-slate-400 font-medium">₹</span>
                 <input
                 type="number"
-                value={amount ?? ''}
-                onChange={(e) => setAmount(e.target.value === '' ? null : Number(e.target.value))}
-                placeholder="Enter transaction amount"
-                className="w-full pl-8 pr-4 py-3 bg-white text-slate-900 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 outline-none text-lg font-medium transition-all"
+                value={amount}
+                onChange={(e) => setAmount(Number(e.target.value))}
+                className="w-full pl-8 pr-4 py-3 bg-white text-slate-900 border border-slate-200 rounded-xl focus:ring-2 focus:ring-lavender-500 outline-none text-lg font-medium transition-all"
                 />
             </div>
           </div>
@@ -88,7 +85,7 @@ const GST: React.FC = () => {
                   onClick={() => setRate(r)}
                   className={`flex-1 py-2.5 rounded-lg text-sm font-bold transition-all border ${
                     rate === r 
-                      ? 'bg-purple-600 text-white border-purple-600 shadow-md transform scale-105' 
+                      ? 'bg-lavender-500 text-white border-lavender-500 shadow-md transform scale-105' 
                       : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
                   }`}
                 >
@@ -108,20 +105,20 @@ const GST: React.FC = () => {
                 <button
                     onClick={() => setType('exclusive')}
                     className={`px-4 py-3 rounded-xl text-xs font-semibold transition-all text-left border flex justify-between items-center ${
-                    type === 'exclusive' ? 'bg-purple-100 border-purple-300 text-purple-700 shadow-sm' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'
+                    type === 'exclusive' ? 'bg-lavender-50 border-lavender-200 text-lavender-700 shadow-sm' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'
                     }`}
                 >
                     GST Exclusive
-                    {type === 'exclusive' && <div className="w-2 h-2 bg-purple-600 rounded-full"></div>}
+                    {type === 'exclusive' && <div className="w-2 h-2 bg-lavender-500 rounded-full"></div>}
                 </button>
                 <button
                     onClick={() => setType('inclusive')}
                     className={`px-4 py-3 rounded-xl text-xs font-semibold transition-all text-left border flex justify-between items-center ${
-                    type === 'inclusive' ? 'bg-purple-100 border-purple-300 text-purple-700 shadow-sm' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'
+                    type === 'inclusive' ? 'bg-lavender-50 border-lavender-200 text-lavender-700 shadow-sm' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'
                     }`}
                 >
                     GST Inclusive
-                    {type === 'inclusive' && <div className="w-2 h-2 bg-purple-600 rounded-full"></div>}
+                    {type === 'inclusive' && <div className="w-2 h-2 bg-lavender-500 rounded-full"></div>}
                 </button>
               </div>
             </div>
@@ -135,20 +132,20 @@ const GST: React.FC = () => {
                  <button
                     onClick={() => setLocation('intra')}
                     className={`px-4 py-3 rounded-xl text-xs font-semibold transition-all text-left border flex justify-between items-center ${
-                    location === 'intra' ? 'bg-purple-100 border-purple-300 text-purple-700 shadow-sm' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'
+                    location === 'intra' ? 'bg-lavender-50 border-lavender-200 text-lavender-700 shadow-sm' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'
                     }`}
                 >
                     Same State
-                    {location === 'intra' && <div className="w-2 h-2 bg-purple-600 rounded-full"></div>}
+                    {location === 'intra' && <div className="w-2 h-2 bg-lavender-500 rounded-full"></div>}
                 </button>
                 <button
                     onClick={() => setLocation('inter')}
                     className={`px-4 py-3 rounded-xl text-xs font-semibold transition-all text-left border flex justify-between items-center ${
-                    location === 'inter' ? 'bg-purple-100 border-purple-300 text-purple-700 shadow-sm' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'
+                    location === 'inter' ? 'bg-lavender-50 border-lavender-200 text-lavender-700 shadow-sm' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'
                     }`}
                 >
                     Different State
-                    {location === 'inter' && <div className="w-2 h-2 bg-purple-600 rounded-full"></div>}
+                    {location === 'inter' && <div className="w-2 h-2 bg-lavender-500 rounded-full"></div>}
                 </button>
               </div>
             </div>
@@ -158,7 +155,7 @@ const GST: React.FC = () => {
         {/* Results */}
         <div className="flex flex-col justify-center h-full">
             <div className="bg-slate-900 rounded-3xl p-8 text-white shadow-xl relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-40 h-40 bg-purple-500 rounded-full blur-3xl opacity-20 -translate-y-1/2 translate-x-1/2"></div>
+                <div className="absolute top-0 right-0 w-40 h-40 bg-lavender-500 rounded-full blur-3xl opacity-20 -translate-y-1/2 translate-x-1/2"></div>
                 
                 <h4 className="text-slate-400 text-sm font-medium uppercase tracking-wider mb-8">Summary Breakdown</h4>
 
@@ -174,13 +171,13 @@ const GST: React.FC = () => {
                                 <span className="text-slate-400 text-sm flex items-center gap-2">
                                     CGST <span className="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded">{rate/2}%</span>
                                 </span>
-                                <span className="text-purple-400 font-medium">{formatCurrency(tax/2)}</span>
+                                <span className="text-lavender-400 font-medium">{formatCurrency(tax/2)}</span>
                             </div>
                             <div className="flex justify-between items-center">
                                 <span className="text-slate-400 text-sm flex items-center gap-2">
                                     SGST <span className="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded">{rate/2}%</span>
                                 </span>
-                                <span className="text-purple-400 font-medium">{formatCurrency(tax/2)}</span>
+                                <span className="text-lavender-400 font-medium">{formatCurrency(tax/2)}</span>
                             </div>
                         </div>
                     ) : (
@@ -188,13 +185,13 @@ const GST: React.FC = () => {
                             <span className="text-slate-400 flex items-center gap-2">
                                 IGST <span className="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded">{rate}%</span>
                             </span>
-                            <span className="text-purple-400 font-medium text-lg">{formatCurrency(tax)}</span>
+                            <span className="text-lavender-400 font-medium text-lg">{formatCurrency(tax)}</span>
                         </div>
                     )}
 
                     <div className="flex justify-between items-center pt-2">
                         <span className="text-lg font-bold">Total Payable</span>
-                        <span className="text-3xl font-bold text-purple-400">{formatCurrency(total)}</span>
+                        <span className="text-3xl font-bold text-lavender-400">{formatCurrency(total)}</span>
                     </div>
                 </div>
             </div>

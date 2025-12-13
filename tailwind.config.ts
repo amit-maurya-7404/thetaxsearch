@@ -11,9 +11,13 @@ const config = {
   theme: {
     extend: {
       colors: {
-        primary: '#8f63d9',
-        'primary-light': '#a78bdb',
-        'primary-dark': '#7a4fc9',
+        // Brand palette
+        primary: '#8b61c3',
+        brand: '#8b61c3',
+        'primary-light': '#a78bfa',
+        'primary-dark': '#6f45b0',
+        slateDark: '#1e293b',
+        emerald: '#10b981',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

@@ -45,6 +45,56 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // If GENAI is configured, attempt to use Google GenAI to search and extract GST details.
+    // Requires installing `@google/genai` and setting `GENAI_API_KEY` in environment.
+    const genaiKey = process.env.GENAI_API_KEY
+    if (genaiKey) {
+      try {
+        // Dynamically import to avoid hard dependency if not installed
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const { GoogleGenAI } = require('@google/genai')
+
+        const ai = new GoogleGenAI({ apiKey: genaiKey })
+
+        const prompt = `
+          Search for the details of GSTIN "${gstin}" as they would appear on the official GST Portal (services.gst.gov.in) or reliable tax information portals.
+          Extract: Legal Name, Trade Name (or Legal Name), Current GST Status (Active/Cancelled/Suspended), Date of Registration, Taxpayer Type, Principal Place of Business / Address.
+          If a field is not found, return "Not Available".
+          Format exactly as:\nLEGAL_NAME: <value>\nTRADE_NAME: <value>\nSTATUS: <value>\nREG_DATE: <value>\nREG_TYPE: <value>\nADDRESS: <value>
+        `
+
+        const response = await ai.models.generateContent({
+          model: 'gemini-2.5-flash',
+          contents: prompt,
+          config: { tools: [{ googleSearch: {} }] },
+        })
+
+        const text = response.text || response.candidates?.[0]?.content || ''
+
+        const getVal = (key: string) => {
+          const match = text.match(new RegExp(`${key}:\\s*(.*)`, 'i'))
+          let val = match ? match[1].trim() : 'Not Available'
+          val = val.replace(/\*\*/g, '').replace(/^"/, '').replace(/"$/, '')
+          return val === 'Not Available' || val === '' ? '-' : val
+        }
+
+        const result = {
+          gstin,
+          name: getVal('LEGAL_NAME'),
+          trade_name: getVal('TRADE_NAME'),
+          status: getVal('STATUS'),
+          registration_date: getVal('REG_DATE'),
+          registration_type: getVal('REG_TYPE'),
+          address: getVal('ADDRESS'),
+        }
+
+        return NextResponse.json({ success: true, data: result })
+      } catch (err) {
+        console.error('GenAI GST search failed:', err)
+        // continue to fallback/mock behavior
+      }
+    }
+
     // Mock/fallback response (useful for local dev or when no external API is configured)
     const mock = {
       gstin,

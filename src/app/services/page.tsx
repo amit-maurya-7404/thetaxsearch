@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { ServiceCard } from "@/components/ServiceCard"
+import Link from "next/link"
 import { CTASection } from "@/components/CTAButtons"
 import {
   FileText,
@@ -11,18 +11,16 @@ import {
   Users,
   TrendingUp,
   CheckCircle,
-  DollarSign,
   Building2,
-  Briefcase,
 } from "lucide-react"
 
 const fadeInUp = {
-	initial: { opacity: 0, y: 20 },
-	animate: { 
-		opacity: 1, 
-		y: 0,
-		transition: { duration: 0.5 },
-	},
+  initial: { opacity: 0, y: 20 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5 },
+  },
 }
 
 const staggerContainer = {
@@ -35,69 +33,87 @@ const staggerContainer = {
 
 const services = [
   {
+    slug: 'income-tax-return-filing',
     icon: FileText,
-    iconColor: 'bg-blue-100 text-blue-600',
-    title: "Income Tax Return (ITR)",
+    iconColor: 'bg-violet-100 text-violet-600',
+    title: 'Income Tax Return Filing',
     details: [
-      "Salaried Individuals (ITR-1)",
-      "Business & Profession (ITR-3, 4)",
-      "Capital Gains Analysis",
-      "Notice Handling",
+      'Individual & Business ITRs',
+      'Filing for FY & AY',
+      'Deduction optimization',
+      'Notice support',
     ],
   },
   {
+    slug: 'gst-registration-and-filing',
     icon: ReceiptText,
-    iconColor: 'bg-orange-100 text-orange-600',
-    title: "GST Compliance",
+    iconColor: 'bg-emerald-100 text-emerald-600',
+    title: 'GST Registration & Filing',
     details: [
-      "New Registration",
-      "Monthly Return Filing (GSTR-1, 3B)",
-      "Annual Return (GSTR-9)",
-      "LUT Filing",
+      'New & existing registrations',
+      'Monthly & annual returns',
+      'HSN/ITC reconciliation',
+      'GST advisory',
     ],
   },
   {
-    icon: Building2,
-    iconColor: 'bg-green-100 text-green-600',
-    title: "ROC & Company Law",
-    details: [
-      "Private Limited Incorporation",
-      "LLP Registration",
-      "Annual Filing (AOC-4, MGT-7)",
-      "Director KYC",
-    ],
-  },
-  {
-    icon: Users,
-    iconColor: 'bg-pink-100 text-pink-600',
-    title: "Payroll & Labour Law",
-    details: [
-      "PF & ESIC Registration",
-      "Monthly Challan Generation",
-      "Employee Tax Planning",
-      "Payroll Processing",
-    ],
-  },
-  {
-    icon: TrendingUp,
-    iconColor: 'bg-purple-100 text-purple-600',
-    title: "MSME & Startup",
-    details: [
-      "Udyam Registration",
-      "Startup India Recognition",
-      "Trademark Filing",
-      "Project Reports",
-    ],
-  },
-  {
+    slug: 'tds-return-filing',
     icon: BarChart3,
-    iconColor: 'bg-indigo-100 text-indigo-600',
-    title: "Accounting Services",
+    iconColor: 'bg-sky-100 text-sky-600',
+    title: 'TDS Return Filing',
     details: [
-      "Bookkeeping",
-      "Balance Sheet Finalization",
-      "Profit & Loss Account",
-      "Cash Flow Statements",
+      'Quarterly returns (24Q/26Q)',
+      'Challan & challan matching',
+      'TDS certificates',
+      'Compliance reports',
+    ],
+  },
+  {
+    slug: 'business-company-registration',
+    icon: Building2,
+    iconColor: 'bg-rose-100 text-rose-600',
+    title: 'Business/Company Registration',
+    details: [
+      'Pvt Ltd & LLP incorporation',
+      'MOA/AOA & filings',
+      'DIN/DSC assistance',
+      'Post-incorporation compliance',
+    ],
+  },
+  {
+    slug: '12a-80g-registrations',
+    icon: CheckCircle,
+    iconColor: 'bg-fuchsia-100 text-fuchsia-600',
+    title: '12A & 80G Registrations',
+    details: [
+      'Trust & NGO registrations',
+      'Application preparation',
+      'Follow-up with authorities',
+      'Annual compliance support',
+    ],
+  },
+  {
+    slug: 'accounting-and-compliance',
+    icon: Users,
+    iconColor: 'bg-indigo-100 text-indigo-600',
+    title: 'Accounting & Compliance Support',
+    details: [
+      'Bookkeeping & reconciliations',
+      'Financial statements',
+      'GST/TDS bookkeeping',
+      'Statutory filings',
+    ],
+  },
+  {
+    slug: 'tds-on-sale-of-property',
+    icon: TrendingUp,
+    iconColor: 'bg-amber-100 text-amber-600',
+    title: 'TDS on Sale of Property',
+    details: [
+      'Section 194-IA guidance',
+      'Computation & withholding',
+      'Certificate issuance',
+      'Sale-side compliance',
     ],
   },
 ]
@@ -144,9 +160,11 @@ export default function ServicesPage() {
             variants={staggerContainer}
           >
             {services.map((service, i) => (
-              <motion.div key={i} variants={fadeInUp}>
-                <ServiceCard {...service} />
-              </motion.div>
+              <Link href={`/services/${service.slug}`} key={i}>
+                <motion.div id={service.slug} variants={fadeInUp}>
+                  <ServiceCardClickable {...service} />
+                </motion.div>
+              </Link>
             ))}
           </motion.div>
         </motion.div>
@@ -173,56 +191,56 @@ export default function ServicesPage() {
             variants={staggerContainer}
           >
             {[
-              { 
-                icon: CheckCircle, 
+              {
+                icon: CheckCircle,
                 iconColor: 'bg-cyan-100 text-cyan-600',
-                title: "Expert Team", 
+                title: "Expert Team",
                 details: [
                   "Qualified professionals",
                   "15+ years experience",
                   "CA & Certified experts",
                   "Industry specialists",
-                ]
+                ],
               },
-              { 
-                icon: TrendingUp, 
+              {
+                icon: TrendingUp,
                 iconColor: 'bg-yellow-100 text-yellow-600',
-                title: "Competitive Rates", 
+                title: "Competitive Rates",
                 details: [
                   "Best prices in market",
                   "Transparent pricing",
                   "No hidden charges",
                   "Flexible packages",
-                ]
+                ],
               },
-              { 
-                icon: Clock, 
+              {
+                icon: Clock,
                 iconColor: 'bg-red-100 text-red-600',
-                title: "Quick Turnaround", 
+                title: "Quick Turnaround",
                 details: [
                   "Fast processing",
                   "Quick compliance",
                   "Timely filings",
                   "Instant support",
-                ]
+                ],
               },
-              { 
-                icon: Users, 
+              {
+                icon: Users,
                 iconColor: 'bg-teal-100 text-teal-600',
-                title: "24/7 Support", 
+                title: "24/7 Support",
                 details: [
                   "Always available",
                   "Quick response time",
                   "Multiple channels",
                   "Dedicated support",
-                ]
+                ],
               },
             ].map((item, i) => (
               <motion.div
                 key={i}
                 variants={fadeInUp}
               >
-                <ServiceCard icon={item.icon} title={item.title} details={item.details} />
+                <ServiceCardClickable icon={item.icon} title={item.title} details={item.details} iconColor={item.iconColor} />
               </motion.div>
             ))}
           </motion.div>
@@ -230,6 +248,31 @@ export default function ServicesPage() {
       </section>
 
       <CTASection />
+    </div>
+  )
+}
+
+function ServiceCardClickable({ icon: Icon, title, details, iconColor = 'bg-primary/10 text-primary' }: { icon: any; title: string; details?: string[]; iconColor?: string }) {
+  return (
+    <div className="card-shadow hover:shadow-lg transition-all duration-300 h-full hover:border-primary hover:cursor-pointer hover:-translate-y-1 flex flex-col bg-white border rounded-lg p-6">
+      <div className="pb-3">
+        <div className={`w-12 h-12 rounded-lg flex items-center justify-center mb-4 ${iconColor}`}>
+          <Icon className="w-6 h-6" />
+        </div>
+        <h3 className="text-lg font-semibold text-left">{title}</h3>
+      </div>
+      <div className="flex-1 flex flex-col">
+        {details && details.length > 0 && (
+          <ul className="space-y-2 mb-6 flex-1">
+            {details.map((detail, idx) => (
+              <li key={idx} className="flex items-start gap-2 text-sm text-muted-foreground">
+                <span className="text-primary font-bold">•</span>
+                <span>{detail}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   )
 }

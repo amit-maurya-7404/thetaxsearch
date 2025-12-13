@@ -313,39 +313,80 @@ export default function Home() {
 							Free, easy-to-use tools to handle all your tax calculations
 						</p>
 					</motion.div>					<motion.div
-						className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6"
+						className="grid grid-cols-3 gap-6 max-w-5xl mx-auto"
 						variants={staggerContainer}
 					>
 						{[
 							{
-								title: "Income Tax",
-								description: "Calculate your income tax liability",
-								href: "/calculators/income-tax",
-								icon: <DollarSign className="w-6 h-6 text-blue-600" />,
+						title: "Income Tax",
+						description: "Estimate your annual income tax liability accurately.",
+						href: "/calculators/income-tax",
+						icon: <DollarSign className="w-6 h-6 text-indigo-600" />,
+								details: [
+									"Compare new vs. old tax regimes",
+									"Includes standard deductions & exemptions",
+									"Automatic slab-based calculation",
+									"Instant liability estimate with summary",
+								],
 							},
 							{
 								title: "GST",
-								description: "GST calculator for businesses",
+								description: "Calculate GST liabilities and rate breakdowns for transactions.",
 								href: "/calculators/gst",
-								icon: <ReceiptText className="w-6 h-6 text-orange-600" />,
+								icon: <ReceiptText className="w-6 h-6 text-rose-600" />,
+								details: [
+									"Intra-state & inter-state handling",
+									"Multi-rate and HSN support",
+									"Real-time tax breakdowns",
+									"Input tax credit calculations",
+								],
 							},
 							{
 								title: "HRA",
-								description: "Calculate HRA exemption",
+								description: "Compute HRA exemption and optimize rent-based deductions.",
 								href: "/calculators/hra",
-								icon: <HomeIcon className="w-6 h-6 text-pink-600" />,
+								icon: <HomeIcon className="w-6 h-6 text-red-600" />,
+								details: [
+									"Metro vs non-metro exemption rules",
+									"Rent receipt & proof guidance",
+									"Annual exemption summary",
+									"Maximization suggestions",
+								],
 							},
+						].map((calc, i) => (
+							<motion.div key={i} variants={fadeInUp}>
+								<CalculatorCard {...calc} />
+							</motion.div>
+						))}
+					</motion.div>
+					<motion.div
+						className="grid grid-cols-2 gap-6 max-w-3xl mx-auto mt-6"
+						variants={staggerContainer}
+					>
+						{[
 							{
 								title: "TDS",
-								description: "TDS calculation tool",
+								description: "Accurately compute TDS for salaries and payments.",
 								href: "/calculators/tds",
-								icon: <BarChart3 className="w-6 h-6 text-green-600" />,
+								icon: <BarChart3 className="w-6 h-6 text-teal-600" />,
+								details: [
+									"Coverage across major TDS sections",
+									"Applicable rates for FY 2025–26",
+									"Quarterly deposit & return estimates",
+									"Annual deduction summaries",
+								],
 							},
 							{
-								title: "GST Search",
-								description: "Search GST details",
-								href: "/calculators/gst-search",
-								icon: <Search className="w-6 h-6 text-purple-600" />,
+						title: "GST Search",
+						description: "Lookup GSTIN details and verify basic compliance.",
+						href: "/calculators/gst-search",
+						icon: <Search className="w-6 h-6 text-lime-600" />,
+								details: [
+									"Real-time GSTIN validation",
+									"Business status & registration data",
+									"Return filing status overview",
+									"Basic compliance indicators",
+								],
 							},
 						].map((calc, i) => (
 							<motion.div key={i} variants={fadeInUp}>

@@ -5,7 +5,7 @@ import { Home, HelpCircle } from 'lucide-react';
 
 const Tooltip = ({ content }: { content: string }) => (
   <div className="group relative inline-flex items-center ml-2">
-    <HelpCircle className="w-4 h-4 text-slate-400 hover:text-purple-600 cursor-help transition-colors" />
+    <HelpCircle className="w-4 h-4 text-slate-400 hover:text-emerald-600 cursor-help transition-colors" />
     <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 p-2.5 bg-slate-800 text-white text-xs rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 text-center pointer-events-none leading-relaxed font-normal">
       {content}
       <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-800"></div>
@@ -157,7 +157,7 @@ const HRA: React.FC = () => {
         <div className="flex flex-col justify-center h-full">
             {results ? (
             <div className="bg-slate-900 rounded-3xl p-8 text-white shadow-xl relative overflow-hidden">
-                <div className="absolute bottom-0 right-0 w-40 h-40 bg-purple-600 rounded-full blur-3xl opacity-20 translate-y-1/2 translate-x-1/2"></div>
+                <div className="absolute bottom-0 right-0 w-40 h-40 bg-emerald-600 rounded-full blur-3xl opacity-20 translate-y-1/2 translate-x-1/2"></div>
                 
                 <h4 className="text-slate-400 text-sm font-medium uppercase tracking-wider mb-8">HRA Calculation</h4>
 

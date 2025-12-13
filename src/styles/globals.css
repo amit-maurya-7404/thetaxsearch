@@ -6,6 +6,12 @@
 
 @layer base {
   :root {
+    /* Brand palette */
+    --brand: 139 97 195; /* #8b61c3 as H s L is optional, using RGB components (r g b) for convenience */
+    --brand-hex: #8b61c3;
+    --slate-dark: #1e293b;
+    --emerald: #10b981;
+
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
@@ -25,6 +31,11 @@
   }
 
   .dark {
+    /* dark mode palette vars */
+    --brand-hex: #8b61c3;
+    --slate-dark: #1e293b;
+    --emerald: #10b981;
+
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
     --card: 222.2 84% 4.9%;
@@ -89,7 +100,12 @@
   }
   
   .button-primary {
-    @apply bg-primary hover:bg-primary-dark text-white rounded-lg px-6 py-2 font-semibold transition-smooth;
+    @apply text-white rounded-lg px-6 py-2 font-semibold transition-smooth;
+    background-color: var(--emerald);
+  }
+
+  .button-primary:hover {
+    background-color: #0fa56f; /* slightly darker emerald for hover */
   }
   
   .button-secondary {
