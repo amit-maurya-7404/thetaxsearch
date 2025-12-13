@@ -39,7 +39,7 @@ export function CTASection() {
           Book a free consultation with our tax experts or explore our tools today
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link href="/contact">
+          <Link href="/aboutus">
             <Button
               variant="secondary"
               className="text-black hover:text-white font-semibold bg-white hover:bg-black shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 ease-out"

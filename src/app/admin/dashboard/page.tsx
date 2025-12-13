@@ -32,6 +32,7 @@ export default function AdminDashboard() {
     { label: "Total Leads", value: "0", icon: Mail, iconColor: 'bg-pink-100 text-pink-600' },
     { label: "This Month", value: "0", icon: BarChart3, iconColor: 'bg-green-100 text-green-600' },
   ])
+  const [recentLeads, setRecentLeads] = useState<any[]>([])
 
   useEffect(() => {
     const token = localStorage.getItem("adminToken")
@@ -60,9 +61,22 @@ export default function AdminDashboard() {
       setStats([
         { label: "Total Blog Posts", value: totalPosts.toString(), icon: FileText, iconColor: 'bg-blue-100 text-blue-600' },
         { label: "Published Articles", value: publishedPosts.toString(), icon: FileText, iconColor: 'bg-purple-100 text-purple-600' },
-        { label: "Total Leads", value: "156", icon: Mail, iconColor: 'bg-pink-100 text-pink-600' },
+        { label: "Total Leads", value: "0", icon: Mail, iconColor: 'bg-pink-100 text-pink-600' },
         { label: "This Month", value: thisMonthPosts.toString(), icon: BarChart3, iconColor: 'bg-green-100 text-green-600' },
       ])
+
+      // Fetch leads
+      try {
+        const r = await fetch('/api/leads')
+        if (r.ok) {
+          const ld = await r.json()
+          setStats(prev => prev.map(s => s.label === 'Total Leads' ? { ...s, value: String(ld.total || 0) } : s))
+          setRecentLeads(ld.recent || [])
+          // Optionally update this month value (leads)
+        }
+      } catch (err) {
+        console.error('Failed to fetch leads', err)
+      }
     } catch (error) {
       console.error("Failed to fetch stats:", error)
     }
@@ -178,21 +192,18 @@ export default function AdminDashboard() {
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <p className="text-sm text-muted-foreground">
-                    This Month: 24 | Total: 156
+                    This section shows recent, real contact form submissions.
                   </p>
                   <ul className="space-y-2 text-sm">
-                    <li className="flex justify-between">
-                      <span>Raj Patel</span>
-                      <span className="text-muted-foreground">2 hours ago</span>
-                    </li>
-                    <li className="flex justify-between">
-                      <span>Priya Kumar</span>
-                      <span className="text-muted-foreground">5 hours ago</span>
-                    </li>
-                    <li className="flex justify-between">
-                      <span>Amit Singh</span>
-                      <span className="text-muted-foreground">1 day ago</span>
-                    </li>
+                    {recentLeads.length === 0 && (
+                      <li className="text-muted-foreground">No leads yet.</li>
+                    )}
+                    {recentLeads.map((lead, idx) => (
+                      <li key={idx} className="flex justify-between">
+                        <span>{lead.name} {lead.email ? `— ${lead.email}` : ''}</span>
+                        <span className="text-muted-foreground">{new Date(lead.createdAt).toLocaleString()}</span>
+                      </li>
+                    ))}
                   </ul>
                 </CardContent>
               </Card>

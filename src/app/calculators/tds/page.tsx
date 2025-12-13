@@ -204,11 +204,11 @@ const TDS: React.FC = () => {
 
         {/* Results */}
         <div className="flex flex-col h-full">
-           <div className="bg-slate-900 rounded-3xl p-8 text-white shadow-xl flex-1 flex flex-col justify-center relative overflow-hidden">
+           <div className="bg-gradient-to-br from-gray-900 via-gray-600 to-gray-800 rounded-3xl p-8 text-white shadow-xl flex-1 flex flex-col justify-center relative overflow-hidden">
               <div className="absolute bottom-0 left-0 w-32 h-32 bg-lavender-600 rounded-full blur-3xl opacity-20 translate-y-1/2 -translate-x-1/2"></div>
               
               <div className="relative z-10 text-center mb-8">
-                <p className="text-slate-400 text-sm font-medium uppercase tracking-wider mb-2">
+                <p className="text-slate-300 text-sm font-medium uppercase tracking-wider mb-2">
                     {selectedSection.type === 'salary' ? 'Estimated Yearly TDS' : 'TDS Liability'}
                 </p>
                 <p className="text-5xl font-bold text-white tracking-tight">{formatCurrency(results.tdsAmount)}</p>
@@ -222,12 +222,12 @@ const TDS: React.FC = () => {
 
               <div className="bg-white/5 rounded-2xl p-6 backdrop-blur-sm border border-white/10 space-y-4 relative z-10">
                 <div className="flex justify-between items-center">
-                    <span className="text-slate-300 text-sm">Rate Applied</span>
+                    <span className="text-slate-200 text-sm">Rate Applied</span>
                     <span className="font-bold text-white">{results.rateApplied}%</span>
                 </div>
                 <div className="w-full h-px bg-white/10"></div>
                 <div className="flex justify-between items-center">
-                    <span className="text-slate-300 text-sm">{selectedSection.type === 'salary' ? 'Net Annual Salary' : 'Net Payment'}</span>
+                    <span className="text-slate-200 text-sm">{selectedSection.type === 'salary' ? 'Net Annual Salary' : 'Net Payment'}</span>
                     <span className="font-bold text-white text-lg">{formatCurrency(results.netAmount)}</span>
                 </div>
               </div>

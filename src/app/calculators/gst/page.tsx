@@ -85,7 +85,7 @@ const GST: React.FC = () => {
                   onClick={() => setRate(r)}
                   className={`flex-1 py-2.5 rounded-lg text-sm font-bold transition-all border ${
                     rate === r 
-                      ? 'bg-lavender-500 text-white border-lavender-500 shadow-md transform scale-105' 
+                      ? 'bg-gradient-to-br from-purple-600 via-lavender-600 to-purple-700 text-white shadow-md transform scale-105' 
                       : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
                   }`}
                 >
@@ -103,23 +103,24 @@ const GST: React.FC = () => {
               </label>
               <div className="flex flex-col gap-2">
                 <button
-                    onClick={() => setType('exclusive')}
-                    className={`px-4 py-3 rounded-xl text-xs font-semibold transition-all text-left border flex justify-between items-center ${
-                    type === 'exclusive' ? 'bg-lavender-50 border-lavender-200 text-lavender-700 shadow-sm' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'
-                    }`}
-                >
-                    GST Exclusive
-                    {type === 'exclusive' && <div className="w-2 h-2 bg-lavender-500 rounded-full"></div>}
-                </button>
-                <button
                     onClick={() => setType('inclusive')}
                     className={`px-4 py-3 rounded-xl text-xs font-semibold transition-all text-left border flex justify-between items-center ${
                     type === 'inclusive' ? 'bg-lavender-50 border-lavender-200 text-lavender-700 shadow-sm' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'
                     }`}
                 >
-                    GST Inclusive
+                    With GST
                     {type === 'inclusive' && <div className="w-2 h-2 bg-lavender-500 rounded-full"></div>}
                 </button>
+                <button
+                    onClick={() => setType('exclusive')}
+                    className={`px-4 py-3 rounded-xl text-xs font-semibold transition-all text-left border flex justify-between items-center ${
+                    type === 'exclusive' ? 'bg-lavender-50 border-lavender-200 text-lavender-700 shadow-sm' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'
+                    }`}
+                >
+                    Without GST
+                    {type === 'exclusive' && <div className="w-2 h-2 bg-lavender-500 rounded-full"></div>}
+                </button>
+                
               </div>
             </div>
 
@@ -135,7 +136,7 @@ const GST: React.FC = () => {
                     location === 'intra' ? 'bg-lavender-50 border-lavender-200 text-lavender-700 shadow-sm' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'
                     }`}
                 >
-                    Same State
+                    Same State (CGST + SGST)
                     {location === 'intra' && <div className="w-2 h-2 bg-lavender-500 rounded-full"></div>}
                 </button>
                 <button
@@ -144,7 +145,7 @@ const GST: React.FC = () => {
                     location === 'inter' ? 'bg-lavender-50 border-lavender-200 text-lavender-700 shadow-sm' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'
                     }`}
                 >
-                    Different State
+                    Different State (IGST)
                     {location === 'inter' && <div className="w-2 h-2 bg-lavender-500 rounded-full"></div>}
                 </button>
               </div>
@@ -154,10 +155,10 @@ const GST: React.FC = () => {
 
         {/* Results */}
         <div className="flex flex-col justify-center h-full">
-            <div className="bg-slate-900 rounded-3xl p-8 text-white shadow-xl relative overflow-hidden">
+            <div className="bg-gradient-to-br from-gray-600 via-gray-600 to-gray-700  rounded-3xl p-8 text-white shadow-xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-40 h-40 bg-lavender-500 rounded-full blur-3xl opacity-20 -translate-y-1/2 translate-x-1/2"></div>
                 
-                <h4 className="text-slate-400 text-sm font-medium uppercase tracking-wider mb-8">Summary Breakdown</h4>
+                <h4 className="text-white text-sm font-medium uppercase tracking-wider mb-8">Summary Breakdown</h4>
 
                 <div className="space-y-6 relative z-10">
                     <div className="flex justify-between items-end border-b border-slate-700 pb-4">
@@ -168,14 +169,14 @@ const GST: React.FC = () => {
                     {location === 'intra' ? (
                         <div className="space-y-3 border-b border-slate-700 pb-4">
                             <div className="flex justify-between items-center">
-                                <span className="text-slate-400 text-sm flex items-center gap-2">
-                                    CGST <span className="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded">{rate/2}%</span>
+                                <span className="text-slate-300 text-sm flex items-center gap-2">
+                                    CGST <span className="text-[14px] bg-slate-800 px-1.5 py-0.5 rounded">{rate/2}%</span>
                                 </span>
                                 <span className="text-lavender-400 font-medium">{formatCurrency(tax/2)}</span>
                             </div>
                             <div className="flex justify-between items-center">
-                                <span className="text-slate-400 text-sm flex items-center gap-2">
-                                    SGST <span className="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded">{rate/2}%</span>
+                                <span className="text-slate-300 text-sm flex items-center gap-2">
+                                    SGST <span className="text-[14px] bg-slate-800 px-1.5 py-0.5 rounded">{rate/2}%</span>
                                 </span>
                                 <span className="text-lavender-400 font-medium">{formatCurrency(tax/2)}</span>
                             </div>

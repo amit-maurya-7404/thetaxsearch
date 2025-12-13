@@ -168,7 +168,7 @@ export default function Home() {
 								professional services. From GST to Income Tax, we've got you covered.
 							</p>
 							<div className="flex flex-col sm:flex-row gap-4">
-								<Link href="/contact">
+								<Link href="/aboutus">
 									<Button size="lg" className="w-full text-white sm:w-auto">
 										Book Free Consultation
 									</Button>

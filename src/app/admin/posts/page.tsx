@@ -99,7 +99,7 @@ export default function AdminPosts() {
                       {blogPosts.map((post) => (
                         <tr key={post.id} className="border-b hover:bg-gray-50 transition-colors">
                           <td className="py-3 px-4">
-                            <Link href={`/blog/${post.slug}`} className="text-primary hover:underline font-medium">
+                            <Link href={`/blog/${post.slug}?id=${post.id}`} className="text-primary hover:underline font-medium">
                               {post.title}
                             </Link>
                           </td>

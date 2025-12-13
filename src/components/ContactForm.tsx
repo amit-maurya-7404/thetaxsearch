@@ -15,14 +15,14 @@ export function ContactForm() {
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
 
   // Auto-scroll to form on mount
-  useEffect(() => {
-    const contactSection = document.getElementById("contact-form-section")
-    if (contactSection) {
-      setTimeout(() => {
-        contactSection.scrollIntoView({ behavior: "smooth" })
-      }, 100)
-    }
-  }, [])
+  // useEffect(() => {
+  //   const contactSection = document.getElementById("contact-form-section")
+  //   if (contactSection) {
+  //     setTimeout(() => {
+  //       contactSection.scrollIntoView({ behavior: "smooth" })
+  //     }, 100)
+  //   }
+  // }, [])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target

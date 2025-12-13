@@ -133,7 +133,7 @@ export default function AdminBlogs() {
               <div className="text-sm text-muted-foreground">/{p.slug}</div>
             </div>
             <div className="flex items-center gap-2">
-              <a href={`/blog/${p.slug}`} target="_blank" rel="noreferrer" className="text-primary">View</a>
+              <a href={`/blog/${p.slug}?id=${p._id || p.id || ''}`} target="_blank" rel="noreferrer" className="text-primary">View</a>
             </div>
           </div>
         ))}

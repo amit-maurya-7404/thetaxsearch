@@ -98,6 +98,12 @@ export async function POST(request: NextRequest) {
     // Try to save to MongoDB first
     try {
       const db = await getDatabase()
+      // Prevent duplicate slugs in raw collection
+      const existingRaw = await db.collection("blog_posts").findOne({ slug: post.slug })
+      if (existingRaw) {
+        return NextResponse.json({ success: false, error: 'Slug already exists in raw collection' }, { status: 409 })
+      }
+
       const result = await db.collection("blog_posts").insertOne(post)
       return NextResponse.json(
         { post: { ...post, _id: result.insertedId }, success: true, message: "Blog post created successfully (MongoDB)" },

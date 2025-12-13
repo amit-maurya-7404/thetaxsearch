@@ -10,11 +10,13 @@ interface BlogCardProps {
   date: string
   tags?: string[]
   readingTime?: number
+  postId?: string
 }
 
-export function BlogCard({ slug, title, description, date, tags, readingTime }: BlogCardProps) {
+export function BlogCard({ slug, title, description, date, tags, readingTime, postId }: BlogCardProps) {
+  const href = `/blog/${slug}${postId ? `?id=${postId}` : ''}`
   return (
-    <Link href={`/blog/${slug}`}>
+    <Link href={href}>
       <Card className="card-shadow hover:shadow-2xl transition-all duration-300 h-full hover:border-primary cursor-pointer">
         <CardHeader>
           <CardTitle className="line-clamp-2">{title}</CardTitle>

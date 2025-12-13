@@ -147,7 +147,10 @@ export default function BlogPage() {
             {filteredPosts.length > 0 ? (
               filteredPosts.map((post, i) => (
                 <motion.div key={i} variants={fadeInUp}>
-                  <Link href={`/blog/${post.slug}`}>
+                    {
+                      // include id in link to disambiguate posts with same slug
+                    }
+                    <Link href={`/blog/${post.slug}?id=${post._id || post.id || ''}`} key={(post._id || post.id || post.slug)}>
                     <Card className="card-shadow hover:shadow-2xl transition-all duration-300 h-full hover:border-primary cursor-pointer">
                       <CardHeader>
                         <CardTitle className="line-clamp-2">{post.title}</CardTitle>

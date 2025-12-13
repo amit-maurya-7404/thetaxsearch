@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
+import connect from "@/lib/mongodb"
+import Lead from "@/models/Lead"
 
-// Mock Resend email sending
 export async function POST(request: NextRequest) {
   try {
     const { name, email, phone, message } = await request.json()
@@ -12,24 +13,20 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // In production, use Resend API
-    // const response = await resend.emails.send({
-    //   from: "noreply@thetaxsearch.com",
-    //   to: process.env.ADMIN_EMAIL!,
-    //   subject: `New Contact Form Submission from ${name}`,
-    //   html: `<p>Name: ${name}</p><p>Email: ${email}</p><p>Phone: ${phone}</p><p>Message: ${message}</p>`,
-    // })
+    // Persist to MongoDB as a lead
+    await connect()
+    const saved = await Lead.create({ name, email, phone, message })
 
-    console.log("Contact form submission:", { name, email, phone, message })
+    console.log("Saved contact lead:", { id: saved._id, name, email })
 
     return NextResponse.json(
-      { success: true, message: "Message sent successfully" },
+      { success: true, message: "Message saved", leadId: saved._id },
       { status: 200 }
     )
   } catch (error) {
     console.error("Contact form error:", error)
     return NextResponse.json(
-      { error: "Failed to send message" },
+      { error: "Failed to save message" },
       { status: 500 }
     )
   }

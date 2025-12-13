@@ -1,13 +1,14 @@
 "use server"
 
 import React from 'react'
-import connect from '@/lib/mongodb'
+import connect, { getDatabase } from '@/lib/mongodb'
 import Blog from '@/models/Blog'
 import Link from 'next/link'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import fs from 'fs/promises'
 import path from 'path'
+import { ObjectId } from 'mongodb'
 
 const POSTS_DIR = path.join(process.cwd(), "src/data/blog-posts")
 
@@ -25,21 +26,85 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 }
 
-export default async function BlogPage({ params }: { params: { slug: string } }) {
+export default async function BlogPage({ params, searchParams }: { params: { slug: string }, searchParams: { id?: string } }) {
   const slug = params.slug
+  const requestedId = searchParams?.id
   let post = null
 
-  console.log(`[Blog Page] Looking for post with slug: ${slug}`)
+  const lookupSlug = (s: string) => (typeof s === 'string' ? s.trim() : s)
+  const normalizedSlug = lookupSlug(slug)
 
-  // Try to fetch from MongoDB first
+  console.log(`[Blog Page] Looking for post with slug: ${normalizedSlug}`)
+
+  // If an id was provided, prefer finding by id first (disambiguate duplicate slugs)
+  if (requestedId) {
+    try {
+      await connect()
+      // Try Mongoose model by id (works with string id)
+      post = await Blog.findById(requestedId).lean()
+      if (post) {
+        console.log('[Blog Page] Found post by requested id (Blog model):', post.title || post.slug)
+      } else {
+        // Try raw collection by ObjectId or by string id field
+        try {
+          const db = await getDatabase()
+          let raw = null
+          try {
+            raw = await db.collection('blog_posts').findOne({ _id: new ObjectId(requestedId) })
+          } catch (e) {
+            // not a valid ObjectId, try id field
+            raw = await db.collection('blog_posts').findOne({ id: requestedId })
+          }
+          if (raw) {
+            post = raw
+            console.log('[Blog Page] Found post by requested id in raw collection:', post.title || post.slug)
+          }
+        } catch (rawErr) {
+          console.warn('[Blog Page] Raw DB lookup by id failed:', rawErr)
+        }
+      }
+    } catch (err) {
+      console.warn('[Blog Page] ID-based lookup failed:', err)
+    }
+  }
+
+  // Try to fetch from MongoDB first (by slug)
   try {
     await connect()
-    post = await Blog.findOne({ slug }).lean()
+    // Try exact match first
+    post = await Blog.findOne({ slug: normalizedSlug }).lean()
+    if (!post) {
+      // Try case-insensitive match
+      post = await Blog.findOne({ slug: { $regex: `^${normalizedSlug}$`, $options: 'i' } }).lean()
+    }
+
     if (post) {
-      console.log(`[Blog Page] Found post in MongoDB:`, post.title)
+      console.log(`[Blog Page] Found post in MongoDB:`, post.title || post.slug)
     }
   } catch (mongoError) {
     console.warn("[Blog Page] MongoDB connection failed, trying file system:", mongoError)
+  }
+
+  // If not found in mongoose Blog model, try raw collection used by /api/blog
+  if (!post) {
+    try {
+      const db = await getDatabase()
+      // Try exact match, then case-insensitive
+      // Prefer the newest matching document if duplicates exist
+      let rawCursor = await db.collection('blog_posts').find({ slug: normalizedSlug }).sort({ createdAt: -1 }).limit(1)
+      let raw = (await rawCursor.toArray())[0]
+      if (!raw) {
+        rawCursor = await db.collection('blog_posts').find({ slug: { $regex: `^${normalizedSlug}$`, $options: 'i' } }).sort({ createdAt: -1 }).limit(1)
+        raw = (await rawCursor.toArray())[0]
+      }
+
+      if (raw) {
+        post = raw
+        console.log('[Blog Page] Found post in blog_posts collection:', post.title || post.slug)
+      }
+    } catch (rawErr) {
+      console.warn('[Blog Page] Raw DB lookup failed:', rawErr)
+    }
   }
 
   // If not found in DB, try file system - check all files
@@ -257,7 +322,7 @@ export default async function BlogPage({ params }: { params: { slug: string } })
                           <div className="w-16 h-10 bg-gray-100 rounded" />
                         )}
                         <div>
-                          <Link href={`/blog/${r.slug}`} className="font-medium text-sm hover:underline">{r.title}</Link>
+                          <Link href={`/blog/${r.slug}?id=${r._id || r.id || ''}`} className="font-medium text-sm hover:underline">{r.title}</Link>
                           <div className="text-xs text-muted-foreground">{new Date(r.createdAt).toLocaleDateString()}</div>
                         </div>
                       </li>

@@ -17,7 +17,7 @@ const Calculators: React.FC = () => {
 
 	return (
 		<div className="min-h-screen bg-white pb-0">
-			<div className="bg-gradient-to-br from-purple-600 via-lavender-600 to-purple-700 py-20 shadow-lg relative overflow-hidden">
+			<div className="bg-gradient-to-r from-primary to-primary-light text-white py-20 shadow-lg relative overflow-hidden">
 				<div className="absolute inset-0 bg-black/5"></div>
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
 					<h1 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">Financial Tools & Calculators</h1>

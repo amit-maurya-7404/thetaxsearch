@@ -254,9 +254,9 @@ const IncomeTax: React.FC = () => {
                 onChange={(e) => setAgeGroup(e.target.value as AgeGroup)}
                 className="w-full px-4 py-2.5 bg-white text-slate-900 border border-slate-200 rounded-xl focus:ring-2 focus:ring-lavender-500 outline-none font-medium appearance-none"
               >
-                <option value="0-60">0 - 60 Years (General)</option>
-                <option value="60-80">60 - 80 Years (Senior)</option>
-                <option value="80+">80+ Years (Super Senior)</option>
+                <option value="0-60">0 - 60 Years</option>
+                <option value="60-80">60 - 80 Years</option>
+                <option value="80+">80+ Years </option>
               </select>
             </div>
           </div>
@@ -429,11 +429,11 @@ const IncomeTax: React.FC = () => {
       <div className="xl:col-span-5 space-y-6">
         
         {/* RECOMMENDATION */}
-        <div className="bg-gradient-to-br from-lavender-600 to-lavender-700 p-8 rounded-3xl shadow-lg text-white relative overflow-hidden">
+        <div className="bg-gradient-to-br from-purple-600 via-lavender-600 to-purple-700 p-8 rounded-3xl shadow-lg text-white relative overflow-hidden">
           <div className="absolute -top-10 -right-10 w-48 h-48 bg-white opacity-10 rounded-full blur-2xl"></div>
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-4">
-              <span className="bg-white/20 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider backdrop-blur-sm border border-white/10">Recommendation</span>
+              <span className="bg-primary/20 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider backdrop-blur-sm border border-white/10">Recommendation</span>
               <CheckCircle className="w-6 h-6 text-lavender-200" />
             </div>
             <h2 className="text-3xl font-extrabold mb-2">{betterRegime}</h2>
@@ -450,9 +450,9 @@ const IncomeTax: React.FC = () => {
             
             {/* NEW REGIME CARD */}
             <div className={`p-6 rounded-2xl border transition-all relative overflow-hidden ${
-                betterRegime === 'New Regime' 
-                ? 'bg-white border-lavender-500 shadow-md ring-1 ring-lavender-500' 
-                : 'bg-white border-slate-100 opacity-80 hover:opacity-100'
+              betterRegime === 'New Regime' 
+              ? 'bg-gradient-to-br from-lavender-300 to-lavender-100 border-lavender-400 shadow-md ring-1 ring-lavender-300' 
+              : 'bg-gradient-to-br from-lavender-100 to-white border-slate-100 opacity-95 hover:opacity-100'
             }`}>
                 <div className="flex justify-between items-start mb-6">
                     <div>
@@ -488,9 +488,9 @@ const IncomeTax: React.FC = () => {
 
             {/* OLD REGIME CARD */}
             <div className={`p-6 rounded-2xl border transition-all relative overflow-hidden ${
-                betterRegime === 'Old Regime' 
-                ? 'bg-white border-lavender-500 shadow-md ring-1 ring-lavender-500' 
-                : 'bg-white border-slate-100 opacity-80 hover:opacity-100'
+              betterRegime === 'Old Regime' 
+              ? 'bg-gradient-to-br from-lavender-300 to-lavender-100 border-lavender-400 shadow-md ring-1 ring-lavender-300' 
+              : 'bg-gradient-to-br from-lavender-100 to-white border-slate-100 opacity-95 hover:opacity-100'
             }`}>
                 <div className="flex justify-between items-start mb-6">
                     <div>

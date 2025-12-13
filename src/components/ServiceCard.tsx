@@ -30,7 +30,7 @@ export function ServiceCard({ icon: Icon, title, details, iconColor = 'bg-primar
             ))}
           </ul>
         )}
-        <Link href="/contact" className="w-full">
+        <Link href="/aboutus" className="w-full">
           <Button className="w-full bg-primary text-white hover:bg-primary/90">
             Enquire Now
           </Button>
