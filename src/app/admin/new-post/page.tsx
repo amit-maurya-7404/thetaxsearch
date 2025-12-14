@@ -1,5 +1,8 @@
 "use client"
 
+// Disable prerendering for this admin page to avoid build-time hooks warnings
+export const dynamic = 'force-dynamic'
+
 import { useState, useRef, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
