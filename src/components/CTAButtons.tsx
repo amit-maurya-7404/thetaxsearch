@@ -39,10 +39,10 @@ export function CTASection() {
           Book a free consultation with our tax experts or explore our tools today
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link href="/aboutus">
+          <Link href="/aboutus#contact-form-section">
             <Button
               variant="secondary"
-              className="text-black hover:text-white font-semibold bg-white hover:bg-black shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 ease-out"
+              className="text-white hover:text-white font-semibold bg-white hover:bg-black shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 ease-out"
             >
               Book Free Consultation
             </Button>
@@ -52,7 +52,7 @@ export function CTASection() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Button variant="outline" className="w-full text-black border-white hover:bg-black hover:text-white font-semibold shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 ease-out">
+            <Button variant="outline" className="w-full text-black   hover:text-white font-semibold shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 ease-out">
               Chat on WhatsApp
             </Button>
           </a>

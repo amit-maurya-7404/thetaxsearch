@@ -25,8 +25,10 @@ import {
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { services as allServices } from '@/lib/services'
+// useMemo removed to avoid server/client randomness for services preview
 
 const fadeInUp = {
 	initial: { opacity: 0, y: 20 },
@@ -132,6 +134,67 @@ export default function Home() {
 		},
 	]
 
+	function ServicesPreview() {
+		const [randomServices, setRandomServices] = useState(() => allServices.slice(0, 3))
+
+		useEffect(() => {
+			const arr = [...allServices]
+			for (let i = arr.length - 1; i > 0; i--) {
+				const j = Math.floor(Math.random() * (i + 1))
+				;[arr[i], arr[j]] = [arr[j], arr[i]]
+			}
+			setRandomServices(arr.slice(0, 3))
+		}, [])
+
+		return (
+			<>
+			<motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" variants={staggerContainer}>
+				{randomServices.map((service) => {
+					const Icon = service.icon
+					return (
+						<Link href={`/services/${service.slug}`} key={service.slug}>
+							<motion.div
+								variants={fadeInUp}
+								whileHover={{ scale: 1.03, y: -6 }}
+								whileTap={{ scale: 0.985 }}
+								transition={{ type: "spring", stiffness: 280, damping: 20 }}
+								className="card-shadow transition-all duration-300 h-full hover:border-primary hover:cursor-pointer flex flex-col bg-white border rounded-lg p-6"
+							>
+								<div className="pb-3">
+									<div className={`${service.iconColor} w-12 h-12 rounded-lg flex items-center justify-center mb-4`}>
+										<Icon className="w-6 h-6" />
+									</div>
+									<h3 className="text-lg font-semibold text-left">{service.title}</h3>
+								</div>
+								<div className="flex-1 flex flex-col">
+									{service.details && service.details.length > 0 && (
+										<ul className="space-y-2 mb-6 flex-1">
+											{service.details.map((d, idx) => (
+												<li key={idx} className="flex items-start gap-2 text-sm text-muted-foreground">
+													<span className="text-primary font-bold">•</span>
+													<span>{d}</span>
+												</li>
+											))}
+										</ul>
+									)}
+								</div>
+							</motion.div>
+						</Link>
+					)
+				})}
+			</motion.div>
+
+			<div className="mt-8 flex justify-center">
+				<Link href="/services">
+					<Button size="lg" className="text-white bg-gradient-to-r from-purple-600 to-pink-500">
+						View All Services
+					</Button>
+				</Link>
+			</div>
+			</>
+		)
+	}
+
 	const team = [
 		{ name: "Amit Maurya", role: "Founder & Tax Expert", bio: "15+ years experience in tax planning and corporate advisory." },
 		{ name: "Priya Sharma", role: "GST Specialist", bio: "Expert in GST compliance, registrations and returns." },
@@ -159,7 +222,7 @@ export default function Home() {
 						<motion.div variants={fadeInUp}>
 							<h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight text-black">
 								Your Trusted Partner in{" "}
-								<span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-light">
+								<span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500">
 									Tax Compliance
 								</span>
 							</h1>
@@ -168,8 +231,8 @@ export default function Home() {
 								professional services. From GST to Income Tax, we've got you covered.
 							</p>
 							<div className="flex flex-col sm:flex-row gap-4">
-								<Link href="/aboutus">
-									<Button size="lg" className="w-full text-white sm:w-auto">
+								<Link href="/aboutus#contact-form-section">
+									<Button size="lg" className="w-full text-white bg-gradient-to-r from-purple-600 to-pink-500 sm:w-auto">
 										Book Free Consultation
 									</Button>
 								</Link>
@@ -298,7 +361,7 @@ export default function Home() {
 			{/* Calculators Section */}
 			<section className="py-16">
 				<motion.div
-					className="container max-w-7xl mx-auto px-4"
+					className="container max-w-7x1 mx-auto px-4"
 					initial="initial"
 					whileInView="animate"
 					variants={staggerContainer}
@@ -313,15 +376,15 @@ export default function Home() {
 							Free, easy-to-use tools to handle all your tax calculations
 						</p>
 					</motion.div>					<motion.div
-						className="grid grid-cols-3 gap-6 max-w-5xl mx-auto"
+						className="grid md:grid-cols-4 gap-6  mx-auto"
 						variants={staggerContainer}
 					>
 						{[
 							{
-						title: "Income Tax",
-						description: "Estimate your annual income tax liability accurately.",
-						href: "/calculators/income-tax",
-						icon: <DollarSign className="w-6 h-6 text-indigo-600" />,
+								title: "Income Tax",
+								description: "Estimate your annual income tax liability accurately.",
+								href: "/calculators#income-tax",
+								icon: <DollarSign className="w-6 h-6 text-indigo-600" />,
 								details: [
 									"Compare new vs. old tax regimes",
 									"Includes standard deductions & exemptions",
@@ -332,7 +395,7 @@ export default function Home() {
 							{
 								title: "GST",
 								description: "Calculate GST liabilities and rate breakdowns for transactions.",
-								href: "/calculators/gst",
+								href: "/calculators#gst",
 								icon: <ReceiptText className="w-6 h-6 text-rose-600" />,
 								details: [
 									"Intra-state & inter-state handling",
@@ -344,7 +407,7 @@ export default function Home() {
 							{
 								title: "HRA",
 								description: "Compute HRA exemption and optimize rent-based deductions.",
-								href: "/calculators/hra",
+								href: "/calculators#hra",
 								icon: <HomeIcon className="w-6 h-6 text-red-600" />,
 								details: [
 									"Metro vs non-metro exemption rules",
@@ -353,21 +416,10 @@ export default function Home() {
 									"Maximization suggestions",
 								],
 							},
-						].map((calc, i) => (
-							<motion.div key={i} variants={fadeInUp}>
-								<CalculatorCard {...calc} />
-							</motion.div>
-						))}
-					</motion.div>
-					<motion.div
-						className="grid grid-cols-2 gap-6 max-w-3xl mx-auto mt-6"
-						variants={staggerContainer}
-					>
-						{[
 							{
 								title: "TDS",
 								description: "Accurately compute TDS for salaries and payments.",
-								href: "/calculators/tds",
+								href: "/calculators#tds",
 								icon: <BarChart3 className="w-6 h-6 text-teal-600" />,
 								details: [
 									"Coverage across major TDS sections",
@@ -376,11 +428,23 @@ export default function Home() {
 									"Annual deduction summaries",
 								],
 							},
+						].map((calc, i) => (
+							<motion.div key={i} variants={fadeInUp}>
+								<CalculatorCard {...calc} />
+							</motion.div>
+						))}
+					</motion.div>
+					{/* <motion.div
+						className="grid grid-cols-2 gap-6 max-w-3xl mx-auto mt-6"
+						variants={staggerContainer}
+					>
+						{[
+							
 							{
-						title: "GST Search",
-						description: "Lookup GSTIN details and verify basic compliance.",
-						href: "/calculators/gst-search",
-						icon: <Search className="w-6 h-6 text-lime-600" />,
+								title: "GST Search",
+								description: "Lookup GSTIN details and verify basic compliance.",
+								href: "/calculators/gst-search",
+								icon: <Search className="w-6 h-6 text-lime-600" />,
 								details: [
 									"Real-time GSTIN validation",
 									"Business status & registration data",
@@ -393,7 +457,7 @@ export default function Home() {
 								<CalculatorCard {...calc} />
 							</motion.div>
 						))}
-					</motion.div>
+					</motion.div> */}
 				</motion.div>
 			</section>
 
@@ -417,92 +481,7 @@ export default function Home() {
 
 					</motion.div>
 
-					<motion.div
-						className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-						variants={staggerContainer}
-					>
-						{[
-							{
-								icon: FileText,
-								iconColor: 'bg-indigo-100 text-indigo-600',
-								title: "GST Registration",
-								details: [
-									"Easy GST registration",
-									"New & existing business",
-									"Instant approval support",
-									"Compliance guidance",
-								],
-							},
-							{
-								icon: ReceiptText,
-								iconColor: 'bg-teal-100 text-teal-600',
-								title: "Income Tax Return",
-								details: [
-									"Professional ITR filing",
-									"All ITR types covered",
-									"Deduction optimization",
-									"Expert consultation",
-								],
-							},
-							{
-								icon: Clock,
-								iconColor: 'bg-rose-100 text-rose-600',
-								title: "Company Creation",
-								details: [
-									"Quick & hassle-free setup",
-									"Pvt Ltd & LLP formation",
-									"All documentation included",
-									"Fast processing",
-								],
-							},
-						].map((service, i) => (
-							<motion.div key={i} variants={fadeInUp}>
-								<ServiceCard icon={service.icon} title={service.title} details={service.details} />
-							</motion.div>
-						))}
-
-					</motion.div>
-					<Link href="/services" className="mt-10 inline-block">
-						<Button variant="outline">View All Services</Button>
-					</Link>
-				</motion.div>
-			</section>
-
-			{/* Latest Blog Posts */}
-			<section className="py-16">
-				<motion.div
-					className="container max-w-7xl mx-auto px-4"
-					initial="initial"
-					whileInView="animate"
-					variants={staggerContainer}
-					viewport={{ once: true }}
-				>
-					<motion.div
-						className="text-center mb-12"
-						variants={fadeInUp}
-					>
-						<h2 className="text-4xl font-bold mb-4 text-black">Latest from Our Blog</h2>
-						<p className="text-lg text-gray-700 max-w-2xl mx-auto">
-							Stay updated with the latest tax news, tips, and guidelines
-						</p>
-					</motion.div>					<motion.div
-						className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
-						variants={staggerContainer}
-					>
-						{blogPosts.map((post, i) => (
-							<motion.div key={i} variants={fadeInUp}>
-								<BlogCard {...post} />
-							</motion.div>
-						))}
-					</motion.div>
-
-					<div className="text-center">
-						<Link href="/blog">
-							<Button variant="outline" size="lg">
-								Read More Articles
-							</Button>
-						</Link>
-					</div>
+					<ServicesPreview />
 				</motion.div>
 			</section>
 

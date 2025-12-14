@@ -47,7 +47,7 @@ const GST: React.FC = () => {
     new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(val);
 
   return (
-    <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+    <div id="gst" className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
       <div className="p-6 md:p-8 border-b border-slate-100 flex items-center gap-4 bg-slate-50/50">
         <div className="bg-lavender-100 p-3 rounded-xl text-lavender-600">
           <Calculator className="w-6 h-6" />

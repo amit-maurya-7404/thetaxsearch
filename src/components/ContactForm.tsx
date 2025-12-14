@@ -24,6 +24,24 @@ export function ContactForm() {
   //   }
   // }, [])
 
+  // When navigated to with a hash, smoothly scroll the contact section into view with a 10vw offset
+  useEffect(() => {
+    const scrollToContactWithOffset = () => {
+      if (typeof window === "undefined") return
+      if (window.location.hash !== "#contact-form-section") return
+      const el = document.getElementById("contact-form-section")
+      if (!el) return
+      const offset = window.innerWidth * 0.1 // 10vw in pixels
+      const top = el.getBoundingClientRect().top + window.scrollY - offset
+      window.scrollTo({ top, behavior: "smooth" })
+    }
+
+    // run on mount in case navigated directly
+    setTimeout(scrollToContactWithOffset, 50)
+    window.addEventListener("hashchange", scrollToContactWithOffset)
+    return () => window.removeEventListener("hashchange", scrollToContactWithOffset)
+  }, [])
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))

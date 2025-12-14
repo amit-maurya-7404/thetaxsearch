@@ -12,7 +12,7 @@ interface ServiceCardProps {
 
 export function ServiceCard({ icon: Icon, title, details, iconColor = 'bg-primary/10 text-primary' }: ServiceCardProps) {
   return (
-    <Card className="card-shadow hover:shadow-lg transition-all duration-300 h-full hover:border-primary flex flex-col bg-white">
+    <Card className="group card-shadow hover:shadow-lg transition-all duration-300 h-full hover:border-primary flex flex-col bg-white">
       <CardHeader className="pb-3">
         <div className={`w-12 h-12 rounded-lg flex items-center justify-center mb-4 ${iconColor}`}>
           <Icon className="w-6 h-6" />
@@ -30,11 +30,13 @@ export function ServiceCard({ icon: Icon, title, details, iconColor = 'bg-primar
             ))}
           </ul>
         )}
-        <Link href="/aboutus" className="w-full">
-          <Button className="w-full bg-primary text-white hover:bg-primary/90">
-            Enquire Now
-          </Button>
-        </Link>
+        <div className="w-full overflow-hidden max-h-0 group-hover:max-h-28 transition-all duration-300">
+          <Link href="/aboutus#contact-form-section" className="w-full block mt-3">
+            <Button className="w-full bg-primary text-white hover:bg-primary/90 transform transition-all duration-300">
+              Enquire Now
+            </Button>
+          </Link>
+        </div>
       </CardContent>
     </Card>
   )

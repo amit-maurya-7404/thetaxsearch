@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import { FileText, CheckCircle, BarChart3, ShieldCheck, TrendingUp, Users } from 'lucide-react'
 import { CTASection } from '@/components/CTAButtons'
 
@@ -15,10 +16,14 @@ export default function IncomeTexReturnFilingPage() {
               From ITR-1 to ITR-6, we handle your tax return filing with precision to maximize deductions and minimize your tax liability.
             </p>
             <div className="flex justify-center gap-4">
-              <button className="bg-emerald-600 text-white px-8 py-4 rounded-xl font-semibold hover:bg-emerald-700 transition shadow-lg">
+              <Link
+                href="/aboutus#contact-form-section"
+                className="inline-block bg-gradient-to-r from-purple-600 to-pink-500 text-white px-8 py-4 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-600 transform hover:scale-105 transition duration-300 shadow-lg hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-purple-200"
+              >
                 Get Your ITR Ready
-              </button>
-              <button className="bg-white text-emerald-600 border border-emerald-200 px-8 py-4 rounded-xl font-semibold hover:bg-emerald-50 transition">
+              </Link>
+
+              <button className="bg-white text-emerald-600 border border-emerald-200 px-8 py-4 rounded-xl font-semibold hover:bg-emerald-50 hover:text-emerald-700 transform hover:scale-105 transition duration-300 shadow-sm hover:shadow-md focus:outline-none focus:ring-4 focus:ring-emerald-100">
                 View Pricing
               </button>
             </div>
@@ -29,7 +34,7 @@ export default function IncomeTexReturnFilingPage() {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6 max-w-6xl">
           <div className="text-center mb-16">
-            <h2 className="text-sm font-bold text-primary uppercase tracking-wide mb-2">What We Offer</h2>
+            <h2 className="text-2x1 font-bold text-primary uppercase tracking-wide mb-2">What We Offer</h2>
             <h3 className="text-3xl font-bold text-slate-900">Comprehensive Income Tax Services</h3>
           </div>
 
@@ -151,7 +156,7 @@ export default function IncomeTexReturnFilingPage() {
 function ServiceCard({ icon, title, desc }: { icon: React.ReactNode; title: string; desc: string }) {
   return (
     <div className="p-8 border border-slate-100 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-white group">
-      <div className="mb-6 p-4 bg-primary/10 rounded-xl w-fit group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+      <div className="mb-6 p-4 bg-primary/10 rounded-xl w-fit transition-colors duration-300">
         {icon}
       </div>
       <h3 className="text-xl font-bold text-slate-900 mb-3">{title}</h3>

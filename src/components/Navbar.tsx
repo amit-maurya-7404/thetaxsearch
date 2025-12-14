@@ -85,7 +85,7 @@ export function Navbar() {
           {/* <Link href="/#faq" className="text-sm font-medium hover:text-primary transition-colors">
             FAQ
           </Link> */}
-          <Link href="/aboutus" className="text-sm font-medium text-black hover:text-primary transition-colors">
+          <Link href="/aboutus#contact-form-section" className="text-sm font-medium text-black hover:text-primary transition-colors">
             About Us
           </Link>
         </div>
@@ -136,7 +136,7 @@ export function Navbar() {
               <Link href="/blog" onClick={() => setIsOpen(false)} className="block px-4 py-3 text-sm font-medium text-black hover:bg-primary/10 hover:text-primary rounded-lg transition-all duration-200">
                 Blog
               </Link>
-              <Link href="/aboutus" onClick={() => setIsOpen(false)} className="block px-4 py-3 text-sm font-medium text-black hover:bg-primary/10 hover:text-primary rounded-lg transition-all duration-200">
+              <Link href="/aboutus#contact-form-section" onClick={() => setIsOpen(false)} className="block px-4 py-3 text-sm font-medium text-black hover:bg-primary/10 hover:text-primary rounded-lg transition-all duration-200">
                 About Us
               </Link>
               <div className="pt-2 border-t border-white/20">

@@ -3,6 +3,8 @@ import { Navbar } from "@/components/Navbar"
 import { Footer } from "@/components/Footer"
 import Providers from "@/components/Providers"
 import "@/styles/globals.css"
+import ScrollActionButtons from "@/components/ScrollActionButtons"
+import ScrollToTopButton from "@/components/ScrollToTopButton"
 
 export const metadata: Metadata = {
   title: "theTaxSearch - Tax Compliance & Calculators",
@@ -56,6 +58,8 @@ export default function RootLayout({
       <body>
         <Providers>
           <Navbar />
+          <ScrollActionButtons />
+          <ScrollToTopButton />
           <main className="flex-1">{children}</main>
           <Footer />
         </Providers>
