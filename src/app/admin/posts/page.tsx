@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { ArrowLeft, Edit2, Trash2, Plus } from "lucide-react"
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 
 export default function AdminPosts() {
   const [blogPosts, setBlogPosts] = useState<any[]>([])
@@ -38,11 +39,27 @@ export default function AdminPosts() {
   }
 
   const handleDelete = async (slug: string) => {
-    if (confirm("Are you sure you want to delete this post?")) {
-      // TODO: Implement delete functionality
-      alert("Delete functionality coming soon!")
+    if (!confirm("Are you sure you want to delete this post?")) return
+    try {
+      setLoading(true)
+      const id = slug
+      const res = await fetch('/api/blog', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) })
+      const data = await res.json()
+      if (res.ok && data.success) {
+        setBlogPosts(prev => prev.filter(p => p.id !== id && String(p.id) !== String(id)))
+        alert('Deleted successfully')
+      } else {
+        alert(data.error || 'Failed to delete')
+      }
+    } catch (err) {
+      console.error(err)
+      alert('Error deleting post')
+    } finally {
+      setLoading(false)
     }
   }
+
+  const router = useRouter()
 
   return (
     <div className="min-h-screen bg-background">
@@ -121,7 +138,8 @@ export default function AdminPosts() {
                               <Button 
                                 variant="ghost" 
                                 size="sm"
-                                title="Edit coming soon"
+                                onClick={() => router.push(`/admin/new-post?id=${post.id}`)}
+                                title="Edit"
                               >
                                 <Edit2 className="w-4 h-4" />
                               </Button>
@@ -129,7 +147,7 @@ export default function AdminPosts() {
                                 variant="ghost" 
                                 size="sm" 
                                 className="text-red-600 hover:text-red-700"
-                                onClick={() => handleDelete(post.slug)}
+                                onClick={() => handleDelete(post.id)}
                               >
                                 <Trash2 className="w-4 h-4" />
                               </Button>

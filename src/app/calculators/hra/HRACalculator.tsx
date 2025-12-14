@@ -109,7 +109,7 @@ const HRACalculator: React.FC = () => {
             />
             
             <div className="col-span-1 md:col-span-2 mt-2 p-4 bg-gray-50 rounded-lg border border-gray-200">
-               <label className="text-sm font-medium text-gray-900 block mb-3 flex items-center gap-2">
+               <label className="text-sm font-medium text-gray-900 mb-3 flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-gray-500" /> City Type
                </label>
                <div className="flex gap-6">

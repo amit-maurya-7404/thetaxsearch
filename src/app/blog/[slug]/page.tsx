@@ -283,15 +283,26 @@ export default async function BlogPage({ params, searchParams }: { params: { slu
                     {/* Table Block */}
                     {block.type === 'table' && block.rows && (
                       <div className="overflow-x-auto mb-6">
-                        <table className="w-full border-collapse border border-gray-300">
+                        <table className="w-full border-collapse text-sm">
                           <tbody>
                             {block.rows.map((row: any, rowIdx: number) => (
-                              <tr key={rowIdx} className={rowIdx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                                {row.cells.map((cell: any, cellIdx: number) => (
-                                  <td key={cellIdx} className="border border-gray-300 px-4 py-2 text-sm">
-                                    {cell.text}
-                                  </td>
-                                ))}
+                              <tr key={rowIdx} className={rowIdx === 0 ? '' : (rowIdx % 2 === 0 ? 'bg-white' : 'bg-blue-50')}>
+                                {row.cells.map((cell: any, cellIdx: number) => {
+                                  if (rowIdx === 0) {
+                                    const thClasses = `px-4 py-3 text-left font-semibold text-sm border border-blue-200 ${cellIdx === 0 ? 'rounded-tl-lg' : ''} ${cellIdx === row.cells.length - 1 ? 'rounded-tr-lg' : ''}`
+                                    return (
+                                      <th key={cellIdx} className={thClasses}>
+                                        {cell.text || `Header ${cellIdx + 1}`}
+                                      </th>
+                                    )
+                                  }
+
+                                  return (
+                                    <td key={cellIdx} className="border border-blue-100 px-4 py-3 align-top">
+                                      {cell.text}
+                                    </td>
+                                  )
+                                })}
                               </tr>
                             ))}
                           </tbody>

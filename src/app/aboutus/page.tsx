@@ -1,5 +1,5 @@
 "use client"
-import { ContactForm } from "@/components/ContactForm"
+import { ContactForm } from "@/components"
 import { motion } from "framer-motion"
 import { Briefcase, FileText, Heart, ShieldCheck, Target, TrendingUp, Users, Zap } from "lucide-react"
 

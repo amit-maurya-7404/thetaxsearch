@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import Link from "next/link"
 import { ArrowLeft, Plus, Trash2, Copy } from "lucide-react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 
 interface ContentBlock {
   id: string
@@ -29,25 +29,96 @@ export default function NewBlogPost() {
     tags: "",
   })
   const [content, setContent] = useState("")
+  const [contentBlocks, setContentBlocks] = useState<ContentBlock[]>([])
   const [saving, setSaving] = useState(false)
+  const [editingId, setEditingId] = useState<string | null>(null)
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    const id = searchParams?.get('id')
+    if (!id) return
+    setEditingId(id)
+    // fetch existing post
+    fetch(`/api/blog?id=${encodeURIComponent(id)}`).then(r => r.json()).then(d => {
+      if (d && d.post) {
+        const p = d.post
+        setFormData({ title: p.title || '', slug: p.slug || '', description: p.description || '', tags: (p.tags || []).join(', ') })
+        if (Array.isArray(p.content)) {
+          // content blocks
+          setContentBlocks(p.content as any)
+        } else if (typeof p.content === 'string') {
+          setContent(p.content)
+        }
+      }
+    }).catch(err => console.error('Failed to load post for edit', err))
+  }, [searchParams])
 
   // Single content textarea for admin (simpler): `content`
-  // Helper to insert a markdown table at cursor position
-  const insertMarkdownTable = () => {
-    const rowsStr = prompt('Number of rows (including header)?', '2')
-    const colsStr = prompt('Number of columns?', '2')
-    const rows = Math.max(1, parseInt(rowsStr || '2', 10) || 2)
-    const cols = Math.max(1, parseInt(colsStr || '2', 10) || 2)
+  // Table builder state + textarea ref for inserting at cursor
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null)
+  const [showTableBuilder, setShowTableBuilder] = useState(false)
+  const [tableRows, setTableRows] = useState<number>(2)
+  const [tableCols, setTableCols] = useState<number>(2)
+  const [headerLabels, setHeaderLabels] = useState<string>('')
 
-    // Build simple markdown table
-    const header = Array.from({ length: cols }, (_, i) => `Header ${i + 1}`).join(' | ')
-    const separator = Array.from({ length: cols }, () => '---').join(' | ')
-    const body = Array.from({ length: rows - 1 }, () => Array.from({ length: cols }, () => '').join(' | ')).join('\n')
+  // Build a structured table block and append to contentBlocks
+  const buildAndInsertMarkdownTable = () => {
+    const rows = Math.max(1, Math.floor(tableRows) || 2)
+    const cols = Math.max(1, Math.floor(tableCols) || 2)
 
-    const tableMd = `\n| ${header} |\n| ${separator} |\n${body ? '| ' + body.split('\n').join(' |\n| ') + ' |' : ''}\n\n`
+    const headers = headerLabels
+      ? headerLabels.split(',').map(h => h.trim()).slice(0, cols)
+      : Array.from({ length: cols }, (_, i) => `Header ${i + 1}`)
 
-    // Insert at cursor end
-    setContent(prev => `${prev}\n${tableMd}`)
+    // Create rows structure: first row is header cells
+    const tableRowsStruct: Array<{ cells: Array<{ text: string }> }> = []
+    tableRowsStruct.push({ cells: headers.map(h => ({ text: h })) })
+    for (let r = 1; r < rows; r++) {
+      tableRowsStruct.push({ cells: Array.from({ length: cols }, () => ({ text: '' })) })
+    }
+
+    const block: ContentBlock = {
+      id: String(Date.now()) + Math.random().toString(36).slice(2, 7),
+      type: 'table',
+      rows: tableRowsStruct,
+    }
+
+    setContentBlocks(prev => [...prev, block])
+
+    // Reset and close builder
+    setShowTableBuilder(false)
+    setTableRows(2)
+    setTableCols(2)
+    setHeaderLabels('')
+  }
+
+  // Helpers to edit structured table blocks inline
+  const updateTableCell = (blockId: string, rowIdx: number, colIdx: number, value: string) => {
+    setContentBlocks(prev => prev.map(b => {
+      if (b.id !== blockId || b.type !== 'table' || !b.rows) return b
+      const rows = b.rows.map((r, ri) => {
+        if (ri !== rowIdx) return r
+        return { cells: r.cells.map((cell, ci) => ci === colIdx ? { text: value } : cell) }
+      })
+      return { ...b, rows }
+    }))
+  }
+
+  const addRowToBlock = (blockId: string) => {
+    setContentBlocks(prev => prev.map(b => {
+      if (b.id !== blockId || b.type !== 'table' || !b.rows) return b
+      const cols = b.rows[0]?.cells.length || 1
+      const newRow = { cells: Array.from({ length: cols }, () => ({ text: '' })) }
+      return { ...b, rows: [...b.rows, newRow] }
+    }))
+  }
+
+  const addColToBlock = (blockId: string) => {
+    setContentBlocks(prev => prev.map(b => {
+      if (b.id !== blockId || b.type !== 'table' || !b.rows) return b
+      const rows = b.rows.map(r => ({ cells: [...r.cells, { text: '' }] }))
+      return { ...b, rows }
+    }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -60,7 +131,11 @@ export default function NewBlogPost() {
 
     const finalContent = content.trim()
 
-    if (!finalContent) {
+    // Combine freeform content (if provided) with structured blocks so both show on published post
+    const textBlock = finalContent ? [{ type: 'text', paragraph: finalContent }] : []
+    const payloadContent = [...textBlock, ...(contentBlocks && contentBlocks.length > 0 ? contentBlocks : [])]
+
+    if (!payloadContent || (Array.isArray(payloadContent) && payloadContent.length === 0)) {
       alert("Please enter content for the post")
       return
     }
@@ -68,32 +143,41 @@ export default function NewBlogPost() {
     setSaving(true)
 
     try {
-      const response = await fetch("/api/blog", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title: formData.title,
-          slug: formData.slug,
-          description: formData.description,
-          tags: formData.tags,
-          content: finalContent, // single string content (markdown/html)
-          status: 'published',
-          date: new Date().toISOString().split('T')[0],
-        }),
-      })
+      let response
+      if (editingId) {
+        response = await fetch('/api/blog', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: editingId, title: formData.title, slug: formData.slug, description: formData.description, tags: formData.tags, content: payloadContent })
+        })
+      } else {
+        response = await fetch("/api/blog", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: formData.title,
+            slug: formData.slug,
+            description: formData.description,
+            tags: formData.tags,
+            content: payloadContent,
+            status: 'published',
+            date: new Date().toISOString().split('T')[0],
+          }),
+        })
+      }
 
       const result = await response.json()
 
       if (response.ok) {
-        alert("Blog post published successfully!")
+        alert(editingId ? 'Blog post updated successfully!' : "Blog post published successfully!")
         router.push("/admin/posts")
       } else {
-        const errorMsg = result.details ? `${result.error}: ${result.details}` : (result.error || "Failed to create blog post")
+        const errorMsg = result.details ? `${result.error}: ${result.details}` : (result.error || "Failed to save blog post")
         alert(errorMsg)
       }
     } catch (error) {
       const errorMsg = error instanceof Error ? error.message : "Network error or server unavailable"
-      alert(`Failed to create blog post: ${errorMsg}`)
+      alert(`Failed to save blog post: ${errorMsg}`)
       console.error(error)
     } finally {
       setSaving(false)
@@ -200,13 +284,36 @@ export default function NewBlogPost() {
                         placeholder="Enter or paste full post content here (markdown or HTML). Use 'Insert Table' to add a table."
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
+                        ref={textareaRef}
                         rows={12}
                         className="mt-2"
                       />
                       <div className="flex gap-2">
-                        <Button type="button" variant="outline" onClick={() => insertMarkdownTable()}>
+                        <Button type="button" variant="outline" onClick={() => setShowTableBuilder(true)}>
                           <Plus className="w-4 h-4 mr-1" /> Insert Table
                         </Button>
+                        {showTableBuilder && (
+                          <div className="p-4 border rounded bg-white shadow-sm w-full max-w-md">
+                            <div className="flex gap-2 mb-2">
+                              <div className="flex-1">
+                                <Label>Rows (including header)</Label>
+                                <Input type="number" value={tableRows} onChange={(e) => setTableRows(parseInt(e.target.value || '2'))} />
+                              </div>
+                              <div className="flex-1">
+                                <Label>Columns</Label>
+                                <Input type="number" value={tableCols} onChange={(e) => setTableCols(parseInt(e.target.value || '2'))} />
+                              </div>
+                            </div>
+                            <div className="mb-2">
+                              <Label>Header labels (comma separated, optional)</Label>
+                              <Input value={headerLabels} onChange={(e) => setHeaderLabels(e.target.value)} placeholder="Name,Amount,Tax" />
+                            </div>
+                            <div className="flex gap-2 mt-2">
+                              <Button type="button" onClick={() => buildAndInsertMarkdownTable()}>Insert</Button>
+                              <Button type="button" variant="ghost" onClick={() => setShowTableBuilder(false)}>Cancel</Button>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </CardContent>
@@ -219,7 +326,52 @@ export default function NewBlogPost() {
                 <CardDescription>Single content area. Use Insert Table to add tables (markdown).</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="text-center py-4 text-muted-foreground">Use the content textarea above. Tables can be inserted via the Insert Table button.</div>
+                <div className="text-center py-4 text-muted-foreground">Use the content textarea above for freeform content. Structured blocks you add will appear below.</div>
+
+                {contentBlocks.length > 0 && (
+                  <div className="space-y-4">
+                    <h3 className="font-medium">Content Blocks</h3>
+                    {contentBlocks.map((b, idx) => (
+                      <div key={b.id} className="border rounded p-3 bg-white">
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <div className="text-sm font-semibold">Block #{idx + 1} — {b.type}</div>
+                            {b.type === 'table' && (
+                              <div className="mt-2 overflow-auto">
+                                <table className="w-full border-collapse border border-gray-200 text-sm">
+                                  <tbody>
+                                    {b.rows?.map((r, ri) => (
+                                      <tr key={ri} className={ri === 0 ? 'bg-gray-50' : ''}>
+                                        {r.cells.map((c, ci) => (
+                                          <td key={ci} className="border px-2 py-1 align-top">
+                                            <Input
+                                              value={c.text || ''}
+                                              onChange={(e) => updateTableCell(b.id, ri, ci, e.target.value)}
+                                              className="bg-transparent p-1 text-sm"
+                                            />
+                                          </td>
+                                        ))}
+                                      </tr>
+                                    ))}
+                                  </tbody>
+                                </table>
+
+                                <div className="flex gap-2 mt-2">
+                                  <Button type="button" variant="outline" onClick={() => addRowToBlock(b.id)}>Add Row</Button>
+                                  <Button type="button" variant="outline" onClick={() => addColToBlock(b.id)}>Add Column</Button>
+                                  <Button type="button" variant="ghost" onClick={() => setContentBlocks(prev => prev.filter(x => x.id !== b.id))}>Remove Table</Button>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                          <div className="ml-4">
+                            <Button type="button" variant="ghost" onClick={() => setContentBlocks(prev => prev.filter(x => x.id !== b.id))}>Remove</Button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </CardContent>
             </Card>
 
