@@ -83,7 +83,7 @@ export async function GET(request: NextRequest) {
     }
   } catch (error) {
     console.error('Error fetching posts:', error)
-    return NextResponse.json({ error: 'Failed to fetch posts', success: false }, { status: 500 })
+    return NextResponse.json({ error: 'Failed to fetch post', success: false }, { status: 500 })
   }
 }
 
