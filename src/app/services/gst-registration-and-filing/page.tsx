@@ -10,7 +10,7 @@ export default function GSTRegistrationAndFilingPage() {
         <div className="container mx-auto px-6 max-w-6xl relative z-10">
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight">
-              Complete <span className="text-primary">GST Solutions</span>
+              Complete <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500">GST Solutions</span>
             </h1>
             <p className="text-lg md:text-xl text-slate-600 mb-10 leading-relaxed">
               From registration to returns filing and reconciliation, we ensure your GST compliance is 100% accurate and timely.
@@ -22,9 +22,9 @@ export default function GSTRegistrationAndFilingPage() {
               >
                 Get GST Registered
               </Link>
-              <button className="bg-white text-emerald-600 border border-emerald-200 px-8 py-4 rounded-xl font-semibold hover:bg-emerald-50 transition">
+              {/* <button className="bg-white text-emerald-600 border border-emerald-200 px-8 py-4 rounded-xl font-semibold hover:bg-emerald-50 transition">
                 View Plans
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

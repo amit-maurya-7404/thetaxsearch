@@ -10,7 +10,7 @@ export default function TDSReturnFilingPage() {
         <div className="container mx-auto px-6 max-w-6xl relative z-10">
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight">
-              Accurate <span className="text-primary">TDS Return Filing</span>
+              Accurate <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500">TDS Return Filing</span>
             </h1>
             <p className="text-lg md:text-xl text-slate-600 mb-10 leading-relaxed">
               Quarterly TDS returns (24Q, 26Q), challan reconciliation, and complete TDS compliance management to keep your business audit-ready.
@@ -22,9 +22,9 @@ export default function TDSReturnFilingPage() {
               >
                 File Your TDS Returns
               </Link>
-              <button className="bg-white text-emerald-600 border border-emerald-200 px-8 py-4 rounded-xl font-semibold hover:bg-emerald-50 transition">
+              {/* <button className="bg-white text-emerald-600 border border-emerald-200 px-8 py-4 rounded-xl font-semibold hover:bg-emerald-50 transition">
                 View Pricing
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

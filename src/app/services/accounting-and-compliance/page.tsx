@@ -10,7 +10,7 @@ export default function AccountingSupportPage() {
         <div className="container mx-auto px-6 max-w-6xl relative z-10">
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight">
-              Perfect <span className="text-primary">Accounting & Compliance</span>
+              Perfect <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500">Accounting & Compliance</span>
             </h1>
             <p className="text-lg md:text-xl text-slate-600 mb-10 leading-relaxed">
               From daily bookkeeping to annual statutory filings, we keep your finances accurate and compliant so you can focus on growth.
@@ -19,9 +19,9 @@ export default function AccountingSupportPage() {
               <Link href="/aboutus#contact-form-section" className="inline-block bg-gradient-to-r from-purple-600 to-pink-500 text-white px-8 py-4 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-600 transform hover:scale-105 transition duration-300 shadow-lg hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-purple-200">
                 Get Started
               </Link>
-              <button className="bg-white text-emerald-600 border border-emerald-200 px-8 py-4 rounded-xl font-semibold hover:bg-emerald-50 transition">
+              {/* <button className="bg-white text-emerald-600 border border-emerald-200 px-8 py-4 rounded-xl font-semibold hover:bg-emerald-50 transition">
                 View Services
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

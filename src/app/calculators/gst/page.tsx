@@ -14,24 +14,25 @@ const Tooltip = ({ content }: { content: string }) => (
 );
 
 const GST: React.FC = () => {
-  const [amount, setAmount] = useState<number>(10000);
+  const [amount, setAmount] = useState<string>('10000');
   const [rate, setRate] = useState<number>(18);
   const [type, setType] = useState<'exclusive' | 'inclusive'>('exclusive');
   const [location, setLocation] = useState<'intra' | 'inter'>('intra'); // intra = Same State, inter = Different State
 
   const calculate = () => {
+    const nAmount = Number(amount) || 0;
     let taxAmount = 0;
     let netAmount = 0;
     let totalAmount = 0;
 
     if (type === 'exclusive') {
-      taxAmount = (amount * rate) / 100;
-      netAmount = amount;
-      totalAmount = amount + taxAmount;
+      taxAmount = (nAmount * rate) / 100;
+      netAmount = nAmount;
+      totalAmount = nAmount + taxAmount;
     } else {
-      netAmount = amount / (1 + rate / 100);
-      taxAmount = amount - netAmount;
-      totalAmount = amount;
+      netAmount = nAmount / (1 + rate / 100);
+      taxAmount = nAmount - netAmount;
+      totalAmount = nAmount;
     }
 
     return {
@@ -70,7 +71,7 @@ const GST: React.FC = () => {
                 <input
                 type="number"
                 value={amount}
-                onChange={(e) => setAmount(Number(e.target.value))}
+                onChange={(e) => setAmount(e.currentTarget.value)}
                 className="w-full pl-8 pr-4 py-3 bg-white text-slate-900 border border-slate-200 rounded-xl focus:ring-2 focus:ring-lavender-500 outline-none text-lg font-medium transition-all"
                 />
             </div>
@@ -105,7 +106,7 @@ const GST: React.FC = () => {
                 <button
                     onClick={() => setType('inclusive')}
                     className={`px-4 py-3 rounded-xl text-xs font-semibold transition-all text-left border flex justify-between items-center ${
-                    type === 'inclusive' ? 'bg-lavender-50 border-lavender-200 text-lavender-700 shadow-sm' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'
+                    type === 'inclusive' ? 'bg-purple-600 border-purple-400 text-white shadow-sm' : 'bg-white border-slate-500 text-slate-500 hover:bg-slate-50'
                     }`}
                 >
                     With GST
@@ -114,7 +115,7 @@ const GST: React.FC = () => {
                 <button
                     onClick={() => setType('exclusive')}
                     className={`px-4 py-3 rounded-xl text-xs font-semibold transition-all text-left border flex justify-between items-center ${
-                    type === 'exclusive' ? 'bg-lavender-50 border-lavender-200 text-lavender-700 shadow-sm' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'
+                    type === 'exclusive' ? 'bg-purple-600 border-purple-400 text-white shadow-sm' : 'bg-white border-slate-500 text-slate-500 hover:bg-slate-50'
                     }`}
                 >
                     Without GST
@@ -133,7 +134,7 @@ const GST: React.FC = () => {
                  <button
                     onClick={() => setLocation('intra')}
                     className={`px-4 py-3 rounded-xl text-xs font-semibold transition-all text-left border flex justify-between items-center ${
-                    location === 'intra' ? 'bg-lavender-50 border-lavender-200 text-lavender-700 shadow-sm' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'
+                    location === 'intra' ? 'bg-purple-600 border-purple-400 text-white shadow-sm' : 'bg-white border-slate-500 text-slate-500 hover:bg-slate-50'
                     }`}
                 >
                     Same State (CGST + SGST)
@@ -142,7 +143,7 @@ const GST: React.FC = () => {
                 <button
                     onClick={() => setLocation('inter')}
                     className={`px-4 py-3 rounded-xl text-xs font-semibold transition-all text-left border flex justify-between items-center ${
-                    location === 'inter' ? 'bg-lavender-50 border-lavender-200 text-lavender-700 shadow-sm' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'
+                    location === 'inter' ? 'bg-purple-600 border-purple-400 text-white shadow-sm' : 'bg-white border-slate-500 text-slate-500 hover:bg-slate-50'
                     }`}
                 >
                     Different State (IGST)
@@ -155,7 +156,7 @@ const GST: React.FC = () => {
 
         {/* Results */}
         <div className="flex flex-col justify-center h-full">
-            <div className="bg-gradient-to-br from-gray-600 via-gray-600 to-gray-700  rounded-3xl p-8 text-white shadow-xl relative overflow-hidden">
+            <div className="bg-gradient-to-br from-purple-600 via-purple-600 to-pink-700  rounded-3xl p-8 text-white shadow-xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-40 h-40 bg-lavender-500 rounded-full blur-3xl opacity-20 -translate-y-1/2 translate-x-1/2"></div>
                 
                 <h4 className="text-white text-sm font-medium uppercase tracking-wider mb-8">Summary Breakdown</h4>
@@ -183,8 +184,8 @@ const GST: React.FC = () => {
                         </div>
                     ) : (
                         <div className="flex justify-between items-center border-b border-slate-700 pb-4">
-                            <span className="text-slate-400 flex items-center gap-2">
-                                IGST <span className="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded">{rate}%</span>
+                            <span className="text-slate-300 flex items-center gap-2">
+                                IGST <span className="text-[14px] bg-slate-800 px-1.5 py-0.5 rounded">{rate}%</span>
                             </span>
                             <span className="text-lavender-400 font-medium text-lg">{formatCurrency(tax)}</span>
                         </div>

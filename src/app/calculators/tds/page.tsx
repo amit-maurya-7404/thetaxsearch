@@ -38,42 +38,45 @@ const Tooltip = ({ content }: { content: string }) => (
 const TDS: React.FC = () => {
   const [selectedSectionId, setSelectedSectionId] = useState<string>('194J_prof');
   const [payeeType, setPayeeType] = useState<'individual' | 'other'>('individual');
-  const [amount, setAmount] = useState<number>(50000);
+  const [amount, setAmount] = useState<string>('50000');
   const [panAvailable, setPanAvailable] = useState<boolean>(true);
-  const [annualSalary, setAnnualSalary] = useState<number>(1200000);
+  const [annualSalary, setAnnualSalary] = useState<string>('1200000');
 
   const selectedSection = tdsSections.find(s => s.id === selectedSectionId) || tdsSections[0];
 
   const formatCurrency = (val: number) => 
     new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
 
-  const calculateTDS = () => {
+    const calculateTDS = () => {
+    const nAmount = Number(amount) || 0;
+    const nAnnualSalary = Number(annualSalary) || 0;
+
     if (selectedSection.type === 'salary') {
-        const standardDeduction = 75000;
-        const taxable = Math.max(0, annualSalary - standardDeduction);
-        let tax = 0;
-        if (taxable > 1500000) tax += (taxable - 1500000) * 0.30 + 140000;
-        else if (taxable > 1200000) tax += (taxable - 1200000) * 0.20 + 80000;
-        else if (taxable > 1000000) tax += (taxable - 1000000) * 0.15 + 50000;
-        else if (taxable > 700000) tax += (taxable - 700000) * 0.10 + 20000;
-        else if (taxable > 300000) tax += (taxable - 300000) * 0.05;
+      const standardDeduction = 75000;
+      const taxable = Math.max(0, nAnnualSalary - standardDeduction);
+      let tax = 0;
+      if (taxable > 1500000) tax += (taxable - 1500000) * 0.30 + 140000;
+      else if (taxable > 1200000) tax += (taxable - 1200000) * 0.20 + 80000;
+      else if (taxable > 1000000) tax += (taxable - 1000000) * 0.15 + 50000;
+      else if (taxable > 700000) tax += (taxable - 700000) * 0.10 + 20000;
+      else if (taxable > 300000) tax += (taxable - 300000) * 0.05;
         
-        if (taxable <= 700000) tax = 0;
-        const totalTax = tax * 1.04;
-        return {
-            rateApplied: annualSalary > 0 ? (totalTax / annualSalary * 100).toFixed(2) : "0.00",
-            tdsAmount: totalTax,
-            netAmount: annualSalary - totalTax,
-            monthlyTDS: totalTax / 12
-        };
+      if (taxable <= 700000) tax = 0;
+      const totalTax = tax * 1.04;
+      return {
+        rateApplied: nAnnualSalary > 0 ? (totalTax / nAnnualSalary * 100).toFixed(2) : "0.00",
+        tdsAmount: totalTax,
+        netAmount: nAnnualSalary - totalTax,
+        monthlyTDS: totalTax / 12
+      };
     } else {
-        let rate = payeeType === 'individual' ? selectedSection.rateInd : selectedSection.rateOther;
-        if (!panAvailable) rate = Math.max(rate, 20);
-        if (amount <= selectedSection.threshold) return { rateApplied: '0', tdsAmount: 0, netAmount: amount, monthlyTDS: 0 };
-        const tdsAmount = (amount * rate) / 100;
-        return { rateApplied: rate.toString(), tdsAmount, netAmount: amount - tdsAmount, monthlyTDS: 0 };
+      let rate = payeeType === 'individual' ? selectedSection.rateInd : selectedSection.rateOther;
+      if (!panAvailable) rate = Math.max(rate, 20);
+      if (nAmount <= selectedSection.threshold) return { rateApplied: '0', tdsAmount: 0, netAmount: nAmount, monthlyTDS: 0 };
+      const tdsAmount = (nAmount * rate) / 100;
+      return { rateApplied: rate.toString(), tdsAmount, netAmount: nAmount - tdsAmount, monthlyTDS: 0 };
     }
-  };
+    };
 
   const results = calculateTDS();
 
@@ -126,7 +129,7 @@ const TDS: React.FC = () => {
                 <input
                   type="number"
                   value={annualSalary}
-                  onChange={(e) => setAnnualSalary(Number(e.target.value))}
+                  onChange={(e) => setAnnualSalary(e.currentTarget.value)}
                   className="w-full pl-8 pr-4 py-3 bg-white text-slate-900 border border-slate-200 rounded-xl focus:ring-2 focus:ring-lavender-500 outline-none font-medium"
                 />
               </div>
@@ -138,11 +141,11 @@ const TDS: React.FC = () => {
                    Payee Type
                    <Tooltip content="Tax rate may differ for Individuals vs Companies." />
                 </label>
-                <div className="flex bg-slate-100 p-1 rounded-xl">
+                <div className="flex bg-slate-200  p-1 rounded-xl">
                   <button
                     onClick={() => setPayeeType('individual')}
                     className={`flex-1 py-2.5 rounded-lg text-sm font-bold transition-all ${
-                      payeeType === 'individual' ? 'bg-white text-lavender-700 shadow-sm' : 'text-slate-500 hover:text-slate-600'
+                      payeeType === 'individual' ? 'bg-purple-600 text-white shadow-sm' : 'text-slate-500 hover:text-slate-600'
                     }`}
                   >
                     Individual / HUF
@@ -150,7 +153,7 @@ const TDS: React.FC = () => {
                   <button
                     onClick={() => setPayeeType('other')}
                     className={`flex-1 py-2.5 rounded-lg text-sm font-bold transition-all ${
-                      payeeType === 'other' ? 'bg-white text-lavender-700 shadow-sm' : 'text-slate-500 hover:text-slate-600'
+                      payeeType === 'other' ? 'bg-purple-600 text-white  shadow-sm' : 'text-slate-500 hover:text-slate-600'
                     }`}
                   >
                     Company / Firm
@@ -168,7 +171,7 @@ const TDS: React.FC = () => {
                    <input
                     type="number"
                     value={amount}
-                    onChange={(e) => setAmount(Number(e.target.value))}
+                    onChange={(e) => setAmount(e.currentTarget.value)}
                     className="w-full pl-8 pr-4 py-3 bg-white text-slate-900 border border-slate-200 rounded-xl focus:ring-2 focus:ring-lavender-500 outline-none font-medium"
                    />
                 </div>
@@ -204,7 +207,7 @@ const TDS: React.FC = () => {
 
         {/* Results */}
         <div className="flex flex-col h-full">
-           <div className="bg-gradient-to-br from-gray-900 via-gray-600 to-gray-800 rounded-3xl p-8 text-white shadow-xl flex-1 flex flex-col justify-center relative overflow-hidden">
+           <div className="bg-gradient-to-br from-purple-600 via-purple-600 to-pink-700 rounded-3xl p-8 text-white shadow-xl flex-1 flex flex-col justify-center relative overflow-hidden">
               <div className="absolute bottom-0 left-0 w-32 h-32 bg-lavender-600 rounded-full blur-3xl opacity-20 translate-y-1/2 -translate-x-1/2"></div>
               
               <div className="relative z-10 text-center mb-8">

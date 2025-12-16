@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
 import { Badge } from "./ui/badge"
@@ -14,7 +16,7 @@ interface BlogCardProps {
 }
 
 export function BlogCard({ slug, title, description, date, tags, readingTime, postId }: BlogCardProps) {
-  const href = `/blog/${slug}${postId ? `?id=${postId}` : ''}`
+  const href = `/blog?slug=${encodeURIComponent(slug)}${postId ? `&id=${encodeURIComponent(postId)}` : ''}`
   return (
     <Link href={href}>
       <Card className="card-shadow hover:shadow-2xl transition-all duration-300 h-full hover:border-primary cursor-pointer">

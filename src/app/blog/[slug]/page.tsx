@@ -49,11 +49,19 @@ export default async function BlogPage({ params, searchParams }: { params: { slu
         try {
           const db = await getDatabase()
           let raw = null
+          // try blog_posts first (legacy), then try posts (API collection)
           try {
             raw = await db.collection('blog_posts').findOne({ _id: new ObjectId(requestedId) })
           } catch (e) {
-            // not a valid ObjectId, try id field
+            // not a valid ObjectId, try id field on blog_posts
             raw = await db.collection('blog_posts').findOne({ id: requestedId })
+          }
+          if (!raw) {
+            try {
+              raw = await db.collection('posts').findOne({ _id: new ObjectId(requestedId) })
+            } catch (e) {
+              raw = await db.collection('posts').findOne({ id: requestedId })
+            }
           }
           if (raw) {
             post = raw
@@ -89,8 +97,8 @@ export default async function BlogPage({ params, searchParams }: { params: { slu
   if (!post) {
     try {
       const db = await getDatabase()
-      // Try exact match, then case-insensitive
-      // Prefer the newest matching document if duplicates exist
+      // Try blog_posts (legacy) then the API collection 'posts'
+      // Try exact match, then case-insensitive. Prefer newest matching document if duplicates exist.
       let rawCursor = await db.collection('blog_posts').find({ slug: normalizedSlug }).sort({ createdAt: -1 }).limit(1)
       let raw = (await rawCursor.toArray())[0]
       if (!raw) {
@@ -98,9 +106,19 @@ export default async function BlogPage({ params, searchParams }: { params: { slu
         raw = (await rawCursor.toArray())[0]
       }
 
+      if (!raw) {
+        // try the 'posts' collection used by the API
+        rawCursor = await db.collection('posts').find({ slug: normalizedSlug }).sort({ createdAt: -1 }).limit(1)
+        raw = (await rawCursor.toArray())[0]
+        if (!raw) {
+          rawCursor = await db.collection('posts').find({ slug: { $regex: `^${normalizedSlug}$`, $options: 'i' } }).sort({ createdAt: -1 }).limit(1)
+          raw = (await rawCursor.toArray())[0]
+        }
+      }
+
       if (raw) {
         post = raw
-        console.log('[Blog Page] Found post in blog_posts collection:', post.title || post.slug)
+        console.log('[Blog Page] Found post in raw collection:', post.title || post.slug)
       }
     } catch (rawErr) {
       console.warn('[Blog Page] Raw DB lookup failed:', rawErr)

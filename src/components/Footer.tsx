@@ -34,7 +34,7 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/admin/login" className="text-gray-700 hover:text-primary transition-colors">
+                <Link href="/admin" className="text-gray-700 hover:text-primary transition-colors">
                   Admin
                 </Link>
               </li>
@@ -98,11 +98,11 @@ export function Footer() {
             </div>
           </div>
         </div>
-        <div className="relative text-[12vw] leading-[0.8] text-[#11250c] pb-[0.1vw] whitespace-nowrap text-center mt-[6vw] lg:mt-[2vw] tracking-wider" style={{ fontFamily: 'Optima, sans-serif' }}>
+        {/* <div className="relative text-[12vw] leading-[0.8] text-[#11250c] pb-[0.1vw] whitespace-nowrap text-center mt-[6vw] lg:mt-[2vw] tracking-wider" style={{ fontFamily: 'Optima, sans-serif' }}>
           theTaxSearch
-        </div>
+        </div> */}
 
-        <div className="border-t mt-0 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-700">
+        <div className="border-t mt-10 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-700">
           <p>&copy; {currentYear} @ Powered by Amit Maurya.</p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <Link href="#" className="hover:text-primary transition-colors">

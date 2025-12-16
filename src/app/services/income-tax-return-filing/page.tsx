@@ -10,7 +10,7 @@ export default function IncomeTexReturnFilingPage() {
         <div className="container mx-auto px-6 max-w-6xl relative z-10">
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight">
-              Stress-Free <span className="text-primary">Income Tax Return Filing</span>
+              Stress-Free <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500">Income Tax Return Filing</span>
             </h1>
             <p className="text-lg md:text-xl text-slate-600 mb-10 leading-relaxed">
               From ITR-1 to ITR-6, we handle your tax return filing with precision to maximize deductions and minimize your tax liability.
@@ -23,9 +23,9 @@ export default function IncomeTexReturnFilingPage() {
                 Get Your ITR Ready
               </Link>
 
-              <button className="bg-white text-emerald-600 border border-emerald-200 px-8 py-4 rounded-xl font-semibold hover:bg-emerald-50 hover:text-emerald-700 transform hover:scale-105 transition duration-300 shadow-sm hover:shadow-md focus:outline-none focus:ring-4 focus:ring-emerald-100">
+              {/* <button className="bg-white text-emerald-600 border border-emerald-200 px-8 py-4 rounded-xl font-semibold hover:bg-emerald-50 hover:text-emerald-700 transform hover:scale-105 transition duration-300 shadow-sm hover:shadow-md focus:outline-none focus:ring-4 focus:ring-emerald-100">
                 View Pricing
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

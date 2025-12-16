@@ -10,7 +10,7 @@ export default function TdsOnPropertyPage() {
         <div className="container mx-auto px-6 max-w-6xl relative z-10">
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight">
-              TDS on Sale of <span className="text-primary">Property Made Easy</span>
+              TDS on Sale of <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500">Property Made Easy</span>
             </h1>
             <p className="text-lg md:text-xl text-slate-600 mb-10 leading-relaxed">
               Navigate Section 194-IA withholding requirements with expert guidance to ensure compliant property transactions.
@@ -19,9 +19,9 @@ export default function TdsOnPropertyPage() {
               <Link href="/aboutus#contact-form-section" className="inline-block bg-gradient-to-r from-purple-600 to-pink-500 text-white px-8 py-4 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-600 transform hover:scale-105 transition duration-300 shadow-lg hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-purple-200 text-center">
                 Get Expert Help
               </Link>
-              <button className="bg-white text-emerald-600 border border-emerald-200 px-8 py-4 rounded-xl font-semibold hover:bg-emerald-50 transition">
+              {/* <button className="bg-white text-emerald-600 border border-emerald-200 px-8 py-4 rounded-xl font-semibold hover:bg-emerald-50 transition">
                 Learn More
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

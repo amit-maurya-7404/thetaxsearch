@@ -6,9 +6,9 @@ import { IoCall } from "react-icons/io5";
 const buttons = [
 
     {
-        icon: <MdWhatsapp className="hidden sm:block" size={"3vw"} />,
+        icon: <MdWhatsapp className="hidden sm:block" size={"2.4vw"} />,
         iconMobile: <MdWhatsapp className="block sm:hidden" size={'10vw'} />, // 32px for mobile
-        text: "Enquire Now",
+        text: "enquire Now",
         href: "https://wa.me/+91",
         bg: "bg-indigo-500 hover:bg-indigo-500",
     },

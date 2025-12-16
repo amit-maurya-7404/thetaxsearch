@@ -27,7 +27,7 @@ export function Navbar() {
     closeTimerRef.current = window.setTimeout(() => {
       setDropdownOpen(false)
       closeTimerRef.current = null
-    }, 2000)
+    }, 500)
   }
 
   useEffect(() => {
@@ -93,10 +93,10 @@ export function Navbar() {
         {/* Right Side */}
         <div className="flex items-center space-x-4">
           <ThemeToggle />
-          <a href="https://wa.me/919211918886" target="_blank" rel="noopener noreferrer">
+          <a href="tel:+919211918886" target="_blank" rel="noopener noreferrer">
             <Button variant="default" size="sm" className="hidden sm:inline-flex bg-emerald-600 hover:bg-emerald-700 text-white">
               <Phone className="w-4 h-4 mr-2" />
-              WhatsApp
+              Call Now
             </Button>
           </a>
 

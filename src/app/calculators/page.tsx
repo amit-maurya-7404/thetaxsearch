@@ -76,7 +76,7 @@ const Calculators: React.FC = () => {
 				>
 					<Home className="w-4 h-4" /> HRA
 				</button>
-			</div> 				/* Content Area */
+			</div> 				
 				<div className="animate-fadeIn">
 					{activeTab === 'income' && <IncomeTax />}
 					{activeTab === 'gst' && <GST />}

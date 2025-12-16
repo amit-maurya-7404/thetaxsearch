@@ -87,7 +87,7 @@ export function ContactForm() {
   }
 
   return (
-    <div id="contact-form-section" className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div id="contact-form-section" className="container mx-auto px-4 max-w-7xl grid grid-cols-1 lg:grid-cols-3 gap-8">
       {/* Contact Information */}
       <div className="lg:col-span-1">
         <div className="bg-white border rounded-lg p-8 sticky top-24">
@@ -183,7 +183,7 @@ export function ContactForm() {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                placeholder="+91 92119 18886"
+                placeholder="Contact Number"
                 className="w-full px-4 py-2 border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
               />
             </div>

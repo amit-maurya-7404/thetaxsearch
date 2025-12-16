@@ -236,7 +236,7 @@ export default function AboutPage() {
                             { number: "1500+", label: "Happy Clients" },
                             { number: "5+", label: "Years of Experience" },
                             { number: "13.5Cr+", label: "Tax Filed" },
-                            { number: "24/7", label: "Customer Support" },
+                            { number: "4.9/5", label: "Customer Rating" },
                         ].map((stat, i) => (
                             <motion.div key={i} variants={fadeInUp}>
                                 <p className="text-4xl md:text-5xl font-bold text-primary mb-2">{stat.number}</p>

@@ -18,20 +18,20 @@ type AgeGroup = '0-60' | '60-80' | '80+';
 
 const IncomeTax: React.FC = () => {
   // --- CONFIGURATION ---
-  const [fy, setFy] = useState<FinancialYear>('FY 2024-25');
+  const [fy, setFy] = useState<FinancialYear>('FY 2025-26');
   const [ageGroup, setAgeGroup] = useState<AgeGroup>('0-60');
 
   // --- INCOME HEADS ---
-  const [incomeSalary, setIncomeSalary] = useState<number>(1200000);
-  const [incomeInterest, setIncomeInterest] = useState<number>(10000);
-  const [incomeRental, setIncomeRental] = useState<number>(0); // Can be negative for SOP interest
-  const [incomeOther, setIncomeOther] = useState<number>(0);
+  const [incomeSalary, setIncomeSalary] = useState<string>('1200000');
+  const [incomeInterest, setIncomeInterest] = useState<string>('10000');
+  const [incomeRental, setIncomeRental] = useState<string>('0'); // Can be negative for SOP interest
+  const [incomeOther, setIncomeOther] = useState<string>('0');
 
   // --- DEDUCTIONS (OLD REGIME MAINLY) ---
-  const [deductions80C, setDeductions80C] = useState<number>(150000);
-  const [deductions80D, setDeductions80D] = useState<number>(25000);
-  const [hraExemption, setHraExemption] = useState<number>(0);
-  const [deductionsOther, setDeductionsOther] = useState<number>(0);
+  const [deductions80C, setDeductions80C] = useState<string>('0');
+  const [deductions80D, setDeductions80D] = useState<string>('0');
+  const [hraExemption, setHraExemption] = useState<string>('0');
+  const [deductionsOther, setDeductionsOther] = useState<string>('0');
 
   // UI State
   const [showDeductions, setShowDeductions] = useState(true);
@@ -45,38 +45,47 @@ const IncomeTax: React.FC = () => {
   };
 
   const calculateTax = () => {
+    // Parse numeric inputs (allow empty strings)
+    const nIncomeSalary = Number(incomeSalary) || 0;
+    const nIncomeInterest = Number(incomeInterest) || 0;
+    const nIncomeRental = Number(incomeRental) || 0;
+    const nIncomeOther = Number(incomeOther) || 0;
+
+    const nDeductions80C = Number(deductions80C) || 0;
+    const nDeductions80D = Number(deductions80D) || 0;
+    const nHraExemption = Number(hraExemption) || 0;
+    const nDeductionsOther = Number(deductionsOther) || 0;
+
     // -------------------------------------------------------------------------
     // 1. OLD REGIME CALCULATION
     // -------------------------------------------------------------------------
     
     // A. Gross Total Income (Old Regime)
     // House Property Loss set-off allowed up to 2 Lakhs against other heads
-    let rentalIncomeOld = incomeRental;
-    if (incomeRental < 0) {
-        rentalIncomeOld = Math.max(incomeRental, -200000);
+    let rentalIncomeOld = nIncomeRental;
+    if (nIncomeRental < 0) {
+      rentalIncomeOld = Math.max(nIncomeRental, -200000);
     }
-    const grossIncomeOld = incomeSalary + incomeInterest + incomeOther + rentalIncomeOld;
+    const grossIncomeOld = nIncomeSalary + nIncomeInterest + nIncomeOther + rentalIncomeOld;
 
     // B. Deductions
-    const stdDedOld = incomeSalary > 0 ? 50000 : 0;
+    const stdDedOld = nIncomeSalary > 0 ? 50000 : 0;
     
     // 80TTA / 80TTB
     let deductionInterest = 0;
     if (ageGroup === '0-60') {
-        // 80TTA: Max 10k
-        deductionInterest = Math.min(incomeInterest, 10000);
+      deductionInterest = Math.min(nIncomeInterest, 10000);
     } else {
-        // 80TTB: Max 50k
-        deductionInterest = Math.min(incomeInterest, 50000);
+      deductionInterest = Math.min(nIncomeInterest, 50000);
     }
 
     const totalDeductionsOld = 
-        stdDedOld + 
-        Math.min(deductions80C, 150000) + 
-        deductions80D + 
-        hraExemption + 
-        deductionsOther + 
-        deductionInterest;
+      stdDedOld + 
+      Math.min(nDeductions80C, 150000) + 
+      nDeductions80D + 
+      nHraExemption + 
+      nDeductionsOther + 
+      deductionInterest;
 
     // C. Taxable Income
     const taxableOld = Math.max(0, Math.round((grossIncomeOld - totalDeductionsOld) / 10) * 10);
@@ -115,12 +124,12 @@ const IncomeTax: React.FC = () => {
     // A. Gross Total Income (New Regime)
     // IMPORTANT: Loss from House Property (Self Occupied Interest) CANNOT be set off against Salary/Other heads.
     // It is carried forward (ignored for current year tax payable calculation).
-    const rentalIncomeNew = Math.max(0, incomeRental);
-    const grossIncomeNew = incomeSalary + incomeInterest + incomeOther + rentalIncomeNew;
+    const rentalIncomeNew = Math.max(0, nIncomeRental);
+    const grossIncomeNew = nIncomeSalary + nIncomeInterest + nIncomeOther + rentalIncomeNew;
 
     // B. Deductions
     // Standard Deduction increased to 75k for FY 24-25 and 25-26 (New Regime)
-    const stdDedNew = incomeSalary > 0 ? 75000 : 0;
+    const stdDedNew = nIncomeSalary > 0 ? 75000 : 0;
     
     // C. Taxable Income
     const taxableNew = Math.max(0, Math.round((grossIncomeNew - stdDedNew) / 10) * 10);
@@ -232,13 +241,13 @@ const IncomeTax: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-2">Financial Year</label>
-              <div className="flex bg-slate-50 p-1 rounded-xl border border-slate-200">
+              <div className="flex bg-slate-50 p-1 rounded-xl border border-slate-400">
                 {(['FY 2024-25', 'FY 2025-26'] as FinancialYear[]).map((y) => (
                   <button
                     key={y}
                     onClick={() => setFy(y)}
                     className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${
-                      fy === y ? 'bg-white text-lavender-700 shadow-sm border border-slate-100' : 'text-slate-500 hover:text-slate-700'
+                      fy === y ? 'bg-purple-600 text-white shadow-sm border border-slate-100' : 'text-slate-500 hover:text-slate-700'
                     }`}
                   >
                     {y}
@@ -275,11 +284,11 @@ const IncomeTax: React.FC = () => {
                 <Tooltip content="Gross Salary before any deductions. Standard Deduction (50k/75k) will be applied automatically." />
               </label>
               <div className="relative">
-                <span className="absolute left-4 top-2.5 text-slate-400 font-medium">₹</span>
+                <span className="absolute left-4 top-2.5 text-slate-600 font-medium">₹</span>
                 <input 
                   type="number" 
                   value={incomeSalary} 
-                  onChange={(e) => setIncomeSalary(Number(e.target.value))}
+                  onChange={(e) => setIncomeSalary(e.target.value)}
                   className="w-full pl-8 pr-4 py-2.5 bg-white text-slate-900 border border-slate-200 rounded-xl focus:ring-2 focus:ring-lavender-500 outline-none font-medium transition-all"
                 />
               </div>
@@ -292,11 +301,11 @@ const IncomeTax: React.FC = () => {
                   <Tooltip content="Interest from Savings Bank, FD, etc. 80TTA/TTB deduction applied automatically in Old Regime." />
                 </label>
                 <div className="relative">
-                  <span className="absolute left-4 top-2.5 text-slate-400 font-medium">₹</span>
+                  <span className="absolute left-4 top-2.5 text-slate-600 font-medium">₹</span>
                   <input 
                     type="number" 
                     value={incomeInterest} 
-                    onChange={(e) => setIncomeInterest(Number(e.target.value))}
+                    onChange={(e) => setIncomeInterest(e.target.value)}
                     className="w-full pl-8 pr-4 py-2.5 bg-white text-slate-900 border border-slate-200 rounded-xl focus:ring-2 focus:ring-lavender-500 outline-none font-medium"
                   />
                 </div>
@@ -308,11 +317,11 @@ const IncomeTax: React.FC = () => {
                   <Tooltip content="Freelance, Dividend, Capital Gains (Short Term), etc." />
                 </label>
                 <div className="relative">
-                  <span className="absolute left-4 top-2.5 text-slate-400 font-medium">₹</span>
+                  <span className="absolute left-4 top-2.5 text-slate-600 font-medium">₹</span>
                   <input 
                     type="number" 
                     value={incomeOther} 
-                    onChange={(e) => setIncomeOther(Number(e.target.value))}
+                    onChange={(e) => setIncomeOther(e.target.value)}
                     className="w-full pl-8 pr-4 py-2.5 bg-white text-slate-900 border border-slate-200 rounded-xl focus:ring-2 focus:ring-lavender-500 outline-none font-medium"
                   />
                 </div>
@@ -325,11 +334,11 @@ const IncomeTax: React.FC = () => {
                 <Tooltip content="Enter Net Rental Income. For Self-Occupied Home Loan Interest, enter negative value (e.g. -200000)." />
               </label>
               <div className="relative">
-                <span className="absolute left-4 top-2.5 text-slate-400 font-medium">₹</span>
+                <span className="absolute left-4 top-2.5 text-slate-600 font-medium">₹</span>
                 <input 
                   type="number" 
                   value={incomeRental} 
-                  onChange={(e) => setIncomeRental(Number(e.target.value))}
+                  onChange={(e) => setIncomeRental(e.target.value)}
                   placeholder="-200000 for Home Loan Interest"
                   className="w-full pl-8 pr-4 py-2.5 bg-white text-slate-900 border border-slate-200 rounded-xl focus:ring-2 focus:ring-lavender-500 outline-none font-medium"
                 />
@@ -362,11 +371,11 @@ const IncomeTax: React.FC = () => {
                   <Tooltip content="LIC, PPF, EPF, ELSS, Principal Repayment of Home Loan. Max 1.5 Lakhs." />
                 </label>
                 <div className="relative">
-                  <span className="absolute left-4 top-2.5 text-slate-400 font-medium">₹</span>
+                  <span className="absolute left-4 top-2.5 text-slate-600 font-medium">₹</span>
                   <input 
                     type="number" 
                     value={deductions80C} 
-                    onChange={(e) => setDeductions80C(Number(e.target.value))}
+                    onChange={(e) => setDeductions80C(e.currentTarget.value)}
                     className="w-full pl-8 pr-4 py-2.5 bg-white text-slate-900 border border-slate-200 rounded-xl focus:ring-2 focus:ring-lavender-500 outline-none font-medium"
                   />
                 </div>
@@ -379,12 +388,12 @@ const IncomeTax: React.FC = () => {
                     <Tooltip content="Health Insurance Premium for Self and Parents." />
                     </label>
                     <div className="relative">
-                    <span className="absolute left-4 top-2.5 text-slate-400 font-medium">₹</span>
+                    <span className="absolute left-4 top-2.5 text-slate-600 font-medium">₹</span>
                     <input 
-                        type="number" 
-                        value={deductions80D} 
-                        onChange={(e) => setDeductions80D(Number(e.target.value))}
-                        className="w-full pl-8 pr-4 py-2.5 bg-white text-slate-900 border border-slate-200 rounded-xl focus:ring-2 focus:ring-lavender-500 outline-none font-medium"
+                      type="number" 
+                      value={deductions80D} 
+                      onChange={(e) => setDeductions80D(e.currentTarget.value)}
+                      className="w-full pl-8 pr-4 py-2.5 bg-white text-slate-900 border border-slate-200 rounded-xl focus:ring-2 focus:ring-lavender-500 outline-none font-medium"
                     />
                     </div>
                 </div>
@@ -394,11 +403,11 @@ const IncomeTax: React.FC = () => {
                       <Tooltip content="Enter the calculated HRA Exemption amount (Min of: Actual HRA, Rent-10% Basic, 50% Basic)." />
                     </label>
                     <div className="relative">
-                      <span className="absolute left-4 top-2.5 text-slate-400 font-medium">₹</span>
+                      <span className="absolute left-4 top-2.5 text-slate-600 font-medium">₹</span>
                       <input 
                         type="number" 
                         value={hraExemption} 
-                        onChange={(e) => setHraExemption(Number(e.target.value))}
+                        onChange={(e) => setHraExemption(e.currentTarget.value)}
                         className="w-full pl-8 pr-4 py-2.5 bg-white text-slate-900 border border-slate-200 rounded-xl focus:ring-2 focus:ring-lavender-500 outline-none font-medium"
                       />
                     </div>
@@ -411,11 +420,11 @@ const IncomeTax: React.FC = () => {
                   <Tooltip content="Section 80E (Education Loan Interest), 80G (Donations), etc." />
                 </label>
                 <div className="relative">
-                  <span className="absolute left-4 top-2.5 text-slate-400 font-medium">₹</span>
+                  <span className="absolute left-4 top-2.5 text-slate-600 font-medium">₹</span>
                   <input 
                     type="number" 
                     value={deductionsOther} 
-                    onChange={(e) => setDeductionsOther(Number(e.target.value))}
+                    onChange={(e) => setDeductionsOther(e.currentTarget.value)}
                     className="w-full pl-8 pr-4 py-2.5 bg-white text-slate-900 border border-slate-200 rounded-xl focus:ring-2 focus:ring-lavender-500 outline-none font-medium"
                   />
                 </div>
@@ -429,7 +438,7 @@ const IncomeTax: React.FC = () => {
       <div className="xl:col-span-5 space-y-6">
         
         {/* RECOMMENDATION */}
-        <div className="bg-gradient-to-br from-purple-600 via-lavender-600 to-purple-700 p-8 rounded-3xl shadow-lg text-white relative overflow-hidden">
+        <div className="bg-gradient-to-br from-purple-600 via-purple-600 to-pink-700 p-8 rounded-3xl shadow-lg text-white relative overflow-hidden">
           <div className="absolute -top-10 -right-10 w-48 h-48 bg-white opacity-10 rounded-full blur-2xl"></div>
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-4">
@@ -449,10 +458,10 @@ const IncomeTax: React.FC = () => {
         <div className="space-y-4">
             
             {/* NEW REGIME CARD */}
-            <div className={`p-6 rounded-2xl border transition-all relative overflow-hidden ${
+            <div className={`p-6 rounded-2xl border relative overflow-hidden ${
               betterRegime === 'New Regime' 
-              ? 'bg-gradient-to-br from-lavender-300 to-lavender-100 border-lavender-400 shadow-md ring-1 ring-lavender-300' 
-              : 'bg-gradient-to-br from-lavender-100 to-white border-slate-100 opacity-95 hover:opacity-100'
+              ? 'bg-gradient-to-br from-lavender-300 to-lavender-100 border-lavender-400 shadow-2xl ring-2 ring-lavender-300 transform -translate-y-1 scale-105 transition-all' 
+              : 'bg-gradient-to-br from-lavender-100 to-white border-slate-100 opacity-95 hover:opacity-100 transition-all'
             }`}>
                 <div className="flex justify-between items-start mb-6">
                     <div>
@@ -487,10 +496,10 @@ const IncomeTax: React.FC = () => {
             </div>
 
             {/* OLD REGIME CARD */}
-            <div className={`p-6 rounded-2xl border transition-all relative overflow-hidden ${
+            <div className={`p-6 rounded-2xl border relative overflow-hidden ${
               betterRegime === 'Old Regime' 
-              ? 'bg-gradient-to-br from-lavender-300 to-lavender-100 border-lavender-400 shadow-md ring-1 ring-lavender-300' 
-              : 'bg-gradient-to-br from-lavender-100 to-white border-slate-100 opacity-95 hover:opacity-100'
+              ? 'bg-gradient-to-br from-lavender-300 to-lavender-100 border-lavender-400 shadow-2xl ring-2 ring-lavender-300 transform -translate-y-1 scale-105 transition-all' 
+              : 'bg-gradient-to-br from-lavender-100 to-white border-slate-100 opacity-95 hover:opacity-100 transition-all'
             }`}>
                 <div className="flex justify-between items-start mb-6">
                     <div>

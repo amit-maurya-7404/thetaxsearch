@@ -9,6 +9,7 @@ import {
   Clock,
   BarChart3,
   Users,
+  Star,
   TrendingUp,
   CheckCircle,
   Building2,
@@ -51,7 +52,7 @@ export default function ServicesPage() {
         >
           <motion.div variants={fadeInUp}>
             <h1 className="text-5xl md:text-6xl font-bold mb-6">
-              Comprehensive <span className="text-primary">Tax Services</span>
+              Comprehensive <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500">Tax Services</span>
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               From GST to Income Tax, we provide end-to-end solutions for all your tax compliance
@@ -140,14 +141,14 @@ export default function ServicesPage() {
                 ],
               },
               {
-                icon: Users,
-                iconColor: 'bg-teal-100 text-teal-600',
-                title: "24/7 Support",
+                icon: Star,
+                iconColor: 'bg-amber-100 text-amber-600',
+                title: "Customer Rating",
                 details: [
-                  "Always available",
-                  "Quick response time",
-                  "Multiple channels",
-                  "Dedicated support",
+                  "4.9/5 average",
+                  "Based on 1.2k+ reviews",
+                  "Excellent customer satisfaction",
+                  "Trusted by clients",
                 ],
               },
             ].map((item, i) => (
