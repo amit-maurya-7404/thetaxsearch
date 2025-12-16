@@ -235,7 +235,7 @@ const TDS: React.FC = () => {
                 </div>
               </div>
 
-              {selectedSection.type !== 'salary' && results.tdsAmount === 0 && amount > 0 && (
+              {selectedSection.type !== 'salary' && results.tdsAmount === 0 && Number(amount) > 0 && (
                  <div className="mt-6 bg-green-500/10 text-green-300 p-3 rounded-xl text-sm flex items-start gap-3 border border-green-500/20">
                     <Check className="w-4 h-4 mt-0.5 shrink-0" />
                     <span>No TDS required. Amount is within the threshold of {formatCurrency(selectedSection.threshold)}.</span>
