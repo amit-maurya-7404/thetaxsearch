@@ -42,6 +42,8 @@ export function ContactForm() {
     return () => window.removeEventListener("hashchange", scrollToContactWithOffset)
   }, [])
 
+  // remove EmailJS usage — using Netlify Forms via AJAX
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
@@ -67,16 +69,34 @@ export function ContactForm() {
         setIsSubmitting(false)
         return
       }
+      // Prepare data for Netlify Forms - include form-name and honeypot field
+      const data: Record<string, string> = {
+        'form-name': 'contact',
+        'bot-field': '',
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+      }
 
-      // TODO: Send to API or email service
-      // For now, just simulate success
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      const encode = (obj: Record<string, string>) =>
+        Object.keys(obj)
+          .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(obj[k]))
+          .join('&')
 
-      setSubmitStatus("success")
-      setFormData({ name: "", email: "", phone: "", message: "" })
+      const res = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encode(data),
+      })
+
+      if (!res.ok) throw new Error('Network response was not ok')
+
+      setSubmitStatus('success')
+      setFormData({ name: '', email: '', phone: '', message: '' })
 
       // Reset success message after 3 seconds
-      setTimeout(() => setSubmitStatus("idle"), 3000)
+      setTimeout(() => setSubmitStatus('idle'), 3000)
     } catch (error) {
       console.error("Form submission error:", error)
       setSubmitStatus("error")
@@ -138,7 +158,17 @@ export function ContactForm() {
         <div className="bg-white border rounded-lg p-8">
           <h3 className="text-2xl font-semibold mb-6">Send us a Message</h3>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form
+            name="contact"
+            method="POST"
+            data-netlify="true"
+            netlify-honeypot="bot-field"
+            onSubmit={handleSubmit}
+            className="space-y-6"
+          >
+            {/* Required hidden inputs for Netlify Forms */}
+            <input type="hidden" name="form-name" value="contact" />
+            <input type="hidden" name="bot-field" />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium mb-2">

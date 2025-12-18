@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef, useCallback } from 'react';
 import { BlogPost, Category } from '../types/blog';
 
 interface BlogContextType {
@@ -46,42 +46,44 @@ export const BlogProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // Fetch posts & categories (try API, then fallback to localdb)
-  const fetchData = async () => {
-    let mounted = true
+  const isMountedRef = useRef(true);
+
+  const fetchData = useCallback(async () => {
     try {
       setIsLoading(true);
-      const [postsRes, catsRes] = await Promise.all([fetch('/api/blog'), fetch('/api/categories')])
-      if (!mounted) return
+      const [postsRes, catsRes] = await Promise.all([fetch('/api/blog'), fetch('/api/categories')]);
+      if (!isMountedRef.current) return;
       if (postsRes.ok) {
-        const data = await postsRes.json()
-        setPosts(Array.isArray(data) ? data : INITIAL_POSTS)
+        const data = await postsRes.json();
+        setPosts(Array.isArray(data) ? data : INITIAL_POSTS);
       }
       if (catsRes.ok) {
-        const cdata = await catsRes.json()
-        setCategories(Array.isArray(cdata) ? cdata : INITIAL_CATEGORIES)
+        const cdata = await catsRes.json();
+        setCategories(Array.isArray(cdata) ? cdata : INITIAL_CATEGORIES);
       }
     } catch (err) {
       // fallback to local mock DB when API unavailable
-      console.warn('API fetch failed, loading from local mock DB:', err)
+      console.warn('API fetch failed, loading from local mock DB:', err);
       try {
-        const local = await import('../lib/localdb')
-        const [lp, lc] = await Promise.all([local.db.getPosts(), local.db.getCategories()])
-        if (!mounted) return
-        setPosts(Array.isArray(lp) ? lp : INITIAL_POSTS)
-        setCategories(Array.isArray(lc) ? lc : INITIAL_CATEGORIES)
+        const local = await import('../lib/localdb');
+        const [lp, lc] = await Promise.all([local.db.getPosts(), local.db.getCategories()]);
+        if (!isMountedRef.current) return;
+        setPosts(Array.isArray(lp) ? lp : INITIAL_POSTS);
+        setCategories(Array.isArray(lc) ? lc : INITIAL_CATEGORIES);
       } catch (localErr) {
-        console.error('Failed to load local mock DB:', localErr)
+        console.error('Failed to load local mock DB:', localErr);
         // final fallback is already seeded INITIAL_* values
       }
     } finally {
-      if (mounted) setIsLoading(false)
+      if (isMountedRef.current) setIsLoading(false);
     }
-  }
+  }, []);
 
   useEffect(() => {
-    fetchData()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    isMountedRef.current = true;
+    fetchData();
+    return () => { isMountedRef.current = false; };
+  }, [fetchData]);
 
   const addPost = async (post: BlogPost) => {
     try {

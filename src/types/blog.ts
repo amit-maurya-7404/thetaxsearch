@@ -21,6 +21,8 @@ export interface BlogPost {
   author: string;
   image: string;
   content: string; // HTML string for rich text
+  views?: number;
+  status?: 'draft' | 'published';
   attachment?: {
     name: string;
     url: string; // Data URL

@@ -163,7 +163,7 @@ function FeatureItem({ text }: { text: string }) {
 function Step({ number, title, desc }: { number: string; title: string; desc: string }) {
   return (
     <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm text-center md:text-left">
-      <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-lg mb-4 mx-auto md:mx-0 shadow-md">
+      <div className="w-12 h-12 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold text-lg mb-4 mx-auto md:mx-0 shadow-md">
         {number}
       </div>
       <h4 className="text-lg font-bold text-slate-900 mb-2">{title}</h4>

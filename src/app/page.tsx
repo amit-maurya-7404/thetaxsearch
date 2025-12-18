@@ -272,7 +272,7 @@ export default function Home() {
 										{ label: "Happy Clients", value: "1500+" },
 										{ label: "Years of Experience", value: "5+" },
 										{ label: "Tax Filed", value: "13.5Cr+" },
-										{ label: "Customer Support", value: "24/7" },
+										{ label: "Customer Rating", value: "4.9/5" },
 									].map((stat) => (
 										<div
 											key={stat.label}

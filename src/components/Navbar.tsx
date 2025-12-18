@@ -85,7 +85,7 @@ export function Navbar() {
           {/* <Link href="/#faq" className="text-sm font-medium hover:text-primary transition-colors">
             FAQ
           </Link> */}
-          <Link href="/aboutus#contact-form-section" className="text-sm font-medium text-black hover:text-primary transition-colors">
+          <Link href="/aboutus" className="text-sm font-medium text-black hover:text-primary transition-colors">
             About Us
           </Link>
         </div>

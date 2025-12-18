@@ -70,6 +70,50 @@ const Admin: React.FC = () => {
     }
   }, [editorMode, currentPost.id]);
 
+  // Live polling: refresh posts periodically but less often and pause while editing or when tab hidden
+  useEffect(() => {
+    let cancelled = false;
+
+    const isVisible = () => (typeof document !== 'undefined' ? document.visibilityState === 'visible' : true);
+
+    const tick = async () => {
+      if (cancelled) return;
+      if (!isVisible()) return;
+      if (isEditing) return; // avoid polling while user is editing
+      try {
+        await refreshData();
+      } catch (e) {
+        // noop
+      }
+    };
+
+    // only run initial fetch if visible and not editing
+    if (isVisible() && !isEditing) tick();
+
+    // poll every 30s instead of frequently
+    const id = setInterval(() => {
+      if (!cancelled) tick();
+    }, 30000);
+
+    const onVisibility = () => {
+      if (document.visibilityState === 'visible') tick();
+    };
+
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => { cancelled = true; clearInterval(id); document.removeEventListener('visibilitychange', onVisibility); };
+  }, [refreshData, isEditing]);
+
+  // Derived stats for dashboard cards (use safePosts to avoid strict type issues)
+  const safePosts = posts as any[];
+  // Treat missing status as published (backwards-compatible with older records)
+  const publishedCount = safePosts.filter(p => p?.status === 'published' || p?.status === undefined).length;
+  // Total should be exact number of posts
+  const totalBlogs = safePosts.length;
+  const totalViews = safePosts.reduce((s, p) => s + (Number(p?.views) || 0), 0);
+  const avgViews = totalBlogs ? Math.round(totalViews / totalBlogs) : 0;
+
+  const formatNumber = (n: number) => new Intl.NumberFormat('en-IN').format(n);
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (password === 'admin123') {
@@ -382,7 +426,7 @@ const Admin: React.FC = () => {
               />
               {error && <p className="text-xs text-red-500 mt-1 ml-1">{error}</p>}
             </div>
-            <button type="submit" className="w-full bg-lavender-600 text-white py-2.5 rounded-lg font-bold hover:bg-lavender-700 transition-colors">
+            <button type="submit" className="w-full bg-purple-600 text-white py-2.5 rounded-lg font-bold hover:bg-lavender-700 transition-colors">
               Access Dashboard
             </button>
           </form>
@@ -428,7 +472,51 @@ const Admin: React.FC = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8">
-        
+        {/* Live stats cards — polish: 3 cards (Total, Views, Published) */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+          <div className="relative overflow-hidden rounded-2xl p-5 shadow-lg border border-slate-100 bg-white hover:scale-[1.02] transition-transform">
+            <div className="absolute -right-10 -top-10 w-40 h-40 bg-gradient-to-tr from-lavender-100 to-pink-100 rounded-full opacity-60 blur-2xl pointer-events-none"></div>
+            <div className="flex items-center gap-4 relative z-10">
+              <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-purple-600 to-purple-600 flex items-center justify-center text-white shadow-md">
+                <FileText className="w-6 h-6" />
+              </div>
+              <div>
+                <div className="text-xs text-slate-400">Total Blogs</div>
+                <div className="text-3xl font-extrabold text-slate-900">{formatNumber(totalBlogs)}</div>
+                <div className="text-xs text-slate-500 mt-1">All posts in the system</div>
+              </div>
+            </div>
+          </div>
+
+          {/* <div className="relative overflow-hidden rounded-2xl p-5 shadow-lg border border-slate-100 bg-white hover:scale-[1.02] transition-transform">
+            <div className="absolute -left-12 -bottom-12 w-44 h-44 bg-gradient-to-br from-blue-100 to-cyan-100 rounded-full opacity-60 blur-2xl pointer-events-none"></div>
+            <div className="flex items-center gap-4 relative z-10">
+              <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center text-white shadow-md">
+                <Database className="w-6 h-6" />
+              </div>
+              <div>
+                <div className="text-xs text-slate-400">Total Clicks (Views)</div>
+                <div className="text-3xl font-extrabold text-slate-900">{formatNumber(totalViews)}</div>
+                <div className="text-xs text-slate-500 mt-1">Sum of view counts across posts</div>
+              </div>
+            </div>
+          </div> */}
+
+          <div className="relative overflow-hidden rounded-2xl p-5 shadow-lg border border-slate-100 bg-white hover:scale-[1.02] transition-transform">
+            <div className="absolute -right-8 -bottom-8 w-44 h-44 bg-gradient-to-br from-yellow-100 to-amber-100 rounded-full opacity-60 blur-2xl pointer-events-none"></div>
+            <div className="flex items-center gap-4 relative z-10">
+              <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center text-white shadow-md">
+                <FileType className="w-6 h-6" />
+              </div>
+              <div>
+                <div className="text-xs text-slate-400">Published</div>
+                <div className="text-3xl font-extrabold text-slate-900">{formatNumber(publishedCount)}</div>
+                <div className="text-xs text-slate-500 mt-1">Visible posts on site</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {isEditing ? (
           /* --- EDITOR FORM --- */
           <div className="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden animate-fadeIn">
@@ -721,7 +809,7 @@ const Admin: React.FC = () => {
                 <button 
                   type="submit" 
                   disabled={isProcessing || isSaving}
-                  className="px-6 py-2.5 rounded-lg bg-lavender-600 text-white font-bold hover:bg-lavender-700 transition-colors flex items-center gap-2 disabled:opacity-50"
+                  className="px-6 py-2.5 rounded-lg bg-purple-600 text-white font-bold hover:bg-lavender-700 transition-colors flex items-center gap-2 disabled:opacity-50"
                 >
                   {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                   {isSaving ? 'Saving...' : 'Save Post'}

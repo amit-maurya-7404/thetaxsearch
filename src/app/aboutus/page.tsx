@@ -192,27 +192,46 @@ export default function AboutPage() {
                     </motion.div>
 
                     <motion.div
-                        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6"
+                        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
                         variants={staggerContainer}
                     >
                         {[
-                            { name: "Amit Maurya", role: "Founder & Tax Expert", bio: "15+ years experience in tax planning and corporate advisory." },
-                            { name: "Priya Sharma", role: "GST Specialist", bio: "Expert in GST compliance, registrations and returns." },
-                            { name: "Rohit Verma", role: "Senior CA", bio: "Income tax filings, audits and tax planning for businesses." },
-                            { name: "Sneha Gupta", role: "TDS & Payroll Expert", bio: "Payroll, TDS compliance and employer advisory." },
-                            { name: "Rahul Singh", role: "HRA & Advisory", bio: "HRA exemptions, housing tax planning and employee benefits." },
+                            { name: "Amit Maurya", role: "Founder & Tax Expert", bio: "15+ years experience in tax planning and corporate advisory.", image: "/images/team/amit.jpg" },
+                            { name: "CA Mohsin Saifi", role: "Indirect & Direct Tax Specialist", bio: "6+ years handling indirect & direct taxation, accounting and regulatory compliance.", image: "/images/team/mohsin.jpg" },
+                            { name: "CA Satyam Sharma", role: "Audit & Consultancy", bio: "Specialist in auditing, statutory compliance and corporate consultancy services.", image: "./satyamsharma.jpeg" },
                         ].map((member) => (
                             <motion.div
                                 key={member.name}
                                 variants={fadeInUp}
-                                className="bg-background border rounded-lg p-6 text-center"
+                                className="relative bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl p-6 text-center shadow-sm hover:shadow-lg transition-shadow transform hover:-translate-y-1"
                             >
-                                <div className="mx-auto w-20 h-20 rounded-full bg-slate-200 flex items-center justify-center text-xl font-semibold text-slate-700 mb-4">
-                                    {member.name.split(" ").map(n => n[0]).slice(0, 2).join("")}
-                                </div>
-                                <h3 className="font-semibold text-lg mb-1">{member.name}</h3>
-                                <p className="text-sm text-muted-foreground mb-3">{member.role}</p>
-                                <p className="text-sm text-gray-700 leading-relaxed">{member.bio}</p>
+                                <div className="absolute -right-6 -top-6 w-32 h-32 rounded-full bg-gradient-to-tr from-primary/10 to-purple-50 blur-2xl pointer-events-none"></div>
+
+                                {/* Avatar: show image if provided, otherwise initials */}
+                                {member.image ? (
+                                    <img
+                                        src={member.image}
+                                        alt={member.name}
+                                        className="mx-auto w-24 h-24 rounded-full object-cover shadow-md mb-4"
+                                    />
+                                ) : (
+                                    <div className="mx-auto w-24 h-24 rounded-full bg-gradient-to-br from-lavender-500 to-purple-700 text-white flex items-center justify-center text-2xl font-bold mb-4 shadow-md">
+                                        {member.name.split(' ').map((n: string) => n[0]).slice(0,2).join('')}
+                                    </div>
+                                )}
+
+                                <h3 className="font-semibold text-lg mb-1 text-slate-900 dark:text-white">{member.name}</h3>
+                                <p className="text-xs uppercase tracking-wider text-primary font-semibold mb-3">{member.role}</p>
+                                <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">{member.bio}</p>
+
+                                {/* <div className="flex items-center justify-center gap-3">
+                                    <a className="inline-flex items-center gap-2 px-3 py-1.5 bg-lavender-50 text-lavender-700 rounded-full text-xs font-semibold hover:bg-lavender-100 transition-colors" href="#">
+                                        <Users className="w-3 h-3" /> View Profile
+                                    </a>
+                                    <a className="inline-flex items-center gap-2 px-3 py-1.5 bg-slate-50 text-slate-700 rounded-full text-xs font-semibold hover:bg-slate-100 transition-colors" href="#">
+                                        <ShieldCheck className="w-3 h-3" /> Consult
+                                    </a>
+                                </div> */}
                             </motion.div>
                         ))}
                     </motion.div>
