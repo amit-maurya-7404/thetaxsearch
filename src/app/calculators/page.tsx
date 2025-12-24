@@ -24,9 +24,6 @@ const Calculators: React.FC = () => {
 			else if (h.startsWith('gst')) setActiveTab('gst')
 			else if (h.startsWith('tds')) setActiveTab('tds')
 			else if (h.startsWith('hra')) setActiveTab('hra')
-
-			const el = document.getElementById(h)
-			if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80)
 		}
 
 		updateFromHash()
@@ -49,28 +46,28 @@ const Calculators: React.FC = () => {
 			{/* Navigation Tabs */}
 			<div className="bg-white rounded-xl shadow-lg p-2 flex flex-wrap gap-2 mb-8 z-10 relative">
 				<button
-					onClick={() => { setActiveTab('income'); if (typeof window !== 'undefined') window.location.hash = '#income-tax' }}
+					onClick={() => { setActiveTab('income'); if (typeof window !== 'undefined') window.history.replaceState(null, '', '#income-tax') }}
 					className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-all flex-1 justify-center ${activeTab === 'income' ? 'bg-purple-100 text-purple-700' : 'text-slate-500 hover:bg-slate-50'
 						}`}
 				>
 					<PieChart className="w-4 h-4" /> Income Tax
 				</button>
 				<button
-					onClick={() => { setActiveTab('gst'); if (typeof window !== 'undefined') window.location.hash = '#gst' }}
+					onClick={() => { setActiveTab('gst'); if (typeof window !== 'undefined') window.history.replaceState(null, '', '#gst') }}
 					className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-all flex-1 justify-center ${activeTab === 'gst' ? 'bg-purple-100 text-purple-700' : 'text-slate-500 hover:bg-slate-50'
 						}`}
 				>
 					<DollarSign className="w-4 h-4" /> GST
 				</button>
 				<button
-					onClick={() => { setActiveTab('tds'); if (typeof window !== 'undefined') window.location.hash = '#tds' }}
+					onClick={() => { setActiveTab('tds'); if (typeof window !== 'undefined') window.history.replaceState(null, '', '#tds') }}
 					className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-all flex-1 justify-center ${activeTab === 'tds' ? 'bg-purple-100 text-purple-700' : 'text-slate-500 hover:bg-slate-50'
 						}`}
 				>
 					<Percent className="w-4 h-4" /> TDS
 				</button>
 				<button
-					onClick={() => { setActiveTab('hra'); if (typeof window !== 'undefined') window.location.hash = '#hra' }}
+					onClick={() => { setActiveTab('hra'); if (typeof window !== 'undefined') window.history.replaceState(null, '', '#hra') }}
 					className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-all flex-1 justify-center ${activeTab === 'hra' ? 'bg-purple-100 text-purple-700' : 'text-slate-500 hover:bg-slate-50'
 						}`}
 				>

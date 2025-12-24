@@ -66,6 +66,7 @@ export function Navbar() {
               className={`absolute left-0 mt-3 w-56 bg-white rounded-md shadow-lg border border-white/20 transition-opacity ${dropdownOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
             >
               <div className="py-2">
+                <Link href="/services/audit-and-assurance" className="block px-4 py-2 text-sm text-gray-700 hover:bg-primary/10">Audit & Assurance</Link>
                 <Link href="/services/income-tax-return-filing" className="block px-4 py-2 text-sm text-gray-700 hover:bg-primary/10">Income Tax Return Filing</Link>
                 <Link href="/services/gst-registration-and-filing" className="block px-4 py-2 text-sm text-gray-700 hover:bg-primary/10">GST Registration & Filing</Link>
                 <Link href="/services/tds-return-filing" className="block px-4 py-2 text-sm text-gray-700 hover:bg-primary/10">TDS Return Filing</Link>
@@ -121,6 +122,7 @@ export function Navbar() {
                   Services
                 </Link>
                 <div className="mt-2 space-y-1">
+                  <Link href="/services/audit-and-assurance" onClick={() => setIsOpen(false)} className="block px-3 py-2 text-sm text-gray-700 hover:bg-primary/10 rounded">Audit & Assurance</Link>
                   <Link href="/services/income-tax-return-filing" onClick={() => setIsOpen(false)} className="block px-3 py-2 text-sm text-gray-700 hover:bg-primary/10 rounded">Income Tax Return Filing</Link>
                   <Link href="/services/gst-registration-and-filing" onClick={() => setIsOpen(false)} className="block px-3 py-2 text-sm text-gray-700 hover:bg-primary/10 rounded">GST Registration & Filing</Link>
                   <Link href="/services/tds-return-filing" onClick={() => setIsOpen(false)} className="block px-3 py-2 text-sm text-gray-700 hover:bg-primary/10 rounded">TDS Return Filing</Link>

@@ -164,7 +164,7 @@ export default function AboutPage() {
                                 <div className="pt-6 border-t border-slate-100 dark:border-slate-800">
                                     <h3 className="text-2xl font-bold text-slate-800 dark:text-white mb-4">Why Choose Us</h3>
                                     <p className="text-muted-foreground leading-relaxed">
-                                        Our commitment to **client-centric excellence**, attention to detail, and seamless integration of **modern technology** ensure efficient, cost-effective, and highly personalized solutions for every client.
+                                        Our commitment to client-centric excellence, attention to detail, and seamless integration of modern technology ensure efficient, cost-effective, and highly personalized solutions for every client.
                                     </p>
                                 </div>
 
@@ -196,9 +196,27 @@ export default function AboutPage() {
                         variants={staggerContainer}
                     >
                         {[
-                            { name: "Amit Maurya", role: "Founder & Tax Expert", bio: "15+ years experience in tax planning and corporate advisory.", image: "/images/team/amit.jpg" },
-                            { name: "CA Mohsin Saifi", role: "Indirect & Direct Tax Specialist", bio: "6+ years handling indirect & direct taxation, accounting and regulatory compliance.", image: "/images/team/mohsin.jpg" },
-                            { name: "CA Satyam Sharma", role: "Audit & Consultancy", bio: "Specialist in auditing, statutory compliance and corporate consultancy services.", image: "./satyamsharma.jpeg" },
+                            {
+                                name: "Sumit Yadav",
+                                role: "Founder & Tax Expert",
+                                bio: "7+ years experience in tax planning and corporate advisory.",
+                                image: "./Sumit_founder.png",
+                                imageClass: " object-right  pt-0",
+                            },
+                            {
+                                name: "CA Mohsin Saifi",
+                                role: "Indirect & Direct Tax Specialist",
+                                bio: "6+ years handling indirect & direct taxation, accounting and regulatory compliance.",
+                                image: "./default-avatar-gray.png",
+                                imageClass: "object-top",
+                            },
+                            {
+                                name: "CA Satyam Sharma",
+                                role: "Audit & Consultancy",
+                                bio: "Specialist in auditing, statutory compliance and corporate consultancy services.",
+                                image: "./satyamsharma.jpeg",
+                                imageClass: "object-[center_25%]",
+                            },
                         ].map((member) => (
                             <motion.div
                                 key={member.name}
@@ -207,35 +225,38 @@ export default function AboutPage() {
                             >
                                 <div className="absolute -right-6 -top-6 w-32 h-32 rounded-full bg-gradient-to-tr from-primary/10 to-purple-50 blur-2xl pointer-events-none"></div>
 
-                                {/* Avatar: show image if provided, otherwise initials */}
+                                {/* Avatar */}
                                 {member.image ? (
                                     <img
                                         src={member.image}
                                         alt={member.name}
-                                        className="mx-auto w-24 h-24 rounded-full object-cover shadow-md mb-4"
+                                        className={`mx-auto w-24 h-24 rounded-2xl object-cover shadow-md mt-4 mb-4 ${member.imageClass}`}
                                     />
                                 ) : (
                                     <div className="mx-auto w-24 h-24 rounded-full bg-gradient-to-br from-lavender-500 to-purple-700 text-white flex items-center justify-center text-2xl font-bold mb-4 shadow-md">
-                                        {member.name.split(' ').map((n: string) => n[0]).slice(0,2).join('')}
+                                        {member.name
+                                            .split(" ")
+                                            .map((n) => n[0])
+                                            .slice(0, 2)
+                                            .join("")}
                                     </div>
                                 )}
 
-                                <h3 className="font-semibold text-lg mb-1 text-slate-900 dark:text-white">{member.name}</h3>
-                                <p className="text-xs uppercase tracking-wider text-primary font-semibold mb-3">{member.role}</p>
-                                <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">{member.bio}</p>
-
-                                {/* <div className="flex items-center justify-center gap-3">
-                                    <a className="inline-flex items-center gap-2 px-3 py-1.5 bg-lavender-50 text-lavender-700 rounded-full text-xs font-semibold hover:bg-lavender-100 transition-colors" href="#">
-                                        <Users className="w-3 h-3" /> View Profile
-                                    </a>
-                                    <a className="inline-flex items-center gap-2 px-3 py-1.5 bg-slate-50 text-slate-700 rounded-full text-xs font-semibold hover:bg-slate-100 transition-colors" href="#">
-                                        <ShieldCheck className="w-3 h-3" /> Consult
-                                    </a>
-                                </div> */}
+                                <h3 className="font-semibold text-lg mb-1 text-slate-900 dark:text-white">
+                                    {member.name}
+                                </h3>
+                                <p className="text-xs uppercase tracking-wider text-primary font-semibold mb-3">
+                                    {member.role}
+                                </p>
+                                <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                                    {member.bio}
+                                </p>
                             </motion.div>
                         ))}
                     </motion.div>
                 </motion.div>
+
+
             </section>
 
             {/* Contact Form removed — contact lives on /contact route */}
@@ -265,6 +286,6 @@ export default function AboutPage() {
                     </div>
                 </motion.div>
             </section>
-        </div>
+        </div >
     )
 }

@@ -25,11 +25,11 @@ const ScrollToTopButton = () => {
     return (
         <button
             onClick={scrollToTop}
-            className={`fixed bottom-8 right-8 z-50 p-3 rounded-lg bg-teal-600 text-white border-2 border-white shadow-lg transition-opacity duration-300 
+            className={`fixed bottom-8 right-8 z-50 w-12 h-12 rounded-full bg-gray-800 text-white border-2 border-white shadow-lg transition-opacity duration-300 flex items-center justify-center
   ${visible ? "opacity-100" : "opacity-0"} glow-bounce hover:animate-none`}
             aria-label="Scroll to top"
         >
-        <FaAngleUp size={20}/>
+        <FaAngleUp size={18} />
         </button>
 
     );

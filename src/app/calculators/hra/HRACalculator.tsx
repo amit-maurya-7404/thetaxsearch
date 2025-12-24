@@ -159,10 +159,10 @@ const HRACalculator: React.FC = () => {
       </div>
 
       <div className="lg:col-span-5 space-y-6">
-        <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden sticky top-6">
-          <div className="p-6 bg-gradient-to-r from-purple-600 via-purple-600 to-pink-700 text-white">
+        <div className="bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden sticky top-6">
+          <div className="p-6 bg-gray-300 text-black">
             <h2 className="text-xl font-bold mb-2 flex items-center gap-2">
-              HRA Result <span className="text-sm font-normal opacity-80 bg-white/10 px-2 py-0.5 rounded capitalize">{frequency}</span>
+              HRA Result <span className="text-sm font-normal opacity-80 bg-black/20 px-2 py-0.5 rounded capitalize">{frequency}</span>
             </h2>
           </div>
           

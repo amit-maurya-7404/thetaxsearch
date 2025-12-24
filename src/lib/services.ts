@@ -83,6 +83,20 @@ export const services = [
     ],
   },
   {
+    slug: "audit-and-assurance",
+    icon: CheckCircle,
+    iconColor: "bg-cyan-100 text-cyan-600",
+    title: "Audit & Assurance",
+    details: [
+      "Statutory audits under Companies Act 2013",
+      "Tax audits under Income Tax Act",
+      "GST audits & compliance checks",
+      "Internal audits & fraud risk assessment",
+      "Management audits & internal control reviews",
+      "Stock audits & physical verification",
+    ],
+  },
+  {
     slug: "tds-on-sale-of-property",
     icon: TrendingUp,
     iconColor: "bg-amber-100 text-amber-600",

@@ -83,8 +83,8 @@ const TDS: React.FC = () => {
   return (
     <div id="tds" className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
       <div className="p-6 md:p-8 border-b border-slate-100 flex items-center gap-4 bg-slate-50/50">
-        <div className="bg-lavender-100 p-3 rounded-xl text-lavender-600">
-          <Calculator className="w-6 h-6" />
+        <div className="bg-amber-100 p-2 rounded-lg text-amber-600 flex items-center justify-center">
+          <Calculator className="w-5 h-5" />
         </div>
         <div>
            <h3 className="text-xl font-bold text-slate-800">TDS Calculator</h3>
@@ -181,19 +181,22 @@ const TDS: React.FC = () => {
               </div>
 
               <div className="flex items-center justify-between bg-slate-50 p-4 rounded-xl border border-slate-100 hover:border-lavender-200 transition-colors">
-                <label htmlFor="panCheck" className="text-sm font-medium text-slate-700 cursor-pointer select-none flex items-center gap-2">
-                  <span className="flex items-center justify-center w-5 h-5 rounded border bg-white border-slate-300 peer-checked:bg-lavender-500 peer-checked:border-lavender-500">
-                    {panAvailable && <Check className="w-3 h-3 text-lavender-600" />}
-                  </span>
-                  Is Valid PAN Available?
-                </label>
-                <input
-                  type="checkbox"
-                  id="panCheck"
-                  checked={panAvailable}
-                  onChange={(e) => setPanAvailable(e.target.checked)}
-                  className="w-5 h-5 accent-lavender-600 cursor-pointer"
-                />
+                <div className="flex items-center gap-2">
+                  <input
+                    id="panCheck"
+                    type="checkbox"
+                    checked={panAvailable}
+                    onChange={(e) => setPanAvailable(e.target.checked)}
+                    className="sr-only peer"
+                    aria-label="PAN available"
+                  />
+                  <label htmlFor="panCheck" className="text-sm font-medium text-slate-700 cursor-pointer select-none flex items-center gap-2">
+                    <span className="flex items-center justify-center w-5 h-5 rounded border bg-white border-slate-300 peer-checked:bg-lavender-500 peer-checked:border-lavender-500">
+                      {panAvailable && <Check className="w-3 h-3 text-lavender-600" />}
+                    </span>
+                    Is Valid PAN Available?
+                  </label>
+                </div>
               </div>
               {!panAvailable && (
                  <div className="flex items-start gap-2 text-xs text-red-600 bg-red-50 p-3 rounded-lg">
@@ -207,36 +210,36 @@ const TDS: React.FC = () => {
 
         {/* Results */}
         <div className="flex flex-col h-full">
-           <div className="bg-gradient-to-br from-purple-600 via-purple-600 to-pink-700 rounded-3xl p-8 text-white shadow-xl flex-1 flex flex-col justify-center relative overflow-hidden">
+           <div className="bg-gray-300 rounded-3xl p-8 text-black shadow-xl flex-1 flex flex-col justify-center relative overflow-hidden">
               <div className="absolute bottom-0 left-0 w-32 h-32 bg-lavender-600 rounded-full blur-3xl opacity-20 translate-y-1/2 -translate-x-1/2"></div>
               
               <div className="relative z-10 text-center mb-8">
-                <p className="text-slate-300 text-sm font-medium uppercase tracking-wider mb-2">
+                <p className=" text-sm font-medium uppercase tracking-wider mb-2">
                     {selectedSection.type === 'salary' ? 'Estimated Yearly TDS' : 'TDS Liability'}
                 </p>
-                <p className="text-5xl font-bold text-white tracking-tight">{formatCurrency(results.tdsAmount)}</p>
+                <p className="text-5xl font-bold  tracking-tight">{formatCurrency(results.tdsAmount)}</p>
                 {selectedSection.type === 'salary' && (
                     <div className="mt-4 inline-flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-full text-sm border border-slate-700">
-                        <span className="text-slate-400">Monthly:</span>
+                        <span className="">Monthly:</span>
                         <span className="font-bold text-lavender-400">{formatCurrency(results.monthlyTDS)}</span>
                     </div>
                 )}
               </div>
 
-              <div className="bg-white/5 rounded-2xl p-6 backdrop-blur-sm border border-white/10 space-y-4 relative z-10">
+              <div className="bg-white/20 rounded-2xl p-6 backdrop-blur-sm border border-gray-400 space-y-4 relative z-10">
                 <div className="flex justify-between items-center">
-                    <span className="text-slate-200 text-sm">Rate Applied</span>
-                    <span className="font-bold text-white">{results.rateApplied}%</span>
+                    <span className="text-black text-sm">Rate Applied</span>
+                    <span className="font-bold text-black">{results.rateApplied}%</span>
                 </div>
-                <div className="w-full h-px bg-white/10"></div>
+                <div className="w-full h-px bg-white/20"></div>
                 <div className="flex justify-between items-center">
-                    <span className="text-slate-200 text-sm">{selectedSection.type === 'salary' ? 'Net Annual Salary' : 'Net Payment'}</span>
-                    <span className="font-bold text-white text-lg">{formatCurrency(results.netAmount)}</span>
+                    <span className="text-black text-sm">{selectedSection.type === 'salary' ? 'Net Annual Salary' : 'Net Payment'}</span>
+                    <span className="font-bold text-black text-lg">{formatCurrency(results.netAmount)}</span>
                 </div>
               </div>
 
               {selectedSection.type !== 'salary' && results.tdsAmount === 0 && Number(amount) > 0 && (
-                 <div className="mt-6 bg-green-500/10 text-green-300 p-3 rounded-xl text-sm flex items-start gap-3 border border-green-500/20">
+                 <div className="mt-6 bg-green-500/10 text-green-700 p-3 rounded-xl text-sm flex items-start gap-3 border border-green-500/20">
                     <Check className="w-4 h-4 mt-0.5 shrink-0" />
                     <span>No TDS required. Amount is within the threshold of {formatCurrency(selectedSection.threshold)}.</span>
                  </div>

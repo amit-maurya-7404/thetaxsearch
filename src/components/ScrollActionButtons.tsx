@@ -8,7 +8,7 @@ const buttons = [
     {
         icon: <MdWhatsapp className="hidden sm:block" size={"2.4vw"} />,
         iconMobile: <MdWhatsapp className="block sm:hidden" size={'10vw'} />, // 32px for mobile
-        text: "enquire Now",
+        text: "Chat Now",
         href: "https://wa.me/+91",
         bg: "bg-indigo-500 hover:bg-indigo-500",
     },

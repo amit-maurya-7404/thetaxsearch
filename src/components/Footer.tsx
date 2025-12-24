@@ -34,8 +34,8 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/admin" className="text-gray-700 hover:text-primary transition-colors">
-                  Admin
+                <Link href="#contact-form-section" className="text-gray-700 hover:text-primary transition-colors">
+                  Contact Form
                 </Link>
               </li>
             </ul>
