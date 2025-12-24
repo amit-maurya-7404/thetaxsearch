@@ -12,6 +12,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@emailjs/browser": "^3.2.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/material": "^7.3.6",
@@ -30,6 +31,7 @@
     "dotenv": "^16.6.1",
     "framer-motion": "^10.16.16",
     "gray-matter": "^4.0.3",
+    "heroicons": "^2.2.0",
     "jsdom": "^27.3.0",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.365.0",
@@ -48,8 +50,7 @@
     "remark": "^15.0.1",
     "remark-gfm": "^4.0.0",
     "resend": "^3.0.0",
-    "tailwind-merge": "^2.2.0",
-    "@emailjs/browser": "^3.2.0"
+    "tailwind-merge": "^2.2.0"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.1.0",

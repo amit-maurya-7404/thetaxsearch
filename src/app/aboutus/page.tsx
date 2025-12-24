@@ -1,7 +1,7 @@
 "use client"
 import { ContactForm } from "@/components"
 import { motion } from "framer-motion"
-import { Briefcase, FileText, Heart, ShieldCheck, Target, TrendingUp, Users, Zap } from "lucide-react"
+import { Briefcase, FileText, Heart, ShieldCheck, StarIcon, Target, TrendingUp, Users, Zap } from "lucide-react"
 
 const fadeInUp = {
     initial: { opacity: 0, y: 20 },
@@ -276,10 +276,13 @@ export default function AboutPage() {
                             { number: "1500+", label: "Happy Clients" },
                             { number: "5+", label: "Years of Experience" },
                             { number: "13.5Cr+", label: "Tax Filed" },
-                            { number: "4.9/5", label: "Customer Rating" },
+                            { number: "4.9/5", label: "Customer Rating", isRating: true },
                         ].map((stat, i) => (
                             <motion.div key={i} variants={fadeInUp}>
-                                <p className="text-4xl md:text-5xl font-bold text-primary mb-2">{stat.number}</p>
+                                <p className="text-4xl md:text-5xl font-bold text-primary mb-2 flex items-center justify-center gap-1">
+                                    {stat.number}
+                                    {stat.isRating && <StarIcon className="w-6 h-6 text-purple-600" />}
+                                </p>
                                 <p className="text-muted-foreground">{stat.label}</p>
                             </motion.div>
                         ))}

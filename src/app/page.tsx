@@ -22,6 +22,7 @@ import {
 	Search,
 	ReceiptText,
 	AlertCircle,
+	StarIcon,
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -141,56 +142,56 @@ export default function Home() {
 			const arr = [...allServices]
 			for (let i = arr.length - 1; i > 0; i--) {
 				const j = Math.floor(Math.random() * (i + 1))
-				;[arr[i], arr[j]] = [arr[j], arr[i]]
+					;[arr[i], arr[j]] = [arr[j], arr[i]]
 			}
 			setRandomServices(arr.slice(0, 3))
 		}, [])
 
 		return (
 			<>
-			<motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" variants={staggerContainer}>
-				{randomServices.map((service) => {
-					const Icon = service.icon
-					return (
-						<Link href={`/services/${service.slug}`} key={service.slug}>
-							<motion.div
-								variants={fadeInUp}
-								whileHover={{ scale: 1.03, y: -6 }}
-								whileTap={{ scale: 0.985 }}
-								transition={{ type: "spring", stiffness: 280, damping: 20 }}
-								className="card-shadow transition-all duration-300 h-full hover:border-primary hover:cursor-pointer flex flex-col bg-white border rounded-lg p-6"
-							>
-								<div className="pb-3">
-									<div className={`${service.iconColor} w-12 h-12 rounded-lg flex items-center justify-center mb-4`}>
-										<Icon className="w-6 h-6" />
+				<motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" variants={staggerContainer}>
+					{randomServices.map((service) => {
+						const Icon = service.icon
+						return (
+							<Link href={`/services/${service.slug}`} key={service.slug}>
+								<motion.div
+									variants={fadeInUp}
+									whileHover={{ scale: 1.03, y: -6 }}
+									whileTap={{ scale: 0.985 }}
+									transition={{ type: "spring", stiffness: 280, damping: 20 }}
+									className="card-shadow transition-all duration-300 h-full hover:border-primary hover:cursor-pointer flex flex-col bg-white border rounded-lg p-6"
+								>
+									<div className="pb-3">
+										<div className={`${service.iconColor} w-12 h-12 rounded-lg flex items-center justify-center mb-4`}>
+											<Icon className="w-6 h-6" />
+										</div>
+										<h3 className="text-lg font-semibold text-left">{service.title}</h3>
 									</div>
-									<h3 className="text-lg font-semibold text-left">{service.title}</h3>
-								</div>
-								<div className="flex-1 flex flex-col">
-									{service.details && service.details.length > 0 && (
-										<ul className="space-y-2 mb-6 flex-1">
-											{service.details.map((d, idx) => (
-												<li key={idx} className="flex items-start gap-2 text-sm text-muted-foreground">
-													<span className="text-primary font-bold">•</span>
-													<span>{d}</span>
-												</li>
-											))}
-										</ul>
-									)}
-								</div>
-							</motion.div>
-						</Link>
-					)
-				})}
-			</motion.div>
+									<div className="flex-1 flex flex-col">
+										{service.details && service.details.length > 0 && (
+											<ul className="space-y-2 mb-6 flex-1">
+												{service.details.map((d, idx) => (
+													<li key={idx} className="flex items-start gap-2 text-sm text-muted-foreground">
+														<span className="text-primary font-bold">•</span>
+														<span>{d}</span>
+													</li>
+												))}
+											</ul>
+										)}
+									</div>
+								</motion.div>
+							</Link>
+						)
+					})}
+				</motion.div>
 
-			<div className="mt-8 flex justify-center">
-				<Link href="/services">
-					<Button size="lg" className="text-white bg-gradient-to-r from-purple-600 to-pink-500">
-						View All Services
-					</Button>
-				</Link>
-			</div>
+				<div className="mt-8 flex justify-center">
+					<Link href="/services">
+						<Button size="lg" className="text-white bg-gradient-to-r from-purple-600 to-pink-500">
+							View All Services
+						</Button>
+					</Link>
+				</div>
 			</>
 		)
 	}
@@ -272,14 +273,15 @@ export default function Home() {
 										{ label: "Happy Clients", value: "1500+" },
 										{ label: "Years of Experience", value: "5+" },
 										{ label: "Tax Filed", value: "13.5Cr+" },
-										{ label: "Customer Rating", value: "4.9/5" },
+										{ label: "Customer Rating", value: "4.9/5", isRating: true },
 									].map((stat) => (
 										<div
 											key={stat.label}
 											className="bg-background/50 backdrop-blur border border-border rounded-lg p-4 text-center"
 										>
-											<div className="text-2xl font-bold text-primary mb-1">
+											<div className="text-2xl font-bold text-primary mb-1 flex items-center justify-center gap-1">
 												{stat.value}
+												{stat.isRating && <StarIcon className="w-5 h-5 text-purple-600" />}
 											</div>
 											<div className="text-xs text-muted-foreground">
 												{stat.label}
