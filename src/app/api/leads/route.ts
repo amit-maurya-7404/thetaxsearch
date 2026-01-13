@@ -4,7 +4,11 @@ import Lead from "@/models/Lead"
 
 export async function GET() {
   try {
-    await connect()
+    try {
+      await connect()
+    } catch (connErr) {
+      return NextResponse.json({ error: 'Database unavailable' }, { status: 503 })
+    }
 
     const total = await Lead.countDocuments()
 

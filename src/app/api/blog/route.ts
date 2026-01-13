@@ -3,7 +3,12 @@ import { getDatabase } from '@/lib/mongodb'
 
 export async function GET() {
   try {
-    const db = await getDatabase()
+    let db
+    try {
+      db = await getDatabase()
+    } catch (connErr) {
+      return NextResponse.json({ error: 'Database unavailable' }, { status: 503 })
+    }
     const posts = await db.collection('posts').find().sort({ date: -1 }).toArray()
     return NextResponse.json(posts.map(p => ({ ...p, id: p.id || p._id?.toString() })))
   } catch (err) {
@@ -14,7 +19,12 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const db = await getDatabase()
+    let db
+    try {
+      db = await getDatabase()
+    } catch (connErr) {
+      return NextResponse.json({ error: 'Database unavailable' }, { status: 503 })
+    }
     const post = { ...body, id: body.id || Date.now().toString() }
     await db.collection('posts').insertOne(post)
     return NextResponse.json(post, { status: 201 })

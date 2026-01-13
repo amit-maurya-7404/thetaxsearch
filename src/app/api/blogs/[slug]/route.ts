@@ -3,16 +3,30 @@ import connect from '@/lib/mongodb'
 import Blog from '@/models/Blog'
 
 export async function GET(req: Request, { params }: { params: { slug: string } }) {
-  await connect()
+  try {
+    await connect()
+  } catch (err) {
+    return NextResponse.json({ success: false, error: 'Database unavailable' }, { status: 503 })
+  }
+
   const slug = params.slug
-  const post = await Blog.findOne({ slug }).lean()
-  if (!post) return NextResponse.json({ success: false, error: 'Not found' }, { status: 404 })
-  return NextResponse.json({ success: true, post })
+  try {
+    const post = await Blog.findOne({ slug }).lean()
+    if (!post) return NextResponse.json({ success: false, error: 'Not found' }, { status: 404 })
+    return NextResponse.json({ success: true, post })
+  } catch (err: any) {
+    return NextResponse.json({ success: false, error: err.message || 'Failed to fetch post' }, { status: 500 })
+  }
 }
 
 export async function PUT(req: Request, { params }: { params: { slug: string } }) {
   try {
     await connect()
+  } catch (err) {
+    return NextResponse.json({ success: false, error: 'Database unavailable' }, { status: 503 })
+  }
+
+  try {
     const slug = params.slug
     const payload = await req.json()
     const updated = await Blog.findOneAndUpdate({ slug }, { $set: payload }, { new: true, upsert: false })
@@ -27,6 +41,11 @@ export async function PUT(req: Request, { params }: { params: { slug: string } }
 export async function DELETE(req: Request, { params }: { params: { slug: string } }) {
   try {
     await connect()
+  } catch (err) {
+    return NextResponse.json({ success: false, error: 'Database unavailable' }, { status: 503 })
+  }
+
+  try {
     const slug = params.slug
     await Blog.deleteOne({ slug })
     return NextResponse.json({ success: true })

@@ -2,9 +2,9 @@ import mongoose from 'mongoose'
 
 const MONGODB_URI = process.env.MONGODB_URI || process.env.NEXT_PUBLIC_MONGODB_URI || 'mongodb://127.0.0.1:27017/thetaxsearch'
 
-if (!MONGODB_URI) {
-  throw new Error('Please define the MONGODB_URI environment variable inside .env.local')
-}
+// NOTE: do NOT throw at import time if MONGODB_URI is missing —
+// some build environments may import this file during prerender.
+// Instead, callers should attempt to connect and handle errors.
 
 /**
  * Global is used here to maintain a cached connection across hot reloads in development.

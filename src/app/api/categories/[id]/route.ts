@@ -5,7 +5,12 @@ export async function PUT(request: Request, { params }: { params: { id: string }
   try {
     const { id } = params
     const body = await request.json()
-    const db = await getDatabase()
+    let db
+    try {
+      db = await getDatabase()
+    } catch (connErr) {
+      return NextResponse.json({ error: 'Database unavailable' }, { status: 503 })
+    }
     await db.collection('categories').updateOne({ id }, { $set: body })
     const updated = await db.collection('categories').findOne({ id })
     return NextResponse.json(updated)
@@ -17,7 +22,12 @@ export async function PUT(request: Request, { params }: { params: { id: string }
 export async function DELETE(request: Request, { params }: { params: { id: string } }) {
   try {
     const { id } = params
-    const db = await getDatabase()
+    let db
+    try {
+      db = await getDatabase()
+    } catch (connErr) {
+      return NextResponse.json({ error: 'Database unavailable' }, { status: 503 })
+    }
     await db.collection('categories').deleteOne({ id })
     // Also update posts referencing this category by leaving them unchanged (optional)
     return NextResponse.json({ success: true })
