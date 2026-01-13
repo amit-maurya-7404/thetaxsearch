@@ -32,7 +32,7 @@ const Calculators: React.FC = () => {
 	}, [])
 
 	return (
-		<div className="min-h-screen bg-white pb-0">
+		<div className="min-h-screen bg-white pb-0 overflow-x-hidden">
 			<div className="bg-slate-900 text-white py-20 shadow-lg relative overflow-hidden">
 				<div className="absolute inset-0 bg-black/5"></div>
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">

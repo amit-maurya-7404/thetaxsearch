@@ -224,7 +224,7 @@ const IncomeTax: React.FC = () => {
   const savings = Math.abs(results.new - results.old);
 
   return (
-    <div id="income-tax" className="grid grid-cols-1 xl:grid-cols-12 gap-8">
+    <div id="income-tax" className="grid grid-cols-1 xl:grid-cols-12 gap-8 overflow-x-hidden">
       
       {/* LEFT COLUMN: INPUTS */}
       <div className="xl:col-span-7 space-y-6">

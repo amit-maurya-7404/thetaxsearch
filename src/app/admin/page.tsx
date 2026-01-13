@@ -116,7 +116,7 @@ const Admin: React.FC = () => {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === 'admin123') {
+    if (password === 'Shahtax9090') {
       setIsAuthenticated(true);
       setError('');
     } else {

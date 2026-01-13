@@ -96,7 +96,7 @@ export default function ScrollActionButtons() {
                     >
                         <div
                             className={`flex items-center rounded-l-full text-white shadow-md transition-all duration-300 ${btn.bg}
-              ${hoveredIndex === index ? "w-[40vw] translate-x-[-0vw]" : "w-[15vw] translate-x-0"} 
+              ${hoveredIndex === index ? "w-[40vw] translate-x-[-0vw]" : "w-[16vw] translate-x-0"} 
               ${hoveredIndex === index ? "w-[40vw] translate-x-[-0vw]" : "w-[0vw] translate-x-0"
                                 }`}
                         >

@@ -1,9 +1,9 @@
 "use client"
-
+ 
 import { useState, useEffect } from "react"
 import { Button } from "./ui/button"
 import { Mail, Phone, MapPin } from "lucide-react"
-
+ 
 export function ContactForm() {
   const [formData, setFormData] = useState({
     name: "",
@@ -13,7 +13,7 @@ export function ContactForm() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
-
+ 
   // Auto-scroll to form on mount
   // useEffect(() => {
   //   const contactSection = document.getElementById("contact-form-section")
@@ -23,7 +23,7 @@ export function ContactForm() {
   //     }, 100)
   //   }
   // }, [])
-
+ 
   // When navigated to with a hash, smoothly scroll the contact section into view with a 10vw offset
   useEffect(() => {
     const scrollToContactWithOffset = () => {
@@ -35,25 +35,25 @@ export function ContactForm() {
       const top = el.getBoundingClientRect().top + window.scrollY - offset
       window.scrollTo({ top, behavior: "smooth" })
     }
-
+ 
     // run on mount in case navigated directly
     setTimeout(scrollToContactWithOffset, 50)
     window.addEventListener("hashchange", scrollToContactWithOffset)
     return () => window.removeEventListener("hashchange", scrollToContactWithOffset)
   }, [])
-
+ 
   // remove EmailJS usage — using Netlify Forms via AJAX
-
+ 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
-
+ 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsSubmitting(true)
     setSubmitStatus("idle")
-
+ 
     try {
       // Basic validation
       if (!formData.name || !formData.email || !formData.message) {
@@ -61,7 +61,7 @@ export function ContactForm() {
         setIsSubmitting(false)
         return
       }
-
+ 
       // Email validation
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       if (!emailRegex.test(formData.email)) {
@@ -69,50 +69,48 @@ export function ContactForm() {
         setIsSubmitting(false)
         return
       }
-      // Prepare data for Netlify Forms - include form-name and honeypot field
-      const data: Record<string, string> = {
-        'form-name': 'contact',
-        'bot-field': '',
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        message: formData.message,
-      }
-
-      const encode = (obj: Record<string, string>) =>
-        Object.keys(obj)
-          .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(obj[k]))
-          .join('&')
-
-      const res = await fetch('/', {
+ 
+      // Send to API route
+      const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: encode(data),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message,
+        }),
       })
-
-      if (!res.ok) throw new Error('Network response was not ok')
-
+ 
+      const result = await response.json()
+ 
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to send message')
+      }
+ 
       setSubmitStatus('success')
       setFormData({ name: '', email: '', phone: '', message: '' })
-
-      // Reset success message after 3 seconds
-      setTimeout(() => setSubmitStatus('idle'), 3000)
+ 
+      // Reset success message after 5 seconds
+      setTimeout(() => setSubmitStatus('idle'), 5000)
     } catch (error) {
       console.error("Form submission error:", error)
       setSubmitStatus("error")
-      setTimeout(() => setSubmitStatus("idle"), 3000)
+      setTimeout(() => setSubmitStatus('idle'), 5000)
     } finally {
       setIsSubmitting(false)
     }
   }
-
+ 
   return (
     <div id="contact-form-section" className="container mx-auto px-4 max-w-7xl grid grid-cols-1 lg:grid-cols-3 gap-8">
       {/* Contact Information */}
       <div className="lg:col-span-1">
         <div className="bg-white border rounded-lg p-8 sticky top-24">
           <h3 className="text-xl font-semibold mb-6">Get in Touch</h3>
-
+ 
           <div className="space-y-6">
             <div className="flex gap-4">
               <Mail className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
@@ -123,7 +121,7 @@ export function ContactForm() {
                 </a>
               </div>
             </div>
-
+ 
             <div className="flex gap-4">
               <Phone className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
               <div>
@@ -133,7 +131,7 @@ export function ContactForm() {
                 </a>
               </div>
             </div>
-
+ 
             <div className="flex gap-4">
               <MapPin className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
               <div>
@@ -144,7 +142,7 @@ export function ContactForm() {
               </div>
             </div>
           </div>
-
+ 
           <div className="mt-8 pt-8 border-t">
             <p className="text-sm text-muted-foreground">
               We typically respond within 24 hours during business days.
@@ -152,23 +150,16 @@ export function ContactForm() {
           </div>
         </div>
       </div>
-
+ 
       {/* Contact Form */}
       <div className="lg:col-span-2">
         <div className="bg-white border rounded-lg p-8">
           <h3 className="text-2xl font-semibold mb-6">Send us a Message</h3>
-
+ 
           <form
-            name="contact"
-            method="POST"
-            data-netlify="true"
-            netlify-honeypot="bot-field"
             onSubmit={handleSubmit}
             className="space-y-6"
           >
-            {/* Required hidden inputs for Netlify Forms */}
-            <input type="hidden" name="form-name" value="contact" />
-            <input type="hidden" name="bot-field" />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium mb-2">
@@ -185,7 +176,7 @@ export function ContactForm() {
                   required
                 />
               </div>
-
+ 
               <div>
                 <label htmlFor="email" className="block text-sm font-medium mb-2">
                   Email <span className="text-destructive">*</span>
@@ -202,7 +193,7 @@ export function ContactForm() {
                 />
               </div>
             </div>
-
+ 
             <div>
               <label htmlFor="phone" className="block text-sm font-medium mb-2">
                 Phone
@@ -217,7 +208,7 @@ export function ContactForm() {
                 className="w-full px-4 py-2 border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
               />
             </div>
-
+ 
             <div>
               <label htmlFor="message" className="block text-sm font-medium mb-2">
                 Message <span className="text-destructive">*</span>
@@ -233,19 +224,19 @@ export function ContactForm() {
                 required
               />
             </div>
-
+ 
             {submitStatus === "success" && (
               <div className="bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200 p-4 rounded-lg">
                 Thank you! Your message has been sent successfully. We'll get back to you soon.
               </div>
             )}
-
+ 
             {submitStatus === "error" && (
               <div className="bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 p-4 rounded-lg">
                 There was an error sending your message. Please try again.
               </div>
             )}
-
+ 
             <Button
               type="submit"
               disabled={isSubmitting}
@@ -259,3 +250,5 @@ export function ContactForm() {
     </div>
   )
 }
+ 
+ 

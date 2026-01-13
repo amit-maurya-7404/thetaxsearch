@@ -200,8 +200,8 @@ export default function AboutPage() {
                                 name: "Sumit Yadav",
                                 role: "Founder & Tax Expert",
                                 bio: "7+ years experience in tax planning and corporate advisory.",
-                                image: "./Sumit_founder.png",
-                                imageClass: " object-right  pt-0",
+                                image: "./SUMIT_IMAGE.png",
+                                imageClass: " object-top  pt-0",
                             },
                             {
                                 name: "CA Mohsin Saifi",
