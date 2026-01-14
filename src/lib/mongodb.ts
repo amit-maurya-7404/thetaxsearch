@@ -51,7 +51,7 @@ export async function connectToDatabase(): Promise<{ client: MongoClient; db: Db
   }
 
   try {
-    const client = new MongoClient(mongoUri)
+    const client = new MongoClient(mongoUri, { serverSelectionTimeoutMS: 5000 })
     await client.connect()
 
     const db = client.db("thetaxsearch")
