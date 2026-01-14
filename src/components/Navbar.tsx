@@ -138,7 +138,7 @@ export function Navbar() {
               <Link href="/blog" onClick={() => setIsOpen(false)} className="block px-4 py-3 text-sm font-medium text-black hover:bg-primary/10 hover:text-primary rounded-lg transition-all duration-200">
                 Blog
               </Link>
-              <Link href="/aboutus#contact-form-section" onClick={() => setIsOpen(false)} className="block px-4 py-3 text-sm font-medium text-black hover:bg-primary/10 hover:text-primary rounded-lg transition-all duration-200">
+              <Link href="/aboutus" onClick={() => setIsOpen(false)} className="block px-4 py-3 text-sm font-medium text-black hover:bg-primary/10 hover:text-primary rounded-lg transition-all duration-200">
                 About Us
               </Link>
               <div className="pt-2 border-t border-white/20">
