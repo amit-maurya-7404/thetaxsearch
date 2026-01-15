@@ -1,6 +1,13 @@
 import mongoose from 'mongoose'
 
-const MONGODB_URI = process.env.NEXT_PUBLIC_MONGODB_URL || process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/thetaxsearch'
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/thetaxsearch'
+
+// Debug logging
+if (typeof window === 'undefined') {
+  console.log('🔍 MongoDB Connection Debug:')
+  console.log('MONGODB_URI:', process.env.MONGODB_URI ? '✓ Set' : '✗ Not set')
+  console.log('Using URI:', MONGODB_URI.substring(0, 50) + '...')
+}
 
 // NOTE: do NOT throw at import time if MONGODB_URI is missing —
 // some build environments may import this file during prerender.
@@ -42,11 +49,11 @@ export async function connectToDatabase(): Promise<{ client: MongoClient; db: Db
     return { client: cachedClient, db: cachedDb }
   }
 
-  const mongoUri = process.env.NEXT_PUBLIC_MONGODB_URL || process.env.MONGODB_URI
+  const mongoUri = process.env.MONGODB_URI
 
   if (!mongoUri) {
     throw new Error(
-      "NEXT_PUBLIC_MONGODB_URL is not defined. Please add it to your .env.local file. Get a free MongoDB connection at https://www.mongodb.com/cloud/atlas"
+      "MONGODB_URI is not defined. Please add it to your .env.local file or Netlify environment variables. Get a free MongoDB connection at https://www.mongodb.com/cloud/atlas"
     )
   }
 
