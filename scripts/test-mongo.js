@@ -5,11 +5,11 @@ import dotenv from "dotenv"
 
 dotenv.config({ path: process.cwd() + '/.env.local' })
 
-const uri = process.env.MONGODB_URI
+const uri = process.env.NEXT_PUBLIC_MONGODB_URL || process.env.MONGODB_URI
 
 async function main() {
   if (!uri) {
-    console.error('MONGODB_URI is not set in environment (check .env.local)')
+    console.error('NEXT_PUBLIC_MONGODB_URL is not set in environment (check .env.local)')
     process.exit(2)
   }
 
