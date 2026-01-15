@@ -19,26 +19,9 @@ interface BlogContextType {
 
 const BlogContext = createContext<BlogContextType | undefined>(undefined);
 
-const INITIAL_CATEGORIES: Category[] = [
-  { id: 'cat_1', name: 'Income Tax' },
-  { id: 'cat_2', name: 'GST Updates' },
-  { id: 'cat_3', name: 'Corporate Law' },
-  { id: 'cat_4', name: 'Startups' },
-  { id: 'cat_5', name: 'Personal Finance' }
-];
+const INITIAL_CATEGORIES: Category[] = [];
 
-const INITIAL_POSTS: BlogPost[] = [
-  {
-    id: 'gst-2-0-reforms-2025',
-    title: "Structural Transformation of India's Indirect Taxation: GST 2.0 Reforms Analysis",
-    excerpt: "A comprehensive analysis of the profound restructuring of India's indirect tax framework. Effective September 2025, the new three-slab architecture (5%, 18%, 40%) aims to stimulate consumption and simplify compliance.",
-    date: 'September 25, 2025',
-    category: 'GST Updates',
-    author: 'TaxSearch Research Desk',
-    image: 'https://images.unsplash.com/photo-1586486855514-8c633cc6fd38?auto=format&fit=crop&q=80&w=1000',
-    content: `<p class="lead text-lg text-slate-600 mb-6">This is a sample post copied into TheTaxSearch blog context.</p>`
-  }
-];
+const INITIAL_POSTS: BlogPost[] = [];
 
 export const BlogProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [posts, setPosts] = useState<BlogPost[]>(INITIAL_POSTS);
@@ -62,18 +45,11 @@ export const BlogProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setCategories(Array.isArray(cdata) ? cdata : INITIAL_CATEGORIES);
       }
     } catch (err) {
-      // fallback to local mock DB when API unavailable
-      console.warn('API fetch failed, loading from local mock DB:', err);
-      try {
-        const local = await import('../lib/localdb');
-        const [lp, lc] = await Promise.all([local.db.getPosts(), local.db.getCategories()]);
-        if (!isMountedRef.current) return;
-        setPosts(Array.isArray(lp) ? lp : INITIAL_POSTS);
-        setCategories(Array.isArray(lc) ? lc : INITIAL_CATEGORIES);
-      } catch (localErr) {
-        console.error('Failed to load local mock DB:', localErr);
-        // final fallback is already seeded INITIAL_* values
-      }
+      // API unavailable — do not load local/static fallbacks in production
+      console.warn('API fetch failed, showing no posts:', err);
+      if (!isMountedRef.current) return;
+      setPosts([]);
+      setCategories([]);
     } finally {
       if (isMountedRef.current) setIsLoading(false);
     }
@@ -94,15 +70,7 @@ export const BlogProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return
       }
     } catch (err) {
-      console.warn('API addPost failed, falling back to localdb', err)
-    }
-
-    try {
-      const local = await import('../lib/localdb')
-      const created = await local.db.createPost(post)
-      setPosts(prev => [created, ...prev])
-    } catch (localErr) {
-      console.error('localdb addPost failed', localErr)
+      console.warn('API addPost failed:', err)
     }
   };
 
@@ -115,16 +83,8 @@ export const BlogProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return
       }
     } catch (err) {
-      console.warn('API updatePost failed, falling back to localdb', err)
-    }
-
-    try {
-      const local = await import('../lib/localdb')
-      const upd = await local.db.updatePost(updatedPost)
-      setPosts(prev => prev.map(p => p.id === upd.id ? upd : p))
-    } catch (localErr) {
-      console.error('localdb updatePost failed', localErr)
-    }
+        console.warn('API updatePost failed:', err)
+      }
   };
 
   const deletePost = async (id: string) => {
@@ -135,16 +95,8 @@ export const BlogProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return
       }
     } catch (err) {
-      console.warn('API deletePost failed, falling back to localdb', err)
-    }
-
-    try {
-      const local = await import('../lib/localdb')
-      await local.db.deletePost(id)
-      setPosts(prev => prev.filter(p => p.id !== id))
-    } catch (localErr) {
-      console.error('localdb deletePost failed', localErr)
-    }
+        console.warn('API deletePost failed:', err)
+      }
   };
   const getPost = (id: string) => posts.find(p => p.id === id);
   const addCategory = async (category: Category) => {
@@ -156,15 +108,7 @@ export const BlogProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return
       }
     } catch (err) {
-      console.warn('API addCategory failed, falling back to localdb', err)
-    }
-
-    try {
-      const local = await import('../lib/localdb')
-      const created = await local.db.createCategory(category)
-      setCategories(prev => [...prev, created])
-    } catch (localErr) {
-      console.error('localdb addCategory failed', localErr)
+      console.warn('API addCategory failed:', err)
     }
   };
 
@@ -182,20 +126,8 @@ export const BlogProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return
       }
     } catch (err) {
-      console.warn('API updateCategory failed, falling back to localdb', err)
-    }
-
-    try {
-      const local = await import('../lib/localdb')
-      const upd = await local.db.updateCategory(updatedCategory)
-      setCategories(prev => prev.map(c => c.id === upd.id ? upd : c))
-      const old = categories.find(c => c.id === updatedCategory.id)
-      if (old && old.name !== updatedCategory.name) {
-        setPosts(prevPosts => prevPosts.map(post => post.category === old.name ? { ...post, category: updatedCategory.name } : post))
+        console.warn('API updateCategory failed:', err)
       }
-    } catch (localErr) {
-      console.error('localdb updateCategory failed', localErr)
-    }
   };
 
   const deleteCategory = async (id: string) => {
@@ -206,16 +138,8 @@ export const BlogProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return
       }
     } catch (err) {
-      console.warn('API deleteCategory failed, falling back to localdb', err)
-    }
-
-    try {
-      const local = await import('../lib/localdb')
-      await local.db.deleteCategory(id)
-      setCategories(prev => prev.filter(c => c.id !== id))
-    } catch (localErr) {
-      console.error('localdb deleteCategory failed', localErr)
-    }
+        console.warn('API deleteCategory failed:', err)
+      }
   };
 
   return (

@@ -125,88 +125,9 @@ export default async function BlogPage({ params, searchParams }: { params: { slu
     }
   }
 
-  // If not found in DB, try file system - check all files
+  // If no post was found from the database, return 404 — do not fall back to filesystem or static content
   if (!post) {
-    try {
-      const files = await fs.readdir(POSTS_DIR)
-      console.log(`[Blog Page] Searching through files:`, files)
-      
-      for (const file of files) {
-        if (file.endsWith(".json")) {
-          const content = await fs.readFile(path.join(POSTS_DIR, file), "utf-8")
-          const parsedPost = JSON.parse(content)
-          console.log(`[Blog Page] Checking file ${file}, slug: ${parsedPost.slug}`)
-          
-          if (parsedPost.slug === slug) {
-            post = parsedPost
-            console.log(`[Blog Page] Found post in file system:`, post.title)
-            break
-          }
-        }
-      }
-    } catch (fsError) {
-      console.warn("[Blog Page] File system lookup failed:", fsError)
-    }
-  }
-
-  // Fallback hardcoded posts for development / legacy links
-  const fallbackBlogContent: { [key: string]: any } = {
-    "gst-compliance-guide": {
-      title: "Complete Guide to GST Compliance in 2024",
-      description: "A practical guide to GST registration, returns and best practices.",
-      intro: "A practical guide to GST registration, returns and best practices.",
-      featuredImage: '',
-      content: [
-        { type: 'heading', title: 'Introduction to GST', subtitle: 'Basics' },
-        { type: 'text', paragraph: 'The Goods and Services Tax (GST) is a comprehensive tax on the supply of goods and services. It replaced multiple indirect taxes...' },
-        { type: 'heading', title: 'GST Registration Requirements', subtitle: 'Who needs to register' },
-        { type: 'text', paragraph: 'Business with turnover above ₹40 lakhs (₹20 lakhs for special states) must register for GST...' },
-        { type: 'heading', title: 'Key GST Returns', subtitle: 'Important returns to file' },
-        { type: 'text', paragraph: 'GSTR-1, GSTR-3B, GSTR-9 are commonly used returns. Filing on time is important.' },
-        { type: 'heading', title: 'Best Practices', subtitle: 'Tips for compliance' },
-        { type: 'text', paragraph: 'Maintain proper records, file returns on time, and keep all invoices for audit purposes.' },
-      ],
-      createdAt: new Date(),
-    },
-    "income-tax-new-regime": {
-      title: "New vs Old Income Tax Regime: Which One is Better?",
-      description: "Compare the new and old tax regimes to choose the best for you.",
-      intro: "Compare the new and old tax regimes to choose the best for you.",
-      featuredImage: '',
-      content: [
-        { type: 'heading', title: 'Understanding the Two Regimes', subtitle: 'Overview' },
-        { type: 'text', paragraph: 'The Indian Income Tax system now offers two options for individual taxpayers...' },
-        { type: 'heading', title: 'New Tax Regime Benefits', subtitle: 'Lower rates' },
-        { type: 'text', paragraph: 'Lower tax rates and simplified filing.' },
-        { type: 'heading', title: 'Old Tax Regime Benefits', subtitle: 'Deductions' },
-        { type: 'text', paragraph: 'Deductions like 80C, HRA and others may reduce taxable income.' },
-      ],
-      createdAt: new Date(),
-    },
-    "hra-exemption-rules": {
-      title: "Complete Guide to HRA Exemption Rules",
-      description: "How to compute HRA exemption and what documents are required.",
-      intro: "How to compute HRA exemption and what documents are required.",
-      featuredImage: '',
-      content: [
-        { type: 'heading', title: 'What is HRA?', subtitle: 'Definition' },
-        { type: 'text', paragraph: 'HRA (House Rent Allowance) is a component of salary paid to employees who rent their residence...' },
-        { type: 'heading', title: 'HRA Exemption Formula', subtitle: 'Calculation' },
-        { type: 'text', paragraph: 'Least of: Actual HRA, 50% of basic (metro), Rent paid minus 10% of basic.' },
-        { type: 'heading', title: 'Documentation', subtitle: 'Documents needed' },
-        { type: 'text', paragraph: 'Rent receipts, landlord PAN/Aadhaar, and self-declaration.' },
-      ],
-      createdAt: new Date(),
-    }
-  }
-
-  if (!post) {
-    const fb = fallbackBlogContent[slug]
-    if (fb) {
-      post = fb
-    } else {
-      return notFound()
-    }
+    return notFound()
   }
 
   // Fetch related/random posts for right sidebar (if DB available)

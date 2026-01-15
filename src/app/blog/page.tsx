@@ -13,11 +13,45 @@ import {
   ChevronRight,
   Loader2,
 } from "lucide-react";
-import { useBlog } from "../../context/BlogContext";
-import { BlogPost } from "../../types/blog";
+import { BlogPost, Category } from "../../types/blog";
 
 const Blog: React.FC = () => {
-  const { posts, categories, isLoading } = useBlog();
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false
+    const load = async () => {
+      try {
+        setIsLoading(true)
+        const [postsRes, catsRes] = await Promise.all([fetch('/api/blog'), fetch('/api/categories')])
+        if (cancelled) return
+        if (postsRes.ok) {
+          const data = await postsRes.json()
+          setPosts(Array.isArray(data) ? data : [])
+        } else {
+          setPosts([])
+        }
+        if (catsRes.ok) {
+          const cdata = await catsRes.json()
+          setCategories(Array.isArray(cdata) ? cdata : [])
+        } else {
+          setCategories([])
+        }
+      } catch (err) {
+        if (!cancelled) {
+          console.warn('Failed to load blog data:', err)
+          setPosts([])
+          setCategories([])
+        }
+      } finally {
+        if (!cancelled) setIsLoading(false)
+      }
+    }
+    load()
+    return () => { cancelled = true }
+  }, [])
 
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
