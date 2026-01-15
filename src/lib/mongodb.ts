@@ -58,6 +58,7 @@ export async function connectToDatabase(): Promise<{ client: MongoClient; db: Db
   }
 
   try {
+    console.log("🔄 Attempting MongoDB connection...")
     const client = new MongoClient(mongoUri, { serverSelectionTimeoutMS: 5000 })
     await client.connect()
 
@@ -66,10 +67,12 @@ export async function connectToDatabase(): Promise<{ client: MongoClient; db: Db
     cachedClient = client
     cachedDb = db
 
-    console.log("✅ Connected to MongoDB")
+    console.log("✅ Connected to MongoDB successfully")
     return { client, db }
   } catch (error) {
-    console.error("❌ Failed to connect to MongoDB:", error)
+    console.error("❌ Failed to connect to MongoDB:")
+    console.error("Error message:", error instanceof Error ? error.message : String(error))
+    console.error("URI used:", mongoUri.substring(0, 50) + "...")
     throw error
   }
 }
