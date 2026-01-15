@@ -458,9 +458,9 @@ const IncomeTax: React.FC = () => {
         <div className="space-y-4">
             
             {/* NEW REGIME CARD */}
-            <div className={`p-6 rounded-2xl border relative overflow-hidden ${
+            <div className={`p-5 ml-[2vw] md:ml-[0vw] rounded-2xl border relative overflow-hidden ${
               betterRegime === 'New Regime' 
-              ? 'bg-gradient-to-br from-lavender-300 to-lavender-100 border-lavender-400 shadow-2xl ring-2 ring-lavender-300 transform -translate-y-1 scale-105 transition-all' 
+              ? 'bg-gradient-to-br from-lavender-300 to-lavender-100 border-lavender-400 shadow-2xl ring-2 ring-lavender-300 transform -translate-x-1 scale-96  transition-all' 
               : 'bg-gradient-to-br from-lavender-100 to-white border-slate-100 opacity-95 hover:opacity-100 transition-all'
             }`}>
                 <div className="flex justify-between items-start mb-6">
@@ -496,10 +496,10 @@ const IncomeTax: React.FC = () => {
             </div>
 
             {/* OLD REGIME CARD */}
-            <div className={`p-6 rounded-2xl border relative overflow-hidden ${
+            <div className={`p-6 ml-[2vw] md:ml-[0vw] rounded-2xl border relative overflow-hidden ${
               betterRegime === 'Old Regime' 
-              ? 'bg-gradient-to-br from-lavender-300 to-lavender-100 border-lavender-400 shadow-2xl ring-2 ring-lavender-300 transform -translate-y-1 scale-105 transition-all' 
-              : 'bg-gradient-to-br from-lavender-100 to-white border-slate-100 opacity-95 hover:opacity-100 transition-all'
+              ? 'bg-gradient-to-br from-purple-300 to-purple-100 border-lavender-400 shadow-2xl ring-2 ring-lavender-300 transform -translate-x-1 scale-95 transition-all' 
+              : 'bg-gradient-to-br from-lavender-100 to-white border-slate-100 opacity-90 hover:opacity-100 transition-all'
             }`}>
                 <div className="flex justify-between items-start mb-6">
                     <div>
