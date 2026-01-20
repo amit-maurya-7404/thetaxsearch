@@ -186,7 +186,7 @@ export default async function BlogPage({ params, searchParams }: { params: { slu
             </aside>
 
             {/* Center Content */}
-            <article className="lg:col-span-6 prose max-w-none">
+            <article className="lg:col-span-6 prose max-w-none blog-content">
               {post.featuredImage && (
                 // Next/Image requires width/height; use layout responsive via CSS fallback if unknown
                 <div className="w-full h-64 relative mb-6 bg-gray-100 rounded overflow-hidden">

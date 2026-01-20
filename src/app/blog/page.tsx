@@ -203,7 +203,7 @@ const Blog: React.FC = () => {
 
             {/* CONTENT */}
             <main className="flex-1">
-              <article className="prose max-w-none">
+              <article className="prose max-w-none blog-content">
                 <span className="text-xs font-bold bg-lavender-100 px-3 py-1 rounded-full">
                   {current.category}
                 </span>

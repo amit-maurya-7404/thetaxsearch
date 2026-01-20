@@ -22,6 +22,13 @@ export function Navbar() {
     setDropdownOpen(true)
   }
 
+  const handleLogoClick = () => {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      setIsOpen(false)
+      setDropdownOpen(false)
+    }
+  }
+
   const scheduleClose = () => {
     if (closeTimerRef.current) clearTimeout(closeTimerRef.current)
     closeTimerRef.current = window.setTimeout(() => {
@@ -42,7 +49,7 @@ export function Navbar() {
   return (
     <nav className="sticky top-0 z-40 w-full border-b bg-white/30 backdrop-blur-md border-white/20">
       <div className="container flex h-16 max-w-7xl items-center justify-between mx-auto px-4">
-        <Link href="/" className="flex items-center space-x-3">
+        <Link href="/" onClick={handleLogoClick} className="flex items-center space-x-3">
           {/* Logo image - place your final logo at `public/logo.png` (or update the src below) */}
           <div className="flex items-center">
             <img src="/logo.png" alt="theTaxSearch logo" width={200} height={36} className="object-contain" />

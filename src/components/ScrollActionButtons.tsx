@@ -1,6 +1,7 @@
 "use client";
 import { MdEmail, MdWhatsapp } from "react-icons/md";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { IoCall } from "react-icons/io5";
 
 const buttons = [
@@ -9,13 +10,19 @@ const buttons = [
         icon: <MdWhatsapp className="hidden sm:block" size={"2.4vw"} />,
         iconMobile: <MdWhatsapp className="block sm:hidden" size={'10vw'} />, // 32px for mobile
         text: "Chat Now",
-        href: "https://wa.me/+91",
+        href: "https://wa.me/+919211918886",
         bg: "bg-indigo-500 hover:bg-indigo-500",
     },
 ];
 
 export default function ScrollActionButtons() {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+    const pathname = usePathname();
+
+    // Close action button when page/route changes
+    useEffect(() => {
+        setHoveredIndex(null);
+    }, [pathname]);
 
     // Desktop version (hidden on mobile)
     return (
