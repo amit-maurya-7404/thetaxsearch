@@ -102,8 +102,8 @@ export function Footer() {
           theTaxSearch
         </div> */}
 
-        <div className="border-t mt-10 pt-8 flex flex-col md:flex-row justify-center md:justify-between items-center text-sm text-gray-700">
-          <p>&copy; {currentYear} @ <a href="https://wa.me/919137290903" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline transition-colors">Powered by Amit Maurya</a>.</p>
+        <div className="border-t mt-10 pt-8 flex flex-col md:flex-row justify-center md:justify-between items-center text-sm text-black">
+          <p>&copy; {currentYear} @ <a href="https://wa.me/919137290903" target="_blank" rel="noopener noreferrer" className="text-black hover:underline transition-colors">Powered by Amit Maurya</a>.</p>
           <div className="flex space-x-6 mt-4 md:mt-0 justify-center md:justify-start">
             <Link href="#" className="hover:text-primary transition-colors">
               Privacy Policy
